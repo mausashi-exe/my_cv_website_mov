@@ -4,20 +4,45 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Tu paleta Industrial
-        "safety-orange": "#FF4500", // Un naranja vibrante y técnico
+        // Tu paleta Industrial Editorial
+        "safety-orange": "#FF4500", // Acento vibrante (Creative/Warning)
         concrete: {
-          100: "#f3f4f6", // Hormigón claro
-          400: "#9ca3af", // Cemento fresco
-          800: "#374151", // Estructura oscura
-          900: "#111827", // Asfalto
+          50: "#f9fafb",
+          100: "#f3f4f6", // Fondo Blueprint
+          400: "#9ca3af", // Texto secundario
+          800: "#374151", // Líneas de estructura
+          900: "#111827", // Texto principal
         },
-        "nomos-void": "#09090b", // Negro profundo para el fondo
+        "nomos-void": "#09090b", // Fondo LoreBook (Negro profundo)
       },
       fontFamily: {
-        // Usamos fuentes del sistema para mantenerlo rápido y "raw"
-        sans: ["Inter", "system-ui", "sans-serif"],
-        mono: ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
+        // Fuentes del sistema para máxima velocidad y estilo "Raw"
+        sans: [
+          "Inter",
+          "system-ui",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "sans-serif",
+        ],
+        mono: [
+          "ui-monospace",
+          "SFMono-Regular",
+          "Menlo",
+          "Monaco",
+          "monospace",
+        ],
+        serif: [
+          "Charter",
+          "Bitstream Charter",
+          "Sitka Text",
+          "Cambria",
+          "serif",
+        ],
+      },
+      backgroundImage: {
+        // La retícula técnica "Tailwind Grid"
+        "grid-pattern":
+          "linear-gradient(to right, rgba(55, 65, 81, 0.1) 1px, transparent 1px), linear-gradient(to bottom, rgba(55, 65, 81, 0.1) 1px, transparent 1px)",
       },
     },
   },

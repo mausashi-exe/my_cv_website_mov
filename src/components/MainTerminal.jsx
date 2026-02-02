@@ -2,52 +2,46 @@ import { motion } from "framer-motion";
 
 export default function MainTerminal({ setMode }) {
   return (
-    <div className="relative min-h-[70vh] flex flex-col items-center justify-center p-6">
-      <div className="max-w-4xl w-full border border-dynamic-text/20 bg-dynamic-text/[0.02] p-8 md:p-16 backdrop-blur-sm">
-        <header className="mb-12 flex justify-between items-start">
-          <div className="space-y-1">
-            <h2 className="text-[10px] tracking-[0.4em] uppercase opacity-50">
-              Identity_Protocol
-            </h2>
-            <h1 className="text-4xl md:text-7xl font-bold tracking-tighter uppercase leading-none">
-              Mauricio <br /> Olvera Valenzuela
-            </h1>
-          </div>
-          <div className="text-right font-mono text-[9px] uppercase leading-relaxed opacity-40">
-            [Native_English_Verified] <br />
-            [Location: Veracruz, MX //]
-          </div>
-        </header>
+    <div className="flex min-h-[60vh] flex-col items-center justify-center text-center">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+      >
+        <h2 className="mb-4 font-mono text-xs uppercase tracking-[0.4em] text-safety-orange">
+          System_Architecture_Portfolio
+        </h2>
+        <h1 className="text-6xl md:text-9xl font-black tracking-tighter uppercase leading-none text-concrete-100">
+          UX_UI <br />{" "}
+          <span className="text-transparent bg-clip-text bg-gradient-to-b from-concrete-100 to-concrete-800">
+            Architect.
+          </span>
+        </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-end">
-          <p className="text-sm leading-relaxed max-w-sm opacity-80 font-mono">
-            Bridging the gap between engineering logic and high-fidelity
-            creative execution. Designing systems that function as well as they
-            look.
-          </p>
-
-          <div className="flex flex-col gap-4">
-            <button
-              onClick={() => setMode("engineer")}
-              className="group flex justify-between items-center border border-dynamic-text/30 p-4 hover:bg-dynamic-text hover:text-black transition-all duration-500"
-            >
-              <span className="font-mono text-xs tracking-widest uppercase">
-                Engineer_Log
-              </span>
-              <span className="text-xl">→</span>
-            </button>
-            <button
-              onClick={() => setMode("creator")}
-              className="group flex justify-between items-center border border-dynamic-text/30 p-4 hover:bg-dynamic-text hover:text-black transition-all duration-500"
-            >
-              <span className="font-mono text-xs tracking-widest uppercase">
-                Creator_Vault
-              </span>
-              <span className="text-xl">→</span>
-            </button>
-          </div>
+        <div className="mt-16 flex flex-col md:flex-row gap-6 justify-center">
+          <MenuButton
+            label="Engineering_Log"
+            onClick={() => setMode("engineer")}
+          />
+          <MenuButton
+            label="Creator_Vault"
+            onClick={() => setMode("creator")}
+          />
         </div>
-      </div>
+      </motion.div>
     </div>
+  );
+}
+
+function MenuButton({ label, onClick }) {
+  return (
+    <button
+      onClick={onClick}
+      className="group relative border border-concrete-800 px-8 py-4 overflow-hidden"
+    >
+      <div className="absolute inset-0 w-0 bg-safety-orange transition-all duration-[250ms] ease-out group-hover:w-full opacity-10" />
+      <span className="relative font-mono text-xs uppercase tracking-widest text-concrete-100 group-hover:text-safety-orange transition-colors">
+        [{label}]
+      </span>
+    </button>
   );
 }

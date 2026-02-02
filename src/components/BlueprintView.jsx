@@ -1,74 +1,60 @@
+import { motion } from "framer-motion";
+import graph from "../assets/vectors/graph_01.svg"; // Asegúrate de que este archivo exista
+
 export default function BlueprintView() {
   return (
-    <div className="p-4 md:p-10 space-y-10">
-      <div className="grid grid-cols-12 gap-0 border-2 border-black">
-        {/* Technical Column */}
-        <div className="col-span-12 md:col-span-4 border-b md:border-b-0 md:border-r-2 border-black p-8 bg-black/[0.02]">
-          <h3 className="font-bold text-xs uppercase tracking-widest mb-10 underline decoration-2">
-            System_Experience
-          </h3>
-
-          <div className="space-y-12">
-            <Experience
-              role="Technical_Support"
-              company="Verizon"
-              desc="Troubleshooting hardware/software in a native English environment."
-            />
-            <Experience
-              role="Property_Manager"
-              company="Valenzuela_Rentals"
-              desc="Infrastructure logic and logistical management."
-            />
-            <Experience
-              role="Engineering_Core"
-              company="UDLAP"
-              desc="Sustainable Energy Engineering background focused on system logic."
-            />
-          </div>
+    <div className="grid grid-cols-1 md:grid-cols-12 border-t-2 border-concrete-800/20 bg-concrete-100/50 backdrop-blur-sm">
+      {/* Columna Lateral: Datos Técnicos */}
+      <div className="col-span-12 md:col-span-4 border-b md:border-b-0 md:border-r border-concrete-800/20 p-8">
+        <h3 className="mb-8 font-mono text-[10px] uppercase tracking-widest text-concrete-400">
+          // System_Logs
+        </h3>
+        <div className="space-y-12">
+          <LogEntry
+            title="Verizon_Support"
+            meta="Technical Lead // English Native"
+            desc="Diagnóstico de hardware/software en entornos de alta presión."
+          />
+          <LogEntry
+            title="UDLAP_Engineering"
+            meta="Sustainable Energy // Semester 06"
+            desc="Lógica de sistemas y arquitectura de eficiencia energética."
+          />
+          <LogEntry
+            title="Rental_Ops"
+            meta="Property Management"
+            desc="Logística de infraestructura y mantenimiento de activos."
+          />
         </div>
+      </div>
 
-        {/* Manifest Column */}
-        <div className="col-span-12 md:col-span-8 p-8 md:p-16">
-          <h2 className="text-6xl md:text-9xl font-bold uppercase tracking-tighter mb-10">
-            Logic.
-          </h2>
-          <div className="grid grid-cols-2 gap-8 border-t border-black/20 pt-8">
-            <div>
-              <h4 className="text-[10px] font-bold uppercase mb-4">
-                Technical_Stack
-              </h4>
-              <ul className="text-xs space-y-1 font-mono uppercase opacity-70">
-                <li>React_Vite</li>
-                <li>Tailwind_V4</li>
-                <li>Linux_Systems</li>
-                <li>Git_Bash</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-[10px] font-bold uppercase mb-4">
-                Design_Core
-              </h4>
-              <ul className="text-xs space-y-1 font-mono uppercase opacity-70">
-                <li>Photoshop_Expert</li>
-                <li>Illustrator_Prolific</li>
-                <li>UI_UX_Architecture</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+      {/* Columna Principal: Manifiesto */}
+      <div className="col-span-12 md:col-span-8 p-12 md:p-20">
+        <img
+          src={graph}
+          className="mb-12 w-full max-w-xs opacity-20 mix-blend-multiply"
+          alt="Technical Graph"
+        />
+        <h2 className="text-5xl md:text-7xl font-bold uppercase tracking-tighter text-concrete-900 mb-8 leading-none">
+          Logic <span className="text-concrete-400">&</span> <br /> Structure.
+        </h2>
+        <p className="max-w-lg border-l-2 border-safety-orange pl-6 py-2 text-sm font-medium uppercase leading-relaxed text-concrete-800">
+          "Aplico la rigurosidad de la ingeniería de energías sustentables al
+          diseño de interfaces. Si no es eficiente, no es diseño."
+        </p>
       </div>
     </div>
   );
 }
 
-function Experience({ role, company, desc }) {
+function LogEntry({ title, meta, desc }) {
   return (
-    <div className="space-y-1">
-      <h4 className="text-sm font-bold uppercase">{role}</h4>
-      <p className="text-[10px] font-mono uppercase text-dynamic-accent">
-        {company}
+    <div>
+      <h4 className="font-bold text-sm uppercase text-concrete-900">{title}</h4>
+      <p className="font-mono text-[10px] text-safety-orange uppercase mb-1">
+        {meta}
       </p>
-      <p className="text-xs opacity-60 leading-tight">{desc}</p>
+      <p className="text-xs text-concrete-600 leading-snug">{desc}</p>
     </div>
   );
 }

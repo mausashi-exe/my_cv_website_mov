@@ -1,67 +1,30 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* 1. ARCHITECTURAL THEME VARIABLES */
-:root,
-[data-mode="terminal"] {
-  --bg-color: #0e1012; /* Deep Obsidian Slate */
-  --text-primary: #cbd5e1; /* Soft Silver */
-  --accent: #38bdf8; /* Cyber Blue */
-  --font-main: "JetBrains Mono", monospace;
-  --grid-opacity: 0.05;
+@layer base {
+  body {
+    @apply bg-concrete-50 text-concrete-900 font-sans transition-colors duration-700;
+    /* Activa la retícula de fondo de 40px */
+    background-image: theme("backgroundImage.grid-pattern");
+    background-size: 40px 40px;
+  }
+
+  /* Modo Terminal / Creador: Fondo Oscuro */
+  body[data-mode="terminal"],
+  body[data-mode="creator"] {
+    @apply bg-nomos-void text-concrete-100;
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  }
 }
 
-[data-mode="engineer"] {
-  --bg-color: #f8fafc; /* Architectural Vellum White */
-  --text-primary: #0f172a; /* Ink Blue-Black */
-  --accent: #2563eb;
-  --font-main: "Inter", sans-serif;
-  --grid-opacity: 0.1;
+/* Utilidad para ocultar la barra de scroll pero permitir navegación */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
-
-[data-mode="creator"] {
-  --bg-color: #1a1a1c; /* Warm Charcoal */
-  --text-primary: #e2e8f0;
-  --accent: #fbbf24; /* Muted Gold */
-  --font-main: "Source Serif 4", serif;
-  --grid-opacity: 0.03;
-}
-
-/* 2. THE BLUEPRINT GRID SYSTEM */
-body {
-  background-color: var(--bg-color);
-  color: var(--text-primary);
-  font-family: var(--font-main);
-  background-image:
-    linear-gradient(
-      to right,
-      rgba(255, 255, 255, var(--grid-opacity)) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, var(--grid-opacity)) 1px,
-      transparent 1px
-    );
-  background-size: 40px 40px; /* The "Tailwind" Grid Scale */
-  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-[data-mode="engineer"] {
-  background-image:
-    linear-gradient(
-      to right,
-      rgba(0, 0, 0, var(--grid-opacity)) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, var(--grid-opacity)) 1px,
-      transparent 1px
-    );
-}
-
-@theme {
-  --font-main: var(--font-main);
-  --color-dynamic-text: var(--text-primary);
-  --color-dynamic-accent: var(--accent);
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
