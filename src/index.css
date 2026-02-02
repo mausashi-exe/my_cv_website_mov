@@ -1,73 +1,72 @@
 @import "tailwindcss";
 
 @theme {
-  /* --- PALETA PRINCIPAL --- */
-  --color-void: #080808; /* Negro Profundo */
-  --color-bone: #e8e6d9; /* Blanco Hueso */
-  --color-lava: #d92b2b; /* Rojo Akira (Vibrante) */
+  /* --- BASE --- */
+  --color-void: #050505;
+
+  /* --- ENGINEER: SNOW WHITE TERMINAL --- */
+  --color-snow: #f8f8ff; /* Ghost White */
+  --color-snow-dim: rgba(248, 248, 255, 0.75); /* Opacidad Media */
+  --color-snow-border: rgba(248, 248, 255, 0.2);
+  --color-snow-glow: rgba(255, 255, 255, 0.4);
+
+  /* --- CREATOR: CARGO.SITE AESTHETIC --- */
+  --color-cargo-bg: #eae8e3; /* Papel de arte suave */
+  --color-cargo-text: #1a1a1a;
   --color-gold: #c5a059; /* Acento Metabarons */
-  --color-ink: #1f1f1f; /* Gris muy oscuro */
-  --color-panel: rgba(232, 230, 217, 0.05); /* Fondo Paneles */
+  --color-cargo-accent: #c5a059; /* Gold */
 
-  /* --- PALETA ENGINEER (VS Code / Matte) --- */
-  --color-matte-red: #cd7f7f; /* Rojo Óxido / Mate */
-  --color-matte-blue: #61afef; /* Azul Técnico Suave */
+  /* --- PALETA META (Brutalist Lavender) --- */
+  --color-meta-accent: #d8b4fe; /* Purple-300: Lavanda ligero */
+  --color-meta-dim: rgba(216, 180, 254, 0.3);
 
-  /* --- TIPOGRAFÍAS --- */
+  /* --- FUENTES --- */
   --font-display: "Syncopate", sans-serif;
   --font-serif: "Cormorant Garamond", serif;
   --font-mono: "JetBrains Mono", monospace;
-  --font-sans: "Inter", sans-serif;
   --font-thick: "Oswald", sans-serif;
+  --font-sans: "Inter", sans-serif;
 }
 
 @layer base {
   body {
-    /* Fondo negro, texto hueso por defecto, sin scroll horizontal */
-    @apply bg-void text-bone h-screen w-screen overflow-hidden;
+    @apply bg-void text-snow h-screen w-screen overflow-hidden;
   }
 }
 
 @layer components {
   /* Marco Global */
   .bone-frame {
-    @apply fixed inset-0 border-[16px] md:border-[24px] border-bone pointer-events-none z-50;
+    @apply fixed inset-0 border-[16px] md:border-[24px] border-[#E8E6D9] pointer-events-none z-50;
   }
 
-  /* Estilo de Panel de Cómic Mecánico (Gimenez Style) */
-  .mech-panel {
-    @apply border border-bone/30 bg-panel relative p-6 transition-all duration-300;
+  /* --- UTILIDAD DE TEXTO SNOW (ENGINEER) --- */
+  .text-snow-glow {
+    color: var(--color-snow-dim);
+    text-shadow: 0 0 8px var(--color-snow-glow);
   }
 
-  /* CORRECCIÓN DEL ERROR AQUI: */
-  /* Usamos CSS nativo para las opacidades al hacer hover */
-  .mech-panel:hover {
-    border-color: color-mix(
-      in srgb,
-      var(--color-lava),
-      transparent 20%
-    ); /* Equivalente a border-lava/80 */
-    background-color: color-mix(
-      in srgb,
-      var(--color-lava),
-      transparent 95%
-    ); /* Equivalente a bg-lava/5 */
-    box-shadow: 0 0 15px rgba(217, 43, 43, 0.1);
+  /* --- UTILIDADES CARGO (CREATOR) --- */
+  .cargo-container {
+    @apply w-full h-full bg-cargo-bg text-cargo-text overflow-hidden flex flex-col md:flex-row;
+  }
+  .cargo-sidebar {
+    @apply w-full md:w-1/4 h-auto md:h-full p-8 border-b md:border-b-0 md:border-r border-cargo-text/10 overflow-y-auto bg-cargo-bg z-20;
+  }
+  .cargo-content {
+    @apply w-full md:w-3/4 h-full overflow-y-auto p-8 md:p-16 scroll-smooth bg-cargo-bg relative;
   }
 
-  /* Esquinas decorativas para los paneles */
-  .corner-accent {
-    @apply absolute w-2 h-2 border-t border-l border-bone opacity-50;
+  .chapter-title {
+    @apply font-display text-4xl md:text-6xl font-bold uppercase mb-8 border-b-2 border-cargo-text pb-4 mt-24 first:mt-0;
   }
-  .mech-panel:hover .corner-accent {
-    @apply border-lava opacity-100;
+  .sub-header {
+    @apply font-thick text-2xl uppercase mb-4 mt-12 text-cargo-text/80;
   }
-
-  /* Utilidad para texto gigante */
-  .text-massive {
-    font-size: clamp(4rem, 15vw, 20rem);
-    line-height: 0.8;
-    letter-spacing: -0.05em;
-    @apply font-thick uppercase font-bold text-transparent bg-clip-text bg-gradient-to-b from-bone to-void opacity-10;
+  .body-text {
+    @apply font-serif text-xl leading-loose text-cargo-text/90 max-w-3xl text-justify mb-6;
+  }
+  .image-caption {
+    @apply font-mono text-xs text-cargo-text/50 mt-2 block mb-12;
   }
 }
