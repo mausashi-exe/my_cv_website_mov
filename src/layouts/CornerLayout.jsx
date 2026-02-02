@@ -1,31 +1,68 @@
-export default function CornerLayout({ children, currentMode }) {
-  return (
-    <div className="relative min-h-screen w-full p-6 md:p-10 transition-all duration-700">
-      {/* Esquina Superior Izquierda: Identidad */}
-      <div className="fixed top-6 left-6 z-50 md:top-10 md:left-10 mix-blend-difference">
-        <h1 className="font-sans font-black tracking-tighter text-xl uppercase leading-none text-safety-orange">
-          Mauricio <br /> <span className="text-current">Olvera</span>
-        </h1>
-      </div>
+import React from "react";
 
-      {/* Esquina Superior Derecha: Estatus del Sistema */}
-      <div className="fixed top-6 right-6 z-50 flex items-center gap-3 md:top-10 md:right-10 mix-blend-difference">
-        <div className="flex flex-col items-end text-[9px] font-mono uppercase tracking-widest opacity-80">
-          <span>Mode: {currentMode}</span>
-          <span className="flex items-center gap-2">
-            Status: Online{" "}
-            <span className="h-1.5 w-1.5 rounded-full bg-safety-orange animate-pulse" />
-          </span>
+const CornerLayout = ({ children, currentMode, setMode }) => {
+  const isTerminal = currentMode === "terminal";
+
+  return (
+    <div className="relative w-full h-screen overflow-hidden bg-void">
+      {/* --- FRAME HUD --- */}
+      {/* Padding ajustado para alinear texto con el borde interior del marco */}
+      <div className="bone-frame flex flex-col justify-between p-2 md:p-4">
+        {/* Top Bar */}
+        <div className="flex justify-between items-start pointer-events-auto">
+          {/* Top Left: Identity (Texto más grande: text-sm) */}
+          <div className="bg-void px-2 pt-1 -mt-2 md:-mt-4 ml-2">
+            {" "}
+            {/* Truco visual para 'cortar' el marco */}
+            <h1 className="font-display text-xs md:text-sm font-bold tracking-widest uppercase text-bone">
+              MAURICIO OLVERA
+            </h1>
+          </div>
+
+          {/* Top Right: Status */}
+          <div className="bg-void px-2 pt-1 -mt-2 md:-mt-4 mr-2 text-right flex gap-4 items-center">
+            <span className="font-mono text-xs text-bone/60 hidden md:inline tracking-wider">
+              SYS: {currentMode.toUpperCase()}
+            </span>
+
+            {!isTerminal && (
+              <button
+                onClick={() => setMode("terminal")}
+                className="font-mono text-xs font-bold text-lava hover:text-white transition-colors uppercase border border-lava/50 px-3 py-1"
+              >
+                [ X ] ABORT
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="flex justify-between items-end pointer-events-auto">
+          {/* Bottom Left: Location */}
+          <div className="bg-void px-2 pb-1 -mb-2 md:-mb-4 ml-2">
+            <p className="font-mono text-xs md:text-sm text-bone uppercase tracking-widest">
+              SALTILLO, MX // RMT
+            </p>
+          </div>
+
+          {/* Bottom Right: Decorative Indicator */}
+          <div className="bg-void px-2 pb-1 -mb-2 md:-mb-4 mr-2">
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-[10px] text-lava animate-pulse">
+                LIVE
+              </span>
+              <div className="w-3 h-3 bg-lava rounded-full shadow-[0_0_10px_#D92B2B]"></div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Contenido Principal */}
-      <main className="mx-auto max-w-7xl pt-24 pb-32">{children}</main>
-
-      {/* Esquina Inferior Izquierda: Geolocalización */}
-      <div className="fixed bottom-6 left-6 z-50 font-mono text-[9px] tracking-widest uppercase opacity-40 md:bottom-10 md:left-10 mix-blend-difference">
-        Saltillo, MX // 25.43° N
-      </div>
+      {/* --- CONTENIDO PRINCIPAL --- */}
+      <main className="w-full h-full p-6 md:p-12 overflow-y-auto overflow-x-hidden scrollbar-hide">
+        {children}
+      </main>
     </div>
   );
-}
+};
+
+export default CornerLayout;

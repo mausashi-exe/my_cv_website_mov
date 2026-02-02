@@ -1,30 +1,73 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  /* --- PALETA PRINCIPAL --- */
+  --color-void: #080808; /* Negro Profundo */
+  --color-bone: #e8e6d9; /* Blanco Hueso */
+  --color-lava: #d92b2b; /* Rojo Akira (Vibrante) */
+  --color-gold: #c5a059; /* Acento Metabarons */
+  --color-ink: #1f1f1f; /* Gris muy oscuro */
+  --color-panel: rgba(232, 230, 217, 0.05); /* Fondo Paneles */
+
+  /* --- PALETA ENGINEER (VS Code / Matte) --- */
+  --color-matte-red: #cd7f7f; /* Rojo Óxido / Mate */
+  --color-matte-blue: #61afef; /* Azul Técnico Suave */
+
+  /* --- TIPOGRAFÍAS --- */
+  --font-display: "Syncopate", sans-serif;
+  --font-serif: "Cormorant Garamond", serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --font-sans: "Inter", sans-serif;
+  --font-thick: "Oswald", sans-serif;
+}
 
 @layer base {
   body {
-    @apply bg-concrete-50 text-concrete-900 font-sans transition-colors duration-700;
-    /* Activa la retícula de fondo de 40px */
-    background-image: theme("backgroundImage.grid-pattern");
-    background-size: 40px 40px;
-  }
-
-  /* Modo Terminal / Creador: Fondo Oscuro */
-  body[data-mode="terminal"],
-  body[data-mode="creator"] {
-    @apply bg-nomos-void text-concrete-100;
-    background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    /* Fondo negro, texto hueso por defecto, sin scroll horizontal */
+    @apply bg-void text-bone h-screen w-screen overflow-hidden;
   }
 }
 
-/* Utilidad para ocultar la barra de scroll pero permitir navegación */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+@layer components {
+  /* Marco Global */
+  .bone-frame {
+    @apply fixed inset-0 border-[16px] md:border-[24px] border-bone pointer-events-none z-50;
+  }
+
+  /* Estilo de Panel de Cómic Mecánico (Gimenez Style) */
+  .mech-panel {
+    @apply border border-bone/30 bg-panel relative p-6 transition-all duration-300;
+  }
+
+  /* CORRECCIÓN DEL ERROR AQUI: */
+  /* Usamos CSS nativo para las opacidades al hacer hover */
+  .mech-panel:hover {
+    border-color: color-mix(
+      in srgb,
+      var(--color-lava),
+      transparent 20%
+    ); /* Equivalente a border-lava/80 */
+    background-color: color-mix(
+      in srgb,
+      var(--color-lava),
+      transparent 95%
+    ); /* Equivalente a bg-lava/5 */
+    box-shadow: 0 0 15px rgba(217, 43, 43, 0.1);
+  }
+
+  /* Esquinas decorativas para los paneles */
+  .corner-accent {
+    @apply absolute w-2 h-2 border-t border-l border-bone opacity-50;
+  }
+  .mech-panel:hover .corner-accent {
+    @apply border-lava opacity-100;
+  }
+
+  /* Utilidad para texto gigante */
+  .text-massive {
+    font-size: clamp(4rem, 15vw, 20rem);
+    line-height: 0.8;
+    letter-spacing: -0.05em;
+    @apply font-thick uppercase font-bold text-transparent bg-clip-text bg-gradient-to-b from-bone to-void opacity-10;
+  }
 }
