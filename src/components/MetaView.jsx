@@ -1,5 +1,23 @@
 import React from "react";
 import { motion } from "framer-motion";
+import arrowIcon from "../assets/ui/arrow_pointing_down_righ.svg";
+
+const TEMPLATE_PROJECTS = [
+  {
+    id: "01",
+    title: "NEURAL GARDENS",
+    tags: ["AI", "PYTHON", "WEBGL"],
+    desc: "Un sistema de jardinería digital que utiliza redes neuronales para generar flora inexistente.",
+    img: null,
+  },
+  {
+    id: "02",
+    title: "VOID TERMINAL",
+    tags: ["THREE.JS", "REACT"],
+    desc: "Interfaz espacial para navegar archivos del sistema operativo mediante metáforas arquitectónicas.",
+    img: null,
+  },
+];
 
 const MetaView = ({ setMode }) => {
   return (
@@ -7,219 +25,107 @@ const MetaView = ({ setMode }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-full w-full p-6 md:p-12 bg-void text-white"
+      className="flex flex-col md:flex-row w-full h-full bg-void text-concrete font-sans selection:bg-lavender selection:text-black"
     >
-      <div className="max-w-7xl mx-auto border-t-4 border-meta-accent pt-6 pb-24">
-        {/* --- HEADER: BIG TYPOGRAPHY --- */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 border-b border-meta-dim pb-8">
+      {/* IZQUIERDA: FEED (66%) */}
+      <div className="w-full md:w-2/3 h-full overflow-y-auto scrollbar-hide pt-24 pb-32 border-r border-white/10 relative">
+        <div className="flex flex-col">
+          {TEMPLATE_PROJECTS.map((item, index) => (
+            <div
+              key={index}
+              className="group w-full border-b border-white/10 p-8 md:p-12 hover:bg-white/[0.02] transition-colors"
+            >
+              {/* Imagen Wireframe */}
+              <div className="w-full aspect-video md:aspect-[21/9] bg-[#0a0a0a] border border-white/10 mb-8 flex items-center justify-center relative group-hover:border-lavender/30 transition-colors">
+                <div className="absolute inset-0 opacity-5 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px]"></div>
+                <span className="font-mono text-xs text-gray-600 border border-gray-700 px-2 py-1">
+                  [ IMG_PLACEHOLDER ]
+                </span>
+              </div>
+
+              <div className="flex flex-col md:flex-row md:items-baseline justify-between gap-4 mb-4">
+                <h2 className="font-gothic text-4xl md:text-5xl text-white group-hover:text-lavender transition-colors">
+                  {item.title}
+                </h2>
+                <span className="font-mono text-[10px] text-gray-500 uppercase tracking-widest">
+                  ID_{item.id}
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+                <div className="md:col-span-4 flex flex-wrap content-start gap-2">
+                  {item.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-[10px] font-mono border border-white/10 px-2 py-1 text-gray-400 uppercase"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <div className="md:col-span-8">
+                  <p className="font-sans text-sm leading-relaxed text-gray-400">
+                    {item.desc}
+                  </p>
+                  <button className="mt-4 text-[10px] font-bold uppercase tracking-widest border-b border-transparent hover:border-lavender hover:text-lavender transition-all pb-1">
+                    [ Execute Case ]
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* DERECHA: BIO FIXED (33%) */}
+      <div className="hidden md:flex w-1/3 h-full flex-col justify-between p-10 pt-32 bg-void relative z-20 shadow-[-10px_0_30px_rgba(0,0,0,0.8)]">
+        <div className="space-y-10">
+          <div className="border-b border-white/10 pb-6">
+            <h1 className="font-gothic text-5xl text-white mb-2 tracking-wide">
+              Mauricio Olvera
+            </h1>
+            <div className="flex justify-between font-mono text-[10px] text-lavender uppercase tracking-widest">
+              <span>Full Stack Creative</span>
+              <span className="animate-pulse">● Available</span>
+            </div>
+          </div>
+
           <div>
-            <h1 className="font-thick text-6xl md:text-9xl uppercase leading-none tracking-tighter text-white">
-              MAURICIO
-            </h1>
-            <h1 className="font-thick text-6xl md:text-9xl uppercase leading-none tracking-tighter text-meta-accent">
-              OLVERA
-            </h1>
+            <span className="font-mono text-[10px] text-gray-600 uppercase mb-3 block">
+              /// Profile_Synthesis
+            </span>
+            <p className="font-sans text-sm leading-relaxed text-gray-400">
+              [ BIO_PLACEHOLDER ]: A hybrid profile where the Engineer's logic
+              meets the Creator's narrative. Building systems to house dreams.
+            </p>
           </div>
-          <div className="mt-8 md:mt-0 text-right">
-            <p className="font-display text-sm md:text-lg tracking-widest text-meta-accent mb-2">
-              UX / UI / ENGINEER
-            </p>
-            <p className="font-mono text-xs text-white/60">
-              SALTILLO, MEXICO (REMOTE)
-            </p>
-            <div className="mt-4 inline-block px-4 py-2 border border-meta-accent text-meta-accent text-xs font-bold uppercase hover:bg-meta-accent hover:text-void transition-colors cursor-pointer">
-              Available for Hire
+
+          <div>
+            <span className="font-mono text-[10px] text-gray-600 uppercase mb-3 block">
+              /// Core_Stack
+            </span>
+            <div className="grid grid-cols-2 gap-y-2 font-mono text-xs text-gray-400">
+              <span>React / Next</span>
+              <span>Node / SQL</span>
+              <span>Three.js</span>
+              <span>TypeScript</span>
             </div>
           </div>
         </div>
 
-        {/* --- MAIN GRID: BRUTALIST CV --- */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
-          {/* COLUMN 1: SIDEBAR INFO */}
-          <div className="md:col-span-4 space-y-12">
-            {/* Contact */}
-            <div>
-              <h3 className="font-mono text-xs text-meta-accent mb-4 uppercase tracking-widest">
-                /// Connect
-              </h3>
-              <ul className="space-y-2 font-display text-sm">
-                <li>
-                  <a
-                    href="#"
-                    className="hover:text-meta-accent border-b border-white/20 pb-1 block"
-                  >
-                    Email Me -
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="hover:text-meta-accent border-b border-white/20 pb-1 block"
-                  >
-                    GitHub Profile -
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="hover:text-meta-accent border-b border-white/20 pb-1 block"
-                  >
-                    LinkedIn -
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* Hard Skills */}
-            <div>
-              <h3 className="font-mono text-xs text-meta-accent mb-4 uppercase tracking-widest">
-                /// Toolkit
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {[
-                  "React",
-                  "Tailwind",
-                  "Vite",
-                  "Figma",
-                  "Photoshop",
-                  "Git",
-                  "Linux",
-                  "Logic",
-                ].map((skill) => (
-                  <span
-                    key={skill}
-                    className="px-3 py-1 border border-white/20 text-xs font-bold hover:border-meta-accent hover:text-meta-accent transition-colors"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Languages */}
-            <div>
-              <h3 className="font-mono text-xs text-meta-accent mb-4 uppercase tracking-widest">
-                /// Languages
-              </h3>
-              <ul className="space-y-2 text-sm font-bold">
-                <li className="flex justify-between">
-                  <span>ENGLISH</span>{" "}
-                  <span className="text-meta-accent">NATIVE</span>
-                </li>
-                <li className="flex justify-between">
-                  <span>SPANISH</span>{" "}
-                  <span className="text-meta-accent">NATIVE</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          {/* COLUMN 2: MAIN EXPERIENCE */}
-          <div className="md:col-span-8 border-l border-meta-dim pl-0 md:pl-12 space-y-16">
-            {/* Profile Summary */}
-            <div>
-              <h3 className="font-mono text-xs text-meta-accent mb-6 uppercase tracking-widest">
-                /// Profile_Synthesis
-              </h3>
-              <p className="font-serif text-2xl md:text-3xl leading-relaxed text-white/90">
-                "Ingeniería lógica y narrativa visual no son opuestos. Soy un
-                perfil híbrido capaz de construir arquitecturas escalables y
-                diseñar experiencias inmersivas."
-              </p>
-            </div>
-
-            {/* Experience List */}
-            <div>
-              <h3 className="font-mono text-xs text-meta-accent mb-8 uppercase tracking-widest">
-                /// Work_History
-              </h3>
-
-              <div className="space-y-12">
-                {/* Job Item */}
-                <div className="group">
-                  <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-2">
-                    <h4 className="font-thick text-3xl uppercase group-hover:text-meta-accent transition-colors">
-                      Verizon
-                    </h4>
-                    <span className="font-mono text-xs text-white/50">
-                      Tech Support Specialist
-                    </span>
-                  </div>
-                  <p className="font-sans text-sm text-white/70 leading-relaxed max-w-2xl">
-                    Diagnóstico avanzado de hardware y software en un entorno
-                    100% nativo inglés. Resolución de conflictos técnicos
-                    críticos bajo protocolos de alta presión.
-                  </p>
-                </div>
-
-                {/* Job Item */}
-                <div className="group">
-                  <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-2">
-                    <h4 className="font-thick text-3xl uppercase group-hover:text-meta-accent transition-colors">
-                      Valenzuela Rentals
-                    </h4>
-                    <span className="font-mono text-xs text-white/50">
-                      Property Management
-                    </span>
-                  </div>
-                  <p className="font-sans text-sm text-white/70 leading-relaxed max-w-2xl">
-                    Gestión logística de activos y mantenimiento de
-                    infraestructura física. Optimización de recursos mediante la
-                    aplicación de lógica de ingeniería.
-                  </p>
-                </div>
-
-                {/* Job Item */}
-                <div className="group">
-                  <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-2">
-                    <h4 className="font-thick text-3xl uppercase group-hover:text-meta-accent transition-colors">
-                      Cine & Media
-                    </h4>
-                    <span className="font-mono text-xs text-white/50">
-                      Art Assistant
-                    </span>
-                  </div>
-                  <p className="font-sans text-sm text-white/70 leading-relaxed max-w-2xl">
-                    Ejecución visual y asistencia estética en sets
-                    profesionales, asegurando la integridad visual de la
-                    narrativa.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Projects / Education */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-meta-dim">
-              <div>
-                <h3 className="font-mono text-xs text-meta-accent mb-4 uppercase tracking-widest">
-                  /// Education
-                </h3>
-                <p className="font-bold text-lg">UDLAP</p>
-                <p className="text-sm opacity-70">
-                  B.S. Sustainable Energy Engineering
-                </p>
-                <p className="text-xs opacity-50 mt-1">
-                  6th Semester Completed
-                </p>
-              </div>
-              <div>
-                <h3 className="font-mono text-xs text-meta-accent mb-4 uppercase tracking-widest">
-                  /// Key Project
-                </h3>
-                <p className="font-bold text-lg">NOMOS_SAGA (v0.5)</p>
-                <p className="text-sm opacity-70">
-                  World-building system development.
-                </p>
-                <a
-                  href="#"
-                  className="text-xs text-meta-accent underline mt-1 block"
-                >
-                  View Repository
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+        <button
+          onClick={() => setMode("terminal")}
+          className="w-full py-4 border-t border-white/10 flex justify-between items-center group hover:bg-white/5 transition-all"
+        >
+          <span className="uppercase text-xs tracking-[0.2em] font-mono text-gray-500 group-hover:text-white font-bold">
+            System_Exit
+          </span>
+          <img
+            src={arrowIcon}
+            className="w-3 h-3 invert rotate-180 opacity-40 group-hover:opacity-100"
+            alt="<"
+          />
+        </button>
       </div>
     </motion.div>
   );

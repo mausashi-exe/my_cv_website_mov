@@ -4,20 +4,26 @@
   /* --- BASE --- */
   --color-void: #050505;
 
-  /* --- ENGINEER: SNOW WHITE TERMINAL --- */
-  --color-snow: #f8f8ff; /* Ghost White */
-  --color-snow-dim: rgba(248, 248, 255, 0.75); /* Opacidad Media */
+  /* --- ENGINEER: INDUSTRIAL EDITORIAL --- */
+  --color-concrete: #f3f3f3; /* Fondo gris muy claro */
+  --color-ink: #111111; /* Texto casi negro */
+  --color-safety-orange: #ff4400; /* Acento Industrial */
+  --color-grid-line: #d4d4d4; /* Líneas de la grilla */
+
+  /* --- ENGINEER: CAMBIAR COLORES A BONE-WHITE Y NEGRO OPACO (Legacy/Fallback) --- */
+  --color-snow: #f8f8ff;
+  --color-snow-dim: rgba(248, 248, 255, 0.75);
   --color-snow-border: rgba(248, 248, 255, 0.2);
   --color-snow-glow: rgba(255, 255, 255, 0.4);
 
-  /* --- CREATOR: CARGO.SITE AESTHETIC --- */
-  --color-cargo-bg: #eae8e3; /* Papel de arte suave */
+  /* --- CREATOR: MANTENER COLORES --- */
+  --color-cargo-bg: #eae8e3;
   --color-cargo-text: #1a1a1a;
-  --color-gold: #c5a059; /* Acento Metabarons */
-  --color-cargo-accent: #c5a059; /* Gold */
+  --color-gold: #c5a059;
+  --color-cargo-accent: #c5a059;
 
-  /* --- PALETA META (Brutalist Lavender) --- */
-  --color-meta-accent: #d8b4fe; /* Purple-300: Lavanda ligero */
+  /* --- META-CREATOR --- */
+  --color-meta-accent: #d8b4fe;
   --color-meta-dim: rgba(216, 180, 254, 0.3);
 
   /* --- FUENTES --- */
@@ -26,6 +32,12 @@
   --font-mono: "JetBrains Mono", monospace;
   --font-thick: "Oswald", sans-serif;
   --font-sans: "Inter", sans-serif;
+
+  /* --- NUEVAS FUENTES --- */
+  --font-roboto: "Roboto", sans-serif; /* Engineer */
+  --font-belle: "Bellefair", serif; /* Creator Body */
+  --font-quint: "Quintessential", cursive; /* Creator Headers */
+  --font-unifrak: "UnifrakturCook", cursive; /* Creator Titles */
 }
 
 @layer base {
@@ -40,12 +52,6 @@
     @apply fixed inset-0 border-[16px] md:border-[24px] border-[#E8E6D9] pointer-events-none z-50;
   }
 
-  /* --- UTILIDAD DE TEXTO SNOW (ENGINEER) --- */
-  .text-snow-glow {
-    color: var(--color-snow-dim);
-    text-shadow: 0 0 8px var(--color-snow-glow);
-  }
-
   /* --- UTILIDADES CARGO (CREATOR) --- */
   .cargo-container {
     @apply w-full h-full bg-cargo-bg text-cargo-text overflow-hidden flex flex-col md:flex-row;
@@ -56,7 +62,6 @@
   .cargo-content {
     @apply w-full md:w-3/4 h-full overflow-y-auto p-8 md:p-16 scroll-smooth bg-cargo-bg relative;
   }
-
   .chapter-title {
     @apply font-display text-4xl md:text-6xl font-bold uppercase mb-8 border-b-2 border-cargo-text pb-4 mt-24 first:mt-0;
   }
@@ -65,8 +70,5 @@
   }
   .body-text {
     @apply font-serif text-xl leading-loose text-cargo-text/90 max-w-3xl text-justify mb-6;
-  }
-  .image-caption {
-    @apply font-mono text-xs text-cargo-text/50 mt-2 block mb-12;
   }
 }
