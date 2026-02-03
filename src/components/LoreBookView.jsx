@@ -8,101 +8,122 @@ import { LORE_CHAPTERS, VISUAL_DATABASE } from "../data/loreData";
 
 const LoreBookView = ({ setMode }) => {
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
-  // Inicializamos con el primer capítulo
   const [activeChapter, setActiveChapter] = useState(LORE_CHAPTERS[0]);
 
   return (
-    <div className="w-full h-full bg-[#050505] text-[#e0e0e0] font-sans overflow-hidden relative selection:bg-gold selection:text-black">
+    // Quitamos bg-[#050505] fijo del wrapper principal para permitir
+    // que la landing sea clara y el archivo sea oscuro.
+    <div className="w-full h-full font-sans overflow-hidden relative">
       <AnimatePresence mode="wait">
-        {/* --- ESTADO 1: LANDING PAGE (Mapa y Título) --- */}
+        {/* --- ESTADO 1: LANDING PAGE (DISEÑO PERGAMINO / CREATOR) --- */}
         {!isArchiveOpen ? (
           <motion.div
             key="landing"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0, scale: 1.05, filter: "blur(10px)" }}
+            exit={{ opacity: 0, scale: 1.05, filter: "blur(5px)" }}
             transition={{ duration: 1.2 }}
-            className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black"
+            // FONDO COLOR PERGAMINO
+            className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#fcf5e5]"
           >
-            {/* Mapa de fondo con animación lenta (Ken Burns) */}
+            {/* 1. Mapa de fondo (A COLOR, SIN GRAYSCALE) */}
             <motion.div
-              className="absolute inset-0 opacity-40"
-              animate={{ scale: [1, 1.15] }}
+              className="absolute inset-0 z-0"
+              animate={{ scale: [1, 1.05] }}
               transition={{
-                duration: 25,
+                duration: 30,
                 repeat: Infinity,
                 repeatType: "reverse",
                 ease: "linear",
               }}
             >
+              {/* Opacity bajada a 0.35 para que se vea el color pero no moleste al texto */}
               <img
                 src={mapImage}
-                className="w-full h-full object-cover grayscale contrast-125"
+                className="w-full h-full object-cover opacity-35"
                 alt="World Map"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-black"></div>
             </motion.div>
 
-            {/* Contenido Central */}
-            <div className="z-30 text-center px-4">
+            {/* 2. Capa de mezcla para textura (opcional) */}
+            <div className="absolute inset-0 z-0 bg-[#fcf5e5]/20 mix-blend-multiply pointer-events-none"></div>
+
+            {/* 3. Contenedor Central (Estilo Tarjeta Elegante) */}
+            <div className="z-30 relative max-w-3xl mx-4 p-8 md:p-16 text-center bg-[#fcf5e5]/90 border border-[#d4af37]/60 shadow-2xl rounded-sm">
+              {/* TÍTULO: UnifrakturCook + No Mayúsculas + Color Tinta (#2b2b2b) */}
               <motion.h1
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.5 }}
-                className="font-gothic text-6xl md:text-9xl text-white mb-2 tracking-wide drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]"
+                className="font-['UnifrakturCook'] text-5xl md:text-8xl text-[#2b2b2b] normal-case mb-4 leading-tight tracking-wide"
               >
-                The Onomastikon
+                The Nomos Chronicles
               </motion.h1>
+
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.7 }}
-                className="font-serif text-gold text-xl italic mb-8"
+                className="font-['Cormorant_Garamond'] text-[#d4af37] text-2xl font-bold italic mb-8"
               >
-                "The Book of Names"
+                "The Onomastikon, The Book of Names"
               </motion.p>
 
+              {/* Separador Dorado */}
               <motion.div
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
                 transition={{ delay: 0.8, duration: 0.8 }}
-                className="w-32 h-px bg-gold mb-12 mx-auto"
+                className="w-24 h-px bg-[#d4af37] mb-10 mx-auto opacity-50"
               />
 
+              {/* Texto de introducción (Estilo lectura cómoda) */}
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.9 }}
+                className="font-['Cormorant_Garamond'] text-[#2b2b2b] text-xl leading-relaxed max-w-lg mx-auto mb-10 font-medium"
+              >
+                Welcome to my world-building project
+              </motion.p>
+
+              {/* BOTÓN (Estilo Clásico/Elegante) */}
               <motion.button
                 onClick={() => setIsArchiveOpen(true)}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1 }}
                 whileHover={{
-                  scale: 1.05,
-                  borderColor: "#c5a059",
-                  color: "#c5a059",
+                  backgroundColor: "#d4af37",
+                  color: "#fcf5e5",
+                  borderColor: "#d4af37",
                 }}
-                whileTap={{ scale: 0.95 }}
-                className="group relative px-8 py-4 bg-black/60 backdrop-blur-md border border-white/20 text-white font-sans font-bold text-sm tracking-[0.2em] uppercase transition-all"
+                whileTap={{ scale: 0.98 }}
+                className="px-10 py-3 border border-[#d4af37] text-[#2b2b2b] font-['Cormorant_Garamond'] font-bold uppercase tracking-[0.2em] text-sm transition-all duration-300"
               >
-                [ Open Archives ]
-                <div className="absolute inset-0 bg-white/5 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                Open Archives
               </motion.button>
             </div>
           </motion.div>
         ) : (
-          /* --- ESTADO 2: 3-COLUMN LAYOUT (INDEX | READER | VISUALS) --- */
+          /* --- ESTADO 2: 3-COLUMN LAYOUT (MANTENEMOS TU DISEÑO OSCURO ORIGINAL) --- */
+          /* Nota: Agregamos bg-[#050505] aquí para asegurar el fondo oscuro al entrar */
           <motion.div
             key="archive"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
-            className="flex flex-col md:flex-row w-full h-full"
+            className="flex flex-col md:flex-row w-full h-full bg-[#050505] text-[#e0e0e0]"
           >
-            {/* COLUMNA 1: ÍNDICE DE CAPÍTULOS (20%) - Fija */}
-            <nav className="w-full md:w-1/5 h-full bg-[#050505] border-r border-white/10 flex flex-col overflow-y-auto scrollbar-hide pt-24 pb-8 relative z-10">
+            {/* COLUMNA 1: ÍNDICE */}
+            <nav className="w-full md:w-1/5 h-full border-r border-white/10 flex flex-col overflow-y-auto scrollbar-hide pt-24 pb-8 relative z-10">
               <div className="px-6 mb-8">
                 <span className="font-mono text-[10px] text-gold uppercase tracking-widest block mb-2">
                   /// Index
                 </span>
-                <h2 className="font-gothic text-2xl text-white">Chronicles</h2>
+                <h2 className="font-['UnifrakturCook'] text-3xl text-white tracking-wide">
+                  Chronicles
+                </h2>
               </div>
 
               <ul className="flex flex-col">
@@ -137,7 +158,7 @@ const LoreBookView = ({ setMode }) => {
               </div>
             </nav>
 
-            {/* COLUMNA 2: LECTOR CENTRAL (45%) - Scrollable */}
+            {/* COLUMNA 2: LECTOR CENTRAL */}
             <main className="w-full md:w-2/5 h-full overflow-y-auto p-8 md:p-12 pt-24 pb-32 border-r border-white/10 scrollbar-hide bg-[#080808]">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -147,12 +168,11 @@ const LoreBookView = ({ setMode }) => {
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.3 }}
                 >
-                  {/* Cabecera del Capítulo */}
                   <div className="mb-12 border-b border-white/10 pb-6">
                     <span className="font-mono text-[10px] text-gold uppercase tracking-[0.2em] block mb-2">
                       /// Classified_Record
                     </span>
-                    <h1 className="font-gothic text-4xl md:text-5xl text-white mb-4 leading-none">
+                    <h1 className="font-['UnifrakturCook'] text-5xl md:text-6xl text-white mb-4 leading-none tracking-wide">
                       {activeChapter.title}
                     </h1>
                     <h2 className="font-serif italic text-2xl text-gray-400">
@@ -160,12 +180,10 @@ const LoreBookView = ({ setMode }) => {
                     </h2>
                   </div>
 
-                  {/* Contenido del Capítulo */}
-                  <div className="prose prose-invert prose-lg max-w-none">
+                  <div className="prose prose-invert prose-lg max-w-none font-serif">
                     {activeChapter.fullContent}
                   </div>
 
-                  {/* Footer del Capítulo */}
                   <div className="mt-24 pt-8 border-t border-white/10 flex justify-between items-center opacity-50">
                     <span className="font-mono text-xs uppercase text-gray-500">
                       End of Record
@@ -176,7 +194,7 @@ const LoreBookView = ({ setMode }) => {
               </AnimatePresence>
             </main>
 
-            {/* COLUMNA 3: ARTEFACTOS VISUALES (35%) - Scrollable */}
+            {/* COLUMNA 3: ARTEFACTOS VISUALES */}
             <aside className="hidden md:block w-2/5 h-full overflow-y-auto p-8 pt-24 pb-32 bg-[#050505] scrollbar-hide">
               <div className="mb-8 border-b border-white/10 pb-4">
                 <span className="font-mono text-[10px] text-gray-500 uppercase tracking-widest">
@@ -190,7 +208,6 @@ const LoreBookView = ({ setMode }) => {
                     key={i}
                     className="group border border-white/5 bg-white/[0.02] hover:border-white/20 transition-colors p-4"
                   >
-                    {/* Contenedor de Imagen */}
                     <div className="aspect-video bg-black mb-4 relative overflow-hidden flex items-center justify-center">
                       {item.image ? (
                         <img
@@ -199,7 +216,6 @@ const LoreBookView = ({ setMode }) => {
                           alt=""
                         />
                       ) : (
-                        // Placeholder si no hay imagen
                         <div className="text-center opacity-30">
                           <span className="font-mono text-xs border border-white/30 px-2 py-1">
                             [ NO_DATA ]
@@ -208,7 +224,6 @@ const LoreBookView = ({ setMode }) => {
                       )}
                     </div>
 
-                    {/* Info del Artefacto */}
                     <div className="flex justify-between items-start">
                       <div>
                         <h3 className="font-sans font-bold text-white text-sm uppercase tracking-tight mb-1">
@@ -223,7 +238,6 @@ const LoreBookView = ({ setMode }) => {
                       </span>
                     </div>
 
-                    {/* Tags */}
                     <div className="flex gap-2 mt-4">
                       {item.tags.map((tag, idx) => (
                         <span

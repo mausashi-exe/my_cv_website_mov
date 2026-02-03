@@ -1,38 +1,34 @@
 import React from "react";
 import { motion } from "framer-motion";
-import arrowIcon from "../assets/ui/arrow_pointing_down_righ.svg";
+import profilePic from "../assets/images/main_icon.jpg"; // Asegúrate de tener tu foto aquí
 
-// DATOS DE EJEMPLO (Tu experiencia adaptada al nuevo layout)
 const WORK_ITEMS = [
   {
-    id: "001",
-    title: "[COMPANY]_SYSTEMS",
-    docId: "NET_OPS_TIER2",
-    description:
-      "Diagnóstico avanzado de infraestructura de red y software en entorno nativo inglés. Resolución crítica bajo protocolos de alta presión y eficiencia técnica.",
+    id: "01",
+    title: "SYSTEM_ARCH",
+    client: "INT_CORP",
+    description: "Diagnóstico avanzado de infraestructura. Resolución crítica bajo protocolos de alta presión.",
+    tech: ["NET_OPS", "AWS", "LINUX"],
     year: "2023",
     link: "#",
-    hasIcon: true,
   },
   {
-    id: "002",
-    title: "PERSONAL_RENTALS",
-    docId: "ASSET_MGMT_LOGIC",
-    description:
-      "Gestión logística de activos inmobiliarios y mantenimiento de infraestructura física. Optimización de recursos mediante aplicación de lógica de ingeniería.",
+    id: "02",
+    title: "ASSET_LOGIC",
+    client: "PRIVATE",
+    description: "Optimización de recursos mediante aplicación de lógica de ingeniería en gestión inmobiliaria.",
+    tech: ["LOGISTICS", "MATH_MODEL", "MGMT"],
     year: "2024",
     link: "#",
-    hasIcon: true,
   },
   {
-    id: "003",
-    title: "CINE_MEDIA_ARTS",
-    docId: "VISUAL_NARRATIVE",
-    description:
-      "Ejecución técnica y asistencia estética en sets profesionales. Aseguramiento de integridad visual y continuidad narrativa en entornos de producción.",
+    id: "03",
+    title: "VISUAL_ENG",
+    client: "MEDIA_ARTS",
+    description: "Ejecución técnica en sets profesionales. Integridad visual y continuidad narrativa.",
+    tech: ["LIGHTING", "CAM_OP", "SET_DESIGN"],
     year: "2022",
     link: "#",
-    hasIcon: true,
   },
 ];
 
@@ -42,157 +38,158 @@ const BlueprintView = ({ setMode }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      // CAMBIO IMPORTANTE: Fondo blanco/concreto y texto negro para estilo "Industrial Editorial"
-      className="min-h-screen w-full relative bg-concrete text-ink font-roboto overflow-y-auto selection:bg-safety-orange selection:text-white"
+      // FONDO: Blanco Humo (Industrial Clean)
+      className="flex flex-col md:flex-row min-h-screen w-full bg-[#F4F4F4] text-[#1a1a1a] font-mono selection:bg-[#2563EB] selection:text-white"
     >
-      {/* HEADER DE LA SECCIÓN */}
-      <div className="sticky top-0 z-30 w-full bg-concrete/90 backdrop-blur-md border-b border-grid-line px-6 py-4 flex justify-between items-end">
-        <h1 className="text-2xl md:text-4xl font-black uppercase tracking-tighter leading-none">
-          [The Engineer]{" "}
-          <span className="text-safety-orange text-3xl align-top">///</span>
-        </h1>
-
-        <div className="flex items-center gap-6">
-          <span className="hidden md:block font-mono text-[10px] uppercase tracking-widest text-gray-500">
-            Sys.Status: <span className="text-safety-orange">Online</span>
-          </span>
-
-          {/* Botón de Salida */}
-          <button
-            onClick={() => setMode("terminal")}
-            className="group flex items-center gap-2 hover:opacity-70 transition-opacity"
-          >
-            <span className="font-bold text-xs uppercase tracking-widest">
-              Index
-            </span>
-            <img
-              src={arrowIcon}
-              alt="Back"
-              className="w-4 h-4 rotate-180 invert-0" // invert-0 para que sea negro
-            />
-          </button>
-        </div>
-      </div>
-
-      {/* CONTENIDO PRINCIPAL: LAYOUT GRID CARGO */}
-      <div className="w-full max-w-[1600px] mx-auto px-4 md:px-8 pb-32">
-        {/* TITULO SECCION: SELECTED WORK */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 py-8 border-b border-grid-line items-end">
-          <div className="md:col-span-11">
-            <span className="font-mono text-xs text-gray-400 block mb-2">
-              DIR_//WORK_HISTORY
-            </span>
-            <h2 className="text-lg font-bold uppercase tracking-tight">
-              Selected Work & Operations
-            </h2>
+      
+      {/* =================================================================================
+          COLUMNA IZQUIERDA: CV / INFO
+          Padding ajustado: pt-28 (Top) pb-24 (Bottom) para no chocar con el HUD
+      ================================================================================= */}
+      <aside className="w-full md:w-1/3 lg:w-[400px] border-b-2 md:border-b-0 md:border-r border-[#e5e5e5] flex flex-col overflow-y-auto scrollbar-hide h-screen">
+        
+        <div className="pt-28 px-8 pb-24 flex flex-col h-full">
+          
+          {/* FOTO Y NOMBRE */}
+          <div className="mb-10 bg-white p-4 border border-[#e5e5e5] shadow-sm">
+            <div className="w-full aspect-square mb-4 overflow-hidden grayscale contrast-125 border border-[#e5e5e5]">
+              <img 
+                src={profilePic} 
+                alt="Profile" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+            {/* Nombre en Azul Técnico */}
+            <h1 className="text-3xl font-black uppercase tracking-tighter leading-none mb-1 text-[#2563EB]">
+              MAURICIO<br/>OLVERA
+            </h1>
+            <p className="text-xs font-bold uppercase tracking-wider text-gray-400">
+              Creative Engineer // SysAdmin
+            </p>
           </div>
-          <div className="md:col-span-1 text-right">
-            <div className="w-4 h-4 border border-black rounded-full inline-block"></div>
+
+          {/* BIO */}
+          <div className="mb-8 text-xs font-medium leading-relaxed text-justify text-gray-600">
+             <span className="text-[#2563EB] font-bold">[BIO_DATA]:</span> Ingeniero creativo enfocado en la intersección entre sistemas lógicos y narrativa visual. Especialista en resolver problemas complejos mediante rigurosidad técnica.
+          </div>
+
+          {/* HABILIDADES */}
+          <div className="space-y-8">
+            
+            {/* Sección 1 */}
+            <div>
+               <h3 className="text-sm font-black uppercase mb-3 border-b border-[#2563EB] text-[#2563EB] inline-block">
+                 Logic & Technical
+               </h3>
+               <ul className="text-xs font-bold space-y-2 list-none text-gray-700">
+                 <li className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 bg-[#2563EB]"></span> LOGICAL REASONING
+                 </li>
+                 <li className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 bg-[#2563EB]"></span> SYSTEM ARCHITECTURE
+                 </li>
+                 <li className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 bg-[#2563EB]"></span> PROBLEM SOLVING
+                 </li>
+               </ul>
+            </div>
+
+            {/* Sección 2 */}
+            <div>
+               <h3 className="text-sm font-black uppercase mb-3 border-b border-[#2563EB] text-[#2563EB] inline-block">
+                 Tech Stack
+               </h3>
+               <div className="flex flex-wrap gap-2 text-[10px] font-bold">
+                 {["REACT", "NODE.JS", "PYTHON", "LINUX", "AWS"].map((skill) => (
+                    <span key={skill} className="border border-[#e5e5e5] px-2 py-1 bg-white text-gray-600">
+                        {skill}
+                    </span>
+                 ))}
+               </div>
+            </div>
+
           </div>
         </div>
+      </aside>
 
-        {/* LOOP DE PROYECTOS */}
-        <div className="flex flex-col">
+      {/* =================================================================================
+          COLUMNA DERECHA: ENGINEER LOG
+          Padding ajustado: pt-28 (Top) para dejar espacio al botón BACK y Titulo
+      ================================================================================= */}
+      <main className="flex-1 flex flex-col h-screen overflow-y-auto relative scrollbar-hide">
+        
+        {/* HEADER SIMPLE (Sin botón, solo título) */}
+        {/* pt-28 asegura que el título empiece abajo del HUD Top-Right */}
+        <div className="pt-28 px-8 md:px-12 pb-8 border-b border-[#e5e5e5]">
+            <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-none text-[#1a1a1a]">
+              ENGINEER<span className="text-[#2563EB]">_</span>LOG
+            </h1>
+            <span className="font-mono text-[10px] uppercase tracking-widest text-gray-400 mt-2 block">
+                System Status: Nominal // V.24
+            </span>
+        </div>
+
+        {/* LISTADO DE PROYECTOS */}
+        <div className="w-full pb-32">
+          
+          {/* LABELS TABLA */}
+          <div className="hidden md:grid grid-cols-12 border-b border-[#e5e5e5] bg-[#fafafa] text-gray-400">
+            <div className="col-span-2 p-3 border-r border-[#e5e5e5] font-bold text-[9px] uppercase">ID_REF</div>
+            <div className="col-span-8 p-3 border-r border-[#e5e5e5] font-bold text-[9px] uppercase">TECHNICAL_BRIEF</div>
+            <div className="col-span-2 p-3 font-bold text-[9px] uppercase">ACTION</div>
+          </div>
+
+          {/* ITEMS LOOP */}
           {WORK_ITEMS.map((item, index) => (
-            <div key={index} className="group">
-              {/* GRID 5 (Media) - 5 (Text) - 2 (Meta) */}
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 py-12 border-b border-grid-line items-start">
-                {/* SLOT 0: MEDIA (Span 5) */}
-                <div className="md:col-span-5 w-full">
-                  <div className="aspect-[4/3] w-full bg-[#e5e5e5] relative overflow-hidden group-hover:bg-[#dcdcdc] transition-colors duration-500">
-                    {/* Placeholder Visual "Wireframe" (Puntos) */}
-                    <div
-                      className="absolute inset-0 opacity-20"
-                      style={{
-                        backgroundImage:
-                          "radial-gradient(#000 1px, transparent 1px)",
-                        backgroundSize: "20px 20px",
-                      }}
-                    ></div>
-                    {/* Etiqueta de archivo */}
-                    <div className="absolute bottom-3 left-3 bg-white px-2 py-1 border border-black/10 text-[10px] font-mono font-bold uppercase tracking-wider">
-                      IMG_REF_{item.id}.RAW
-                    </div>
-                  </div>
-                </div>
+            <div key={index} className="group grid grid-cols-1 md:grid-cols-12 border-b border-[#e5e5e5] hover:bg-white transition-colors duration-200">
+              
+              {/* ID */}
+              <div className="col-span-1 md:col-span-2 border-b md:border-b-0 md:border-r border-[#e5e5e5] p-6 md:p-8 flex flex-col justify-start">
+                 <span className="font-black text-xl text-[#2563EB]">{item.id}</span>
+                 <span className="font-bold text-[10px] text-gray-400 mt-1">{item.year}</span>
+              </div>
 
-                {/* SLOT 1: CONTENT (Span 5) */}
-                <div className="md:col-span-5 flex flex-col h-full pt-2">
-                  <div className="mb-6 font-mono text-sm leading-tight">
-                    <span className="font-black text-lg block mb-1">
-                      {item.id}—{item.title}
-                    </span>
-                    <span className="text-gray-500 uppercase tracking-widest text-xs">
-                      DOC_ID: {item.docId}
-                    </span>
-                  </div>
-
-                  <p className="text-gray-600 font-medium text-sm md:text-base leading-relaxed max-w-md mb-8">
+              {/* CONTENIDO */}
+              <div className="col-span-1 md:col-span-8 border-b md:border-b-0 md:border-r border-[#e5e5e5] p-6 md:p-8 flex flex-col justify-between">
+                <div className="mb-6">
+                  <h2 className="text-2xl font-black uppercase tracking-tight leading-none mb-2 text-[#1a1a1a] group-hover:text-[#2563EB] transition-colors">
+                    {item.title}
+                  </h2>
+                  <span className="font-medium text-[10px] uppercase text-gray-400 tracking-widest">
+                    CLT: {item.client}
+                  </span>
+                  <p className="text-sm font-medium leading-relaxed mt-4 text-gray-600 max-w-2xl">
                     {item.description}
                   </p>
-
-                  <a
-                    href={item.link}
-                    className="inline-block mt-auto text-xs font-black uppercase tracking-widest border-b-2 border-transparent hover:border-safety-orange hover:text-safety-orange transition-all w-max pb-1"
-                  >
-                    Read Protocol_
-                  </a>
                 </div>
 
-                {/* SLOT 2: ICON/META (Span 2) */}
-                <div className="md:col-span-2 flex flex-col justify-between h-full items-end pt-2">
-                  <div className="opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-4 group-hover:translate-x-0">
-                    {/* Icono "Command" estilo Cargo */}
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <rect
-                        x="2"
-                        y="2"
-                        width="9"
-                        height="9"
-                        stroke="black"
-                        strokeWidth="2"
-                      />
-                      <rect
-                        x="13"
-                        y="2"
-                        width="9"
-                        height="9"
-                        stroke="black"
-                        strokeWidth="2"
-                      />
-                      <rect
-                        x="2"
-                        y="13"
-                        width="9"
-                        height="9"
-                        stroke="black"
-                        strokeWidth="2"
-                      />
-                      <rect x="13" y="13" width="9" height="9" fill="#FF4400" />
-                    </svg>
-                  </div>
-                  <span className="font-mono text-[10px] text-gray-400 mt-4 md:mt-0">
-                    YEAR: {item.year}
-                  </span>
+                <div className="flex flex-wrap gap-2">
+                  {item.tech.map((tech, i) => (
+                    <span key={i} className="px-2 py-1 border border-[#e5e5e5] text-[9px] font-bold uppercase bg-[#fafafa] text-gray-500">
+                        {tech}
+                    </span>
+                  ))}
                 </div>
+              </div>
+
+              {/* LINK / ACTION */}
+              <div className="col-span-1 md:col-span-2 p-6 md:p-8 flex items-center justify-center md:justify-start">
+                 <a href={item.link} className="w-full text-center border border-[#1a1a1a] text-[#1a1a1a] px-4 py-3 text-[10px] font-black uppercase tracking-widest hover:bg-[#2563EB] hover:text-white hover:border-[#2563EB] transition-all">
+                    View Data
+                 </a>
               </div>
             </div>
           ))}
-        </div>
 
-        {/* FOOTER DECORATIVO */}
-        <div className="pt-16 pb-8">
-          <h2 className="text-[12vw] leading-none font-black text-gray-200 uppercase select-none text-right">
-            ENGINEER.
-          </h2>
+          {/* FOOTER DECORATIVO DERECHA */}
+           <div className="w-full p-8 md:p-12 mt-12 opacity-10 pointer-events-none text-right">
+                <h3 className="font-black text-[10vw] leading-none select-none text-[#1a1a1a]">
+                  ENG.
+                </h3>
+           </div>
+
         </div>
-      </div>
+      </main>
     </motion.div>
   );
 };
