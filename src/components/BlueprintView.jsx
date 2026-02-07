@@ -30,15 +30,20 @@ const BlueprintView = ({ setMode }) => {
     setExpandedId(expandedId === id ? null : id);
   };
 
+  const scrollToProjects = () => {
+    const projectsSection = document.getElementById("projects-section");
+    if (projectsSection) projectsSection.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      // FIX CRITICO: flex-col en movil, flex-row en escritorio.
-      className="flex flex-col md:flex-row h-full w-full bg-[#050505] text-[#e0e0e0] selection:bg-[#ff4425] selection:text-white"
+      // Estructura Flex: Columna en móvil, Fila en Desktop
+      className="flex flex-col md:flex-row min-h-screen md:h-full w-full bg-[#050505] text-[#e0e0e0] selection:bg-[#ff4425] selection:text-white"
     >
-      {/* SIDEBAR */}
+      {/* --- SIDEBAR (IZQUIERDA/ARRIBA) --- */}
       <aside
         className="
         w-full md:w-1/3 lg:w-[400px] 
@@ -46,18 +51,16 @@ const BlueprintView = ({ setMode }) => {
         flex flex-col 
         shrink-0 
         bg-[#080808] relative z-20 shadow-2xl
-        /* En móvil altura automática, en PC altura completa */
         h-auto md:h-full 
         "
       >
-        {/* Scroll interno solo en PC (md:overflow-y-auto) */}
         <div className="flex-1 md:overflow-y-auto scrollbar-hide pt-12 px-8 pb-12 md:pb-24">
           <div className="mb-10 bg-[#0a0a0a] p-1 border border-white/10 shadow-2xl group">
             <div className="w-full aspect-square mb-4 overflow-hidden border border-white/5 relative">
               <img
                 src={profilePic}
                 alt="Profile"
-                className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 grayscale group-hover:grayscale-0"
+                className="w-full h-full object-cover opacity-60 grayscale"
               />
               <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-10 bg-[length:100%_2px,3px_100%] pointer-events-none opacity-20"></div>
             </div>
@@ -75,6 +78,14 @@ const BlueprintView = ({ setMode }) => {
                 <span className="text-[#ff4425]">[MX-01]</span>
               </p>
             </div>
+
+            {/* BOTÓN SALTO MÓVIL */}
+            <button
+              onClick={scrollToProjects}
+              className="md:hidden w-full mt-4 py-3 bg-[#ff4425] text-black font-bold font-archivo text-xs uppercase tracking-widest border border-white/10"
+            >
+              ↓ SKIP TO PROJECTS
+            </button>
           </div>
 
           <div className="mb-8 p-4 bg-red-900/5 border-l-2 border-[#ff4425]/50">
@@ -83,10 +94,8 @@ const BlueprintView = ({ setMode }) => {
                 /// SYSTEM_BIO_LOADED
               </strong>
               Ingeniero creativo especializado en construir arquitecturas
-              escalables e interfaces inmersivas. Transformo lógica compleja en
-              experiencias de usuario fluidas.
+              escalables e interfaces inmersivas.
             </p>
-
             <a
               href="https://github.com/mausashi-exe?tab=repositories"
               target="_blank"
@@ -109,24 +118,22 @@ const BlueprintView = ({ setMode }) => {
                 <SkillBar key={i} label={skill.label} level={skill.level} />
               ))}
             </div>
-
             <div className="mt-8 pt-6 border-t border-white/10">
               <h3 className="font-archivo text-xs font-bold uppercase mb-2 text-white flex justify-between">
                 <span>Live_System_Link</span>
                 <span className="text-[#ff4425] animate-pulse">● REC</span>
               </h3>
-              <p className="font-code text-[9px] text-gray-500 mb-2">
-                Conexión directa vía WebSockets (Dockerizado).
-              </p>
               <CommLink />
             </div>
           </div>
         </div>
       </aside>
 
-      {/* MAIN LOG */}
-      {/* En móvil se apila abajo. En PC ocupa el resto del ancho y tiene scroll independiente */}
-      <main className="flex-1 flex flex-col h-full md:overflow-y-auto relative scrollbar-hide bg-[#0a0a0a]">
+      {/* --- MAIN CONTENT (DERECHA/ABAJO) --- */}
+      <main
+        id="projects-section"
+        className="flex-1 flex flex-col h-auto md:h-full md:overflow-y-auto relative scrollbar-hide bg-[#0a0a0a]"
+      >
         <div className="pt-12 px-8 md:px-12 pb-8 border-b border-white/10 flex justify-between items-end bg-[#0a0a0a] sticky top-0 z-30">
           <div>
             <h1 className="font-bebas text-6xl md:text-8xl tracking-tight leading-none text-white">
@@ -137,16 +144,12 @@ const BlueprintView = ({ setMode }) => {
             </span>
           </div>
           <div className="hidden md:block font-code text-[10px] text-[#ff4425]/50 text-right leading-tight">
-            STATUS: ONLINE
-            <br />
-            PORT: 3000
-            <br />
-            ENV: PROD
+            STATUS: ONLINE <br /> PORT: 3000 <br /> ENV: PROD
           </div>
         </div>
 
         <div className="w-full pb-32">
-          {/* Header de la tabla oculto en móvil para ahorrar espacio */}
+          {/* HEADER TABLA (SOLO DESKTOP) */}
           <div className="hidden md:grid grid-cols-12 border-b border-white/10 bg-[#0f0f0f] text-gray-500 sticky top-[180px] z-20">
             <div className="col-span-1 p-3 border-r border-white/10 font-bold font-archivo text-[9px] uppercase text-center">
               ID
@@ -159,6 +162,7 @@ const BlueprintView = ({ setMode }) => {
             </div>
           </div>
 
+          {/* --- LISTA DE PROYECTOS --- */}
           {ENGINEER_DATA.map((item, index) => {
             const isExpanded = expandedId === item.id;
 
@@ -167,10 +171,12 @@ const BlueprintView = ({ setMode }) => {
                 key={index}
                 className="group border-b border-white/10 bg-[#0a0a0a] transition-all duration-300"
               >
+                {/* ROW PRINCIPAL */}
                 <div
                   onClick={() => toggleExpand(item.id)}
                   className={`grid grid-cols-1 md:grid-cols-12 cursor-pointer transition-colors duration-300 ${isExpanded ? "bg-[#ff4425]/10" : "hover:bg-white/5"}`}
                 >
+                  {/* ID */}
                   <div className="col-span-1 border-r border-white/10 p-6 md:p-4 flex items-center justify-center font-code text-gray-500 text-xs font-bold">
                     {isExpanded ? (
                       <span className="text-[#ff4425]">▼</span>
@@ -179,6 +185,7 @@ const BlueprintView = ({ setMode }) => {
                     )}
                   </div>
 
+                  {/* INFO PRINCIPAL */}
                   <div className="col-span-1 md:col-span-9 border-r border-white/10 p-6 md:p-4 flex flex-col justify-center">
                     <div className="flex flex-col md:flex-row md:items-baseline md:gap-4 mb-2">
                       <h2
@@ -186,7 +193,7 @@ const BlueprintView = ({ setMode }) => {
                       >
                         {item.title}
                       </h2>
-                      <span className="font-archivo text-[9px] bg-white/10 px-2 py-0.5 rounded-sm text-gray-400 border border-white/5 uppercase tracking-wide">
+                      <span className="font-archivo text-[9px] bg-white/10 px-2 py-0.5 rounded-sm text-gray-400 border border-white/5 uppercase tracking-wide w-fit">
                         {item.client}
                       </span>
                     </div>
@@ -195,13 +202,15 @@ const BlueprintView = ({ setMode }) => {
                     </p>
                   </div>
 
-                  <div className="col-span-1 md:col-span-2 p-4 flex items-center justify-center border-t md:border-t-0 border-white/10">
+                  {/* AÑO (Visible en móvil y desktop) */}
+                  <div className="col-span-1 md:col-span-2 p-4 flex items-center justify-center border-t md:border-t-0 border-white/10 bg-white/5 md:bg-transparent">
                     <span className="font-code text-xs text-gray-600 group-hover:text-white transition-colors">
                       {item.year}
                     </span>
                   </div>
                 </div>
 
+                {/* --- DETALLE EXPANDIBLE (AQUÍ ESTABAN LOS BOTONES PERDIDOS) --- */}
                 <AnimatePresence>
                   {isExpanded && (
                     <motion.div
@@ -211,10 +220,12 @@ const BlueprintView = ({ setMode }) => {
                       className="overflow-hidden bg-[#050505]"
                     >
                       <div className="grid grid-cols-1 md:grid-cols-12 border-t border-red-900/30">
+                        {/* Espaciador Desktop */}
                         <div className="hidden md:block col-span-1 border-r border-white/5 bg-black/50"></div>
 
                         <div className="col-span-11 p-6 md:p-8">
                           <div className="flex flex-col xl:flex-row gap-8">
+                            {/* COLUMNA CÓDIGO */}
                             <div className="w-full xl:w-2/3">
                               <div className="flex items-center justify-between mb-0 bg-[#111] px-4 py-2 border border-white/10 border-b-0 rounded-t-sm">
                                 <span className="font-archivo text-[9px] text-[#ff4425] font-bold uppercase tracking-wider">
@@ -233,6 +244,7 @@ const BlueprintView = ({ setMode }) => {
                               </div>
                             </div>
 
+                            {/* COLUMNA INFO + BOTONES */}
                             <div className="w-full xl:w-1/3 flex flex-col justify-between gap-6">
                               <div>
                                 <span className="font-archivo text-[9px] text-gray-600 font-bold uppercase block mb-3 tracking-widest">
@@ -251,12 +263,13 @@ const BlueprintView = ({ setMode }) => {
                               </div>
 
                               <div className="flex flex-col gap-3">
+                                {/* BOTÓN LIVE DEMO (Solo si existe) */}
                                 {item.liveLink !== "#" && (
                                   <a
                                     href={item.liveLink}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex items-center justify-center gap-2 w-full py-4 bg-white text-black font-archivo font-bold text-xs uppercase tracking-widest hover:bg-[#ff4425] hover:text-white transition-all"
+                                    className="flex items-center justify-center gap-2 w-full py-4 bg-white text-black font-archivo font-bold text-xs uppercase tracking-widest hover:bg-[#ff4425] hover:text-white transition-all shadow-lg"
                                   >
                                     <span>Live Demo</span>
                                     <span className="font-code text-[10px]">
@@ -265,6 +278,7 @@ const BlueprintView = ({ setMode }) => {
                                   </a>
                                 )}
 
+                                {/* BOTÓN GITHUB REPO */}
                                 <a
                                   href={item.repoLink}
                                   target="_blank"
@@ -287,12 +301,6 @@ const BlueprintView = ({ setMode }) => {
               </div>
             );
           })}
-
-          <div className="w-full p-8 md:p-12 mt-12 opacity-[0.03] pointer-events-none text-right">
-            <h3 className="font-bebas text-[15vw] leading-none select-none text-white">
-              ENG.
-            </h3>
-          </div>
         </div>
       </main>
     </motion.div>
