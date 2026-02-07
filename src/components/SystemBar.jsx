@@ -1,7 +1,7 @@
 import React from "react";
 
 const SystemBar = ({ currentMode, setMode }) => {
-  // 1. CONFIGURACIÓN DE COLORES POR MODO (Actualizado con tu paleta)
+  // 1. CONFIGURACIÓN DE COLORES POR MODO
   const THEME_CONFIG = {
     terminal: {
       border: "border-white/10",

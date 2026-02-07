@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import mapBg from "../assets/images/map_with_factions_01.webp";
-// YA NO IMPORTAMOS background_04.webp
+// YA NO IMPORTA background_04.webp
 
 // --- FONDOS DINÁMICOS (Solo aparecen en Hover) ---
 

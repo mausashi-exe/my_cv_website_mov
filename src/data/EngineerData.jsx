@@ -47,7 +47,7 @@ const variants = {
     id: "APP_02",
     title: "AROUND_US_GALLERY",
     client: "Interactive Web App",
-    year: "2024",
+    year: "2025",
     description:
       "Aplicación web dinámica construida con JavaScript Puro (Vanilla JS) bajo el paradigma de Programación Orientada a Objetos (OOP). Implementa clases ES6 para la generación modular de tarjetas y validación de formularios. Cuenta con un sistema personalizado de gestión de eventos para modales, likes y eliminación de nodos DOM en tiempo real.",
     tech: ["JavaScript (ES6+)", "OOP", "CSS3 BEM", "Webpack"],
@@ -81,7 +81,7 @@ export default class Card {
     description:
       "Interfaz comercial moderna diseñada con enfoque Mobile-First. Utiliza CSS Grid y Flexbox para layouts complejos y adaptativos. Estructurada bajo la metodología BEM para escalabilidad y mantenibilidad de estilos. Incluye integración multimedia, formularios de reserva y animaciones CSS para micro-interacciones de usuario.",
     tech: ["HTML5 Semantic", "CSS Grid", "Flexbox", "BEM"],
-    liveLink: "https://github.com/mausashi-exe/web_project_coffeeshop", // Actualiza si tienes GH Pages
+    liveLink: "https://github.com/mausashi-exe/web_project_coffeeshop",
     repoLink: "https://github.com/mausashi-exe/web_project_coffeeshop",
     codeSnippet: `
 /* BEM Structure & Animation */
@@ -103,11 +103,11 @@ export default class Card {
     id: "WEB_04",
     title: "HOMELAND_CORE",
     client: "Responsive Layout",
-    year: "2024",
+    year: "2025",
     description:
       "Landing page adaptativa enfocada en la semántica HTML5 y la precisión del layout en múltiples breakpoints (320px, 768px, 1280px). Implementa una arquitectura de archivos modular (File Structure by Blocks) para separar componentes lógicos y estilos, optimizando la carga y el mantenimiento del código.",
     tech: ["Responsive Design", "Media Queries", "HTML5", "CSS3"],
-    liveLink: "https://github.com/mausashi-exe/web_project_homeland", // Actualiza si tienes GH Pages
+    liveLink: "https://github.com/mausashi-exe/web_project_homeland",
     repoLink: "https://github.com/mausashi-exe/web_project_homeland",
     codeSnippet: `
 @media screen and (max-width: 768px) {
@@ -127,7 +127,7 @@ export default class Card {
     id: "API_05",
     title: "LIB_SYSTEM_API",
     client: "Backend Architecture",
-    year: "2024",
+    year: "2025",
     description:
       "API RESTful escalable diseñada para la gestión de inventario y usuarios. Implementada con Node.js y Express, conectada a una base de datos NoSQL (MongoDB). Incluye rutas protegidas, manejo de errores centralizado y controladores modulares para operaciones CRUD completas.",
     tech: ["Node.js", "Express", "MongoDB", "Mongoose"],

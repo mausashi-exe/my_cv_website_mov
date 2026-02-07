@@ -1,4 +1,4 @@
-// --- IMPORTS DE IMÁGENES (Basado en tu lista 'dir') ---
+// --- IMPORTS DE IMÁGENES  ---
 
 // 1. NOMOS DRAWINGS
 import drawNomos1 from "../assets/images/drawing_nomos_01.webp";
@@ -58,7 +58,7 @@ export const META_PROJECTS = [
     cover: brutalist1,
     description:
       "Exploración tipográfica y de composición. Una colección de pósters que desafían las retículas tradicionales, mezclando texturas analógicas con diseño suizo y estética brutalista.",
-    // Mezcla de tus 'poster_xx' y 'brutalist_poster_xx'
+    // 'poster_xx' y 'brutalist_poster_xx'
     gallery: [
       brutalist1,
       poster1,

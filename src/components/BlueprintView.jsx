@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import profilePic from "../assets/images/main_icon.webp";
 import { ENGINEER_DATA, SKILLS, TOOLS } from "../data/EngineerData.jsx";
+import CommLink from "./CommLink";
 
 const SkillBar = ({ label, level }) => (
   <div className="mb-4">
@@ -23,8 +24,8 @@ const SkillBar = ({ label, level }) => (
 
 const BlueprintView = ({ setMode }) => {
   const [expandedId, setExpandedId] = useState(null);
-  const accent = "text-[#ff4425]"; // ROJO
-  const bgAccent = "bg-[#ff4425]"; // ROJO
+  const accent = "text-[#ff4425]";
+  const bgAccent = "bg-[#ff4425]";
 
   const toggleExpand = (id) => {
     setExpandedId(expandedId === id ? null : id);
@@ -35,11 +36,21 @@ const BlueprintView = ({ setMode }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="flex flex-col md:flex-row min-h-screen w-full bg-[#050505] text-[#e0e0e0] selection:bg-[#ff4425] selection:text-white"
+      // FIX 1: Usar h-full en lugar de min-h-screen para evitar sumar altura extra al layout
+      className="flex flex-col md:flex-row h-full w-full bg-[#050505] text-[#e0e0e0] selection:bg-[#ff4425] selection:text-white overflow-hidden"
     >
       {/* SIDEBAR */}
-      <aside className="w-full md:w-1/3 lg:w-[400px] border-b-2 md:border-b-0 md:border-r border-white/10 flex flex-col overflow-y-auto scrollbar-hide h-screen bg-[#080808] relative z-20">
-        <div className="pt-28 px-8 pb-24 flex flex-col h-full">
+      <aside
+        className="
+        w-full md:w-1/3 lg:w-[400px] 
+        border-b-2 md:border-b-0 md:border-r border-white/10 
+        flex flex-col 
+        h-full /* FIX 2: Altura completa del padre, no de la pantalla */
+        bg-[#080808] relative z-20 shadow-2xl
+      "
+      >
+        {/* overflow-y-auto aquí para que el scroll sea interno */}
+        <div className="flex-1 overflow-y-auto scrollbar-hide pt-12 px-8 pb-24">
           <div className="mb-10 bg-[#0a0a0a] p-1 border border-white/10 shadow-2xl group">
             <div className="w-full aspect-square mb-4 overflow-hidden border border-white/5 relative">
               <img
@@ -75,7 +86,6 @@ const BlueprintView = ({ setMode }) => {
               experiencias de usuario fluidas.
             </p>
 
-            {/* --- BOTÓN A TU PERFIL DE GITHUB --- */}
             <a
               href="https://github.com/mausashi-exe?tab=repositories"
               target="_blank"
@@ -99,30 +109,24 @@ const BlueprintView = ({ setMode }) => {
               ))}
             </div>
 
-            <div>
-              <h3
-                className={`font-archivo text-xs font-bold uppercase mb-3 border-b border-white/10 pb-2 text-white`}
-              >
-                Tools & DevOps
+            <div className="mt-8 pt-6 border-t border-white/10">
+              <h3 className="font-archivo text-xs font-bold uppercase mb-2 text-white flex justify-between">
+                <span>Live_System_Link</span>
+                <span className="text-[#ff4425] animate-pulse">● REC</span>
               </h3>
-              <div className="flex flex-wrap gap-2 font-code text-[10px] font-bold">
-                {TOOLS.map((tool) => (
-                  <span
-                    key={tool}
-                    className="border border-white/10 px-2 py-1 bg-white/5 text-gray-400 hover:border-[#ff4425] hover:text-white transition-colors cursor-default"
-                  >
-                    {tool}
-                  </span>
-                ))}
-              </div>
+              <p className="font-code text-[9px] text-gray-500 mb-2">
+                Conexión directa vía WebSockets (Dockerizado).
+              </p>
+              <CommLink />
             </div>
           </div>
         </div>
       </aside>
 
       {/* MAIN LOG */}
-      <main className="flex-1 flex flex-col h-screen overflow-y-auto relative scrollbar-hide bg-[#0a0a0a]">
-        <div className="pt-28 px-8 md:px-12 pb-8 border-b border-white/10 flex justify-between items-end bg-[#0a0a0a] sticky top-0 z-30">
+      {/* FIX 3: h-full */}
+      <main className="flex-1 flex flex-col h-full overflow-y-auto relative scrollbar-hide bg-[#0a0a0a]">
+        <div className="pt-12 px-8 md:px-12 pb-8 border-b border-white/10 flex justify-between items-end bg-[#0a0a0a] sticky top-0 z-30">
           <div>
             <h1 className="font-bebas text-6xl md:text-8xl tracking-tight leading-none text-white">
               ENGINEER<span className={accent}>_</span>LOG
@@ -141,7 +145,6 @@ const BlueprintView = ({ setMode }) => {
         </div>
 
         <div className="w-full pb-32">
-          {/* Header de la Tabla */}
           <div className="hidden md:grid grid-cols-12 border-b border-white/10 bg-[#0f0f0f] text-gray-500 sticky top-[180px] z-20">
             <div className="col-span-1 p-3 border-r border-white/10 font-bold font-archivo text-[9px] uppercase text-center">
               ID
@@ -162,7 +165,6 @@ const BlueprintView = ({ setMode }) => {
                 key={index}
                 className="group border-b border-white/10 bg-[#0a0a0a] transition-all duration-300"
               >
-                {/* ROW PRINCIPAL */}
                 <div
                   onClick={() => toggleExpand(item.id)}
                   className={`grid grid-cols-1 md:grid-cols-12 cursor-pointer transition-colors duration-300 ${isExpanded ? "bg-[#ff4425]/10" : "hover:bg-white/5"}`}
@@ -198,7 +200,6 @@ const BlueprintView = ({ setMode }) => {
                   </div>
                 </div>
 
-                {/* EXPANDED */}
                 <AnimatePresence>
                   {isExpanded && (
                     <motion.div
@@ -262,7 +263,6 @@ const BlueprintView = ({ setMode }) => {
                                   </a>
                                 )}
 
-                                {/* BOTÓN AL REPO ESPECÍFICO */}
                                 <a
                                   href={item.repoLink}
                                   target="_blank"

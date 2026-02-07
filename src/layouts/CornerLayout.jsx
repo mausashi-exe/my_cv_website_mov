@@ -66,7 +66,7 @@ const CornerLayout = ({ children, currentMode, setMode }) => {
             [CV v.2.0.4]
           </span>
 
-          {/* BOTÓN BACK (Solo si no es terminal) */}
+          {/* BOTÓN BACK  */}
           {!isTerminal && (
             <button
               onClick={() => setMode("terminal")}
