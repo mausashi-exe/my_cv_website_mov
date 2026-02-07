@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import profilePic from "../assets/images/main_icon.webp";
-import { ENGINEER_DATA, SKILLS } from "../data/engineerData";
+import { ENGINEER_DATA, SKILLS } from "../data/EngineerData.jsx";
 import CommLink from "./CommLink";
 
 const SkillBar = ({ label, level }) => (
