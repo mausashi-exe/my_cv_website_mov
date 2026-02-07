@@ -33,17 +33,22 @@ const CornerLayout = ({ children, currentMode, setMode }) => {
   const activeStyle = themeStyles[currentMode] || themeStyles.terminal;
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-void font-sans selection:bg-bone selection:text-void">
+    // CAMBIO: h-[100dvh] evita que la barra del navegador tape contenido en móvil
+    <div className="relative w-full h-[100dvh] overflow-hidden bg-void font-sans selection:bg-bone selection:text-void">
       {/* 1. RUIDO GLOBAL */}
       <div className="pointer-events-none fixed inset-0 z-[60] opacity-[0.04] mix-blend-overlay bg-noise"></div>
 
       {/* 2. TOP BAR (HEADER FIJO) */}
       <header
-        className={`fixed top-0 left-0 w-full h-14 z-50 flex items-center justify-between px-6 bg-[#050505]/80 backdrop-blur-md border-b transition-colors duration-500 ${activeStyle.border}`}
+        className={`fixed top-0 left-0 w-full h-14 z-[80] flex items-center justify-between px-4 md:px-6 bg-[#050505]/90 backdrop-blur-md border-b transition-colors duration-500 ${activeStyle.border}`}
       >
         {/* IZQUIERDA: IDENTIDAD */}
         <div className="flex items-center gap-3">
-          <img src={logoIcon} alt="" className="w-3 h-3 invert opacity-80" />
+          <img
+            src={logoIcon}
+            alt=""
+            className="w-4 h-4 md:w-3 md:h-3 invert opacity-80"
+          />
           <div className="flex flex-col">
             <span className="font-display font-bold text-xs tracking-widest text-bone leading-none">
               M.OLVERA
@@ -66,15 +71,15 @@ const CornerLayout = ({ children, currentMode, setMode }) => {
             [CV v.2.0.4]
           </span>
 
-          {/* BOTÓN BACK  */}
+          {/* BOTÓN BACK MEJORADO PARA TOUCH */}
           {!isTerminal && (
             <button
               onClick={() => setMode("terminal")}
-              className={`group flex items-center gap-2 px-3 py-1.5 border border-white/10 bg-white/5 hover:bg-white/10 rounded-sm transition-all duration-300 ${activeStyle.hoverBorder}`}
+              className={`group flex items-center gap-2 px-4 py-2 md:px-3 md:py-1.5 border border-white/10 bg-white/5 hover:bg-white/10 rounded-sm transition-all duration-300 ${activeStyle.hoverBorder}`}
               title="Return to Index"
             >
               <span
-                className={`font-mono text-[9px] text-bone/60 group-hover:text-bone uppercase tracking-widest`}
+                className={`font-mono text-[10px] md:text-[9px] text-bone/60 group-hover:text-bone uppercase tracking-widest`}
               >
                 EXIT
               </span>

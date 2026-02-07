@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { LORE_CHAPTERS } from "../data/loreData";
 import mapImage from "../assets/images/map_with_factions_01.webp";
 import coinBtn from "../assets/images/map_landing_button_01.webp";
-import { LORE_CHAPTERS } from "../data/loreData";
+
+// --- COMPONENTES AUXILIARES ---
 
 const NoiseOverlay = () => (
-  <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.04] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
-);
-
-const BiomechDivider = () => (
-  <div className="w-full h-px bg-gradient-to-r from-transparent via-[#d4af37]/40 to-transparent my-8 relative opacity-60">
-    <div className="absolute left-1/2 -translate-x-1/2 -top-1 w-2 h-2 rotate-45 border border-[#d4af37] bg-[#050505]"></div>
-  </div>
+  <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.03] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
 );
 
 const ArtifactButton = ({ onClick, text = "Enter", scale = 1 }) => {
@@ -35,7 +31,8 @@ const ArtifactButton = ({ onClick, text = "Enter", scale = 1 }) => {
       />
       <div className="absolute inset-0 flex items-center justify-center pt-2 z-10 pointer-events-none">
         <span
-          className="font-cook text-3xl md:text-5xl tracking-normal 
+          // CORRECCIÓN 1: Tamaño de texto reducido para evitar desborde
+          className="font-cook text-2xl md:text-4xl tracking-normal 
                      text-[#ffb700] 
                      drop-shadow-[0_0_10px_rgba(255,100,0,0.8)]
                      group-hover:text-[#fffebb] 
@@ -49,13 +46,44 @@ const ArtifactButton = ({ onClick, text = "Enter", scale = 1 }) => {
   );
 };
 
+const WIPModule = () => (
+  <motion.div
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.5, duration: 0.8 }}
+    className="absolute bottom-12 md:bottom-24 z-50 flex flex-col items-center"
+  >
+    {/* CORRECCIÓN 2: Cambio de colores a Amarillo (#ffb700) */}
+    <div className="bg-[#0a0a0a]/90 border border-[#ffb700]/30 backdrop-blur-md px-6 py-3 rounded-sm flex items-center gap-4 shadow-[0_0_20px_rgba(255,183,0,0.1)]">
+      <div className="w-2 h-2 bg-[#ffb700] animate-pulse rounded-full"></div>
+      <div className="flex flex-col text-left">
+        <span className="font-code text-[10px] text-[#ffb700] uppercase tracking-widest font-bold">
+          Codex_Status: Work In Progress
+        </span>
+        <span className="font-code text-[9px] text-gray-500">
+          Compiling Archives... V.0.9.2 [BETA]
+        </span>
+      </div>
+    </div>
+  </motion.div>
+);
+
+// --- COMPONENTE PRINCIPAL ---
+
 const LoreBookView = ({ setMode }) => {
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
   const [activeChapter, setActiveChapter] = useState(LORE_CHAPTERS[0]);
-  const [isMetaOpen, setIsMetaOpen] = useState(false);
+  const [isRightPanelOpen, setIsRightPanelOpen] = useState(false); // Desktop: Push, Mobile: Overlay
   const [isMobileIndexOpen, setIsMobileIndexOpen] = useState(false);
 
-  // SWIPE LOGIC
+  // Agrupar capítulos por categoría
+  const groupedChapters = LORE_CHAPTERS.reduce((acc, chapter) => {
+    if (!acc[chapter.category]) acc[chapter.category] = [];
+    acc[chapter.category].push(chapter);
+    return acc;
+  }, {});
+
+  // Swipe Logic
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
   const minSwipeDistance = 50;
@@ -64,9 +92,7 @@ const LoreBookView = ({ setMode }) => {
     setTouchEnd(null);
     setTouchStart(e.targetTouches[0].clientX);
   };
-
   const onTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX);
-
   const onTouchEnd = () => {
     if (!touchStart || !touchEnd) return;
     const distance = touchStart - touchEnd;
@@ -75,17 +101,21 @@ const LoreBookView = ({ setMode }) => {
 
     if (isRightSwipe) {
       setIsMobileIndexOpen(true);
-      setIsMetaOpen(false);
+      setIsRightPanelOpen(false);
     }
     if (isLeftSwipe) {
       if (isMobileIndexOpen) setIsMobileIndexOpen(false);
-      else setIsMetaOpen(true);
+      else setIsRightPanelOpen(true);
     }
   };
 
+  // Reset panel state on chapter change
   useEffect(() => {
-    setIsMetaOpen(false);
+    setIsRightPanelOpen(false);
     setIsMobileIndexOpen(false);
+    // Scroll top center content
+    const centerPanel = document.getElementById("lore-center-panel");
+    if (centerPanel) centerPanel.scrollTo(0, 0);
   }, [activeChapter]);
 
   return (
@@ -94,36 +124,35 @@ const LoreBookView = ({ setMode }) => {
 
       <AnimatePresence mode="wait">
         {!isArchiveOpen ? (
+          // === LANDING PAGE ===
           <motion.div
             key="landing"
             className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center overflow-hidden"
             exit={{
               opacity: 0,
-              scale: 1.2,
-              filter: "blur(15px)",
-              transition: { duration: 1 },
+              scale: 1.1,
+              filter: "blur(10px)",
+              transition: { duration: 0.8 },
             }}
           >
+            {/* Background Map */}
             <div className="absolute inset-0 z-0">
               <motion.img
                 src={mapImage}
-                className="w-full h-full object-cover grayscale brightness-[0.4] contrast-[1.1]"
+                className="w-full h-full object-cover grayscale brightness-[0.3] contrast-[1.2]"
                 animate={{ scale: [1, 1.05, 1], opacity: [0.3, 0.4, 0.3] }}
-                transition={{
-                  duration: 12,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/60 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent"></div>
             </div>
 
-            <div className="relative z-30 flex flex-col items-center justify-center p-8 max-w-6xl w-full h-full">
+            {/* Content */}
+            <div className="relative z-30 flex flex-col items-center justify-center p-8">
               <div className="mb-10 relative z-50">
                 <ArtifactButton
                   onClick={() => setIsArchiveOpen(true)}
                   text="Enter"
-                  scale={1.3}
+                  scale={1.2}
                 />
               </div>
               <motion.div
@@ -133,40 +162,70 @@ const LoreBookView = ({ setMode }) => {
                 className="space-y-4"
               >
                 <span className="font-code text-[10px] text-[#d4af37] tracking-[0.6em] uppercase block animate-pulse-subtle">
-                  /// ARCHIVAL_PROTOCOL_INIT
+                  /// ARCHIVAL_CODICES
                 </span>
-                <h1 className="font-cook text-6xl md:text-[8vw] text-[#e0e0e0] leading-[0.9] tracking-normal drop-shadow-2xl mix-blend-screen opacity-90">
-                  Chronicles of
-                  <br />
-                  <span className="text-[#d4af37]/90">The Nomos</span>
+                <h1 className="font-cook text-6xl md:text-[7vw] text-[#e0e0e0] leading-[0.9] tracking-normal drop-shadow-2xl opacity-90">
+                  Chronicles of <br />
+                  <span className="text-[#d4af37]">The Nomos</span>
                 </h1>
               </motion.div>
             </div>
+            <WIPModule />
           </motion.div>
         ) : (
+          // === WIKI VIEW (3 COLUMNS) ===
           <motion.div
             key="archive"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
+            transition={{ duration: 0.8 }}
+            className="flex w-full h-full relative z-10 pt-14"
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
-            className="flex w-full h-full relative z-10 pt-14 flex-col md:flex-row"
           >
-            {/* MOBILE MENU TOGGLE */}
-            <div className="md:hidden w-full px-6 py-4 bg-[#0a0a0a] border-b border-white/10 flex justify-between items-center shrink-0 z-30 sticky top-0">
-              <button
-                onClick={() => setIsArchiveOpen(false)}
-                className="text-gray-500 text-xs font-code uppercase"
-              >
-                ← EXIT
-              </button>
+            {/* 1. LEFT COLUMN: INDEX (Fixed Sidebar) */}
+            <nav className="hidden md:flex flex-col w-64 border-r border-white/10 bg-[#080808] z-20 shrink-0">
+              <div className="p-6 border-b border-white/5">
+                <button
+                  onClick={() => setIsArchiveOpen(false)}
+                  className="text-gray-500 hover:text-white font-code text-[10px] uppercase tracking-widest mb-4 block"
+                >
+                  ← Exit Archive
+                </button>
+                <h3 className="font-cook text-2xl text-[#d4af37]">Index</h3>
+              </div>
+              <div className="flex-1 overflow-y-auto scrollbar-hide py-4">
+                {Object.entries(groupedChapters).map(([category, chapters]) => (
+                  <div key={category} className="mb-6">
+                    <h4 className="px-6 font-cinzel text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+                      {category}
+                    </h4>
+                    {chapters.map((chap) => (
+                      <button
+                        key={chap.id}
+                        onClick={() => setActiveChapter(chap)}
+                        className={`w-full text-left px-6 py-2 transition-all duration-300 font-code text-xs uppercase tracking-wide
+                                    ${activeChapter.id === chap.id ? "text-[#d4af37] bg-white/5 border-r-2 border-[#d4af37]" : "text-gray-400 hover:text-white"}`}
+                      >
+                        {chap.title}
+                      </button>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </nav>
+
+            {/* MOBILE HEADER (Index Toggle) */}
+            <div className="md:hidden absolute top-14 left-0 w-full px-6 py-3 bg-[#0a0a0a]/90 border-b border-white/10 flex justify-between items-center z-30 backdrop-blur-md">
+              <span className="font-code text-xs text-gray-500">
+                {activeChapter.category}
+              </span>
               <button
                 onClick={() => setIsMobileIndexOpen(true)}
-                className="text-[#d4af37] border border-[#d4af37]/30 px-4 py-1 rounded-sm font-cinzel font-bold text-xs bg-[#d4af37]/5"
+                className="text-[#d4af37] font-bold font-cinzel text-xs border border-[#d4af37]/30 px-3 py-1 bg-[#d4af37]/5"
               >
-                INDEX / CHAPTERS ≡
+                INDEX ≡
               </button>
             </div>
 
@@ -177,13 +236,11 @@ const LoreBookView = ({ setMode }) => {
                   initial={{ x: "-100%" }}
                   animate={{ x: 0 }}
                   exit={{ x: "-100%" }}
-                  className="fixed inset-0 z-[60] bg-[#080808]/95 backdrop-blur-xl flex flex-col w-full h-full md:hidden"
+                  className="fixed inset-0 z-[60] bg-[#080808] flex flex-col pt-16"
                   onTouchStart={(e) => e.stopPropagation()}
                 >
-                  <div className="p-6 border-b border-white/10 flex justify-between items-center bg-[#0a0a0a]">
-                    <h3 className="font-cook text-2xl text-[#d4af37]">
-                      Index Librorum
-                    </h3>
+                  <div className="p-6 border-b border-white/10 flex justify-between items-center">
+                    <h3 className="font-cook text-2xl text-[#d4af37]">Index</h3>
                     <button
                       onClick={() => setIsMobileIndexOpen(false)}
                       className="text-white text-2xl"
@@ -191,200 +248,196 @@ const LoreBookView = ({ setMode }) => {
                       ×
                     </button>
                   </div>
-                  <div className="flex-1 overflow-y-auto p-4 space-y-2">
-                    {LORE_CHAPTERS.map((chap, idx) => (
-                      <button
-                        key={chap.id}
-                        onClick={() => setActiveChapter(chap)}
-                        className={`w-full text-left px-4 py-4 border-l-2 ${activeChapter.id === chap.id ? "border-[#d4af37] bg-white/5" : "border-white/10"}`}
-                      >
-                        <span className="block font-code text-[10px] text-gray-500">
-                          FILE_0{idx + 1}
-                        </span>
-                        <span
-                          className={`font-cinzel text-lg ${activeChapter.id === chap.id ? "text-[#d4af37]" : "text-gray-300"}`}
-                        >
-                          {chap.title}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* DESKTOP SIDEBAR */}
-            <nav className="hidden md:flex flex-col w-[260px] h-full border-r border-white/5 bg-[#080808] z-20 shadow-2xl relative shrink-0">
-              <div className="p-6 border-b border-white/5 bg-[#0a0a0a]">
-                <button
-                  onClick={() => setIsArchiveOpen(false)}
-                  className="font-code text-[9px] text-gray-500 hover:text-[#d4af37] uppercase tracking-widest flex items-center gap-2 mb-4 transition-colors group"
-                >
-                  <span className="group-hover:-translate-x-1 transition-transform">
-                    ←
-                  </span>{" "}
-                  Return
-                </button>
-                <h3 className="font-cook text-3xl text-white/90 tracking-normal">
-                  Index Librorum
-                </h3>
-              </div>
-              <div className="flex-1 overflow-y-auto scrollbar-hide py-2">
-                {LORE_CHAPTERS.map((chap, idx) => {
-                  const isActive = activeChapter.id === chap.id;
-                  return (
-                    <button
-                      key={chap.id}
-                      onClick={() => setActiveChapter(chap)}
-                      className={`w-full text-left px-6 py-4 group relative border-l-2 transition-all duration-300
-                        ${isActive ? "border-[#d4af37] bg-white/[0.02]" : "border-transparent hover:border-white/10 hover:bg-white/[0.01]"}`}
-                    >
-                      <div className="flex items-baseline justify-between mb-1">
-                        <span
-                          className={`font-code text-[9px] uppercase tracking-widest ${isActive ? "text-[#d4af37]" : "text-gray-600 group-hover:text-gray-400"}`}
-                        >
-                          FILE_0{idx + 1}
-                        </span>
-                        {isActive && (
-                          <span className="w-1 h-1 rounded-full bg-[#d4af37] animate-pulse"></span>
-                        )}
-                      </div>
-                      <span
-                        className={`font-cinzel text-sm font-bold leading-tight block ${isActive ? "text-white" : "text-gray-500 group-hover:text-gray-300"}`}
-                      >
-                        {chap.title}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </nav>
-
-            {/* MAIN CONTENT */}
-            <section className="flex-1 h-full overflow-y-auto scrollbar-hide bg-[#0a0a0a] relative px-6 md:px-16 py-12">
-              <div className="fixed top-1/2 left-[50%] -translate-x-1/2 -translate-y-1/2 w-[60vh] h-[60vh] border border-[#d4af37]/5 rounded-full opacity-20 animate-spin-slow pointer-events-none"></div>
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeChapter.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.5 }}
-                  className="max-w-4xl mx-auto relative z-10"
-                >
-                  <header className="mb-8 text-center">
-                    <span className="font-code text-[9px] text-[#d4af37] uppercase tracking-[0.25em] mb-2 block">
-                      Directive: {activeChapter.visualData.tags[0]}
-                    </span>
-                    <h2 className="font-cook text-5xl md:text-8xl text-[#e0e0e0] mb-2 drop-shadow-lg leading-[0.85] tracking-normal capitalize">
-                      {activeChapter.title}
-                    </h2>
-                    <p className="font-cinzel text-lg text-gray-500 font-bold tracking-widest mt-4">
-                      "{activeChapter.subtitle}"
-                    </p>
-                  </header>
-                  <div className="mb-12 relative w-full aspect-[21/9] md:aspect-[2/1] bg-[#050505] border border-white/10 overflow-hidden group">
-                    {activeChapter.visualData.mainImage ? (
-                      <img
-                        src={activeChapter.visualData.mainImage}
-                        alt="Ref"
-                        className="w-full h-full object-cover opacity-50 grayscale transition-all duration-1000"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20">
-                        <span className="font-code text-[9px] text-gray-600">
-                          NO VISUAL FEED
-                        </span>
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent"></div>
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                      <ArtifactButton
-                        onClick={() => setIsMetaOpen(true)}
-                        text="Open"
-                        scale={0.6}
-                      />
-                    </div>
-                  </div>
-                  <BiomechDivider />
-                  <article className="font-cormorant text-2xl text-gray-300 leading-loose text-justify space-y-10 px-2 md:px-8 font-medium">
-                    {activeChapter.fullContent}
-                  </article>
-                  <div className="h-32"></div>
-                </motion.div>
-              </AnimatePresence>
-            </section>
-
-            {/* RIGHT PANEL (META) */}
-            <AnimatePresence>
-              {isMetaOpen && (
-                <>
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    onClick={() => setIsMetaOpen(false)}
-                    className="fixed inset-0 bg-black/60 backdrop-blur-sm z-30"
-                  />
-                  <motion.aside
-                    initial={{ x: "100%" }}
-                    animate={{ x: 0 }}
-                    exit={{ x: "100%" }}
-                    className="fixed top-0 right-0 h-full w-full md:w-[450px] bg-[#0c0c0c] border-l border-[#d4af37]/30 z-40 shadow-[-20px_0_50px_rgba(0,0,0,0.8)] overflow-y-auto"
-                    onTouchStart={(e) => e.stopPropagation()}
-                  >
-                    <div className="sticky top-0 bg-[#0c0c0c]/90 backdrop-blur border-b border-white/10 p-6 flex justify-between items-center z-10">
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-[#d4af37] animate-pulse"></div>
-                        <h3 className="font-code text-xs font-bold text-[#d4af37] uppercase tracking-widest">
-                          System_Analysis
-                        </h3>
-                      </div>
-                      <button
-                        onClick={() => setIsMetaOpen(false)}
-                        className="text-gray-500 hover:text-white font-code text-xs uppercase"
-                      >
-                        [ Close X ]
-                      </button>
-                    </div>
-                    <div className="p-8 space-y-10">
-                      <div>
-                        <span className="block font-code text-[9px] text-gray-600 uppercase mb-2">
-                          Threat Assessment
-                        </span>
-                        <div className="bg-[#111] p-4 border border-white/5">
-                          <div className="flex justify-between items-end mb-2">
-                            <span
-                              className={`font-bebas text-3xl tracking-widest ${activeChapter.visualData.threatLevel === "Severe" || activeChapter.visualData.threatLevel === "Critical" ? "text-red-500" : "text-blue-400"}`}
-                            >
-                              {activeChapter.visualData.threatLevel}
-                            </span>
-                            <span className="font-code text-[9px] text-gray-500">
-                              LEVEL
-                            </span>
-                          </div>
-                          <div className="w-full h-1 bg-gray-800 rounded-full overflow-hidden">
-                            <motion.div
-                              initial={{ width: 0 }}
-                              animate={{ width: "70%" }}
-                              className="h-full bg-[#d4af37]"
-                            />
+                  <div className="flex-1 overflow-y-auto p-6">
+                    {Object.entries(groupedChapters).map(
+                      ([category, chapters]) => (
+                        <div key={category} className="mb-8">
+                          <h4 className="font-cinzel text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 border-b border-white/10 pb-1">
+                            {category}
+                          </h4>
+                          <div className="space-y-3">
+                            {chapters.map((chap) => (
+                              <button
+                                key={chap.id}
+                                onClick={() => setActiveChapter(chap)}
+                                className={`w-full text-left block font-code text-sm uppercase tracking-wide py-1
+                                          ${activeChapter.id === chap.id ? "text-[#d4af37]" : "text-gray-300"}`}
+                              >
+                                {chap.title}
+                              </button>
+                            ))}
                           </div>
                         </div>
-                      </div>
-                      <div className="relative pt-4 border-t border-dashed border-white/10">
-                        <h4 className="font-code text-[9px] font-bold text-[#d4af37] uppercase tracking-widest mb-3">
-                          /// Creator_Log.txt
-                        </h4>
-                        <p className="font-code text-[10px] text-gray-400 leading-relaxed italic border-l-2 border-[#d4af37]/20 pl-4">
-                          {activeChapter.visualData.processLog}
-                        </p>
-                      </div>
-                    </div>
-                  </motion.aside>
-                </>
+                      ),
+                    )}
+                  </div>
+                </motion.div>
               )}
             </AnimatePresence>
+
+            {/* 2. CENTER COLUMN: CODEX (Reading Area) */}
+            {/* Usam flex-1 para que ocupe todo el espacio. Cuando el panel derecho se abra en desktop, este espacio se reducirá automáticamente. */}
+            <main
+              id="lore-center-panel"
+              className="flex-1 overflow-y-auto scrollbar-hide bg-[#0a0a0a] relative px-6 md:px-16 lg:px-24 py-12 md:py-16 mt-8 md:mt-0 transition-all duration-500"
+            >
+              {/* Spinner decorativo de fondo */}
+              <div className="fixed top-1/2 left-[50%] -translate-x-1/2 -translate-y-1/2 w-[60vh] h-[60vh] border border-[#d4af37]/5 rounded-full opacity-20 animate-spin-slow pointer-events-none"></div>
+
+              <motion.div
+                key={activeChapter.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="max-w-3xl mx-auto relative z-10 pb-32"
+              >
+                {/* Header del Capítulo */}
+                <header className="mb-12 border-b border-white/10 pb-8">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <span className="font-code text-[10px] text-[#d4af37] uppercase tracking-[0.25em] mb-2 block">
+                        Ref: {activeChapter.id}
+                      </span>
+                      <h2 className="font-cook text-5xl md:text-7xl text-[#e0e0e0] leading-[0.85] tracking-normal capitalize mb-4">
+                        {activeChapter.title}
+                      </h2>
+                      <p className="font-cinzel text-lg text-gray-500 font-bold tracking-widest">
+                        "{activeChapter.subtitle}"
+                      </p>
+                    </div>
+                    {/* Botón Desktop para abrir panel derecho */}
+                    <button
+                      onClick={() => setIsRightPanelOpen(!isRightPanelOpen)}
+                      className="hidden md:flex items-center gap-2 text-[#d4af37] border border-[#d4af37]/30 px-3 py-1.5 hover:bg-[#d4af37]/10 transition-colors"
+                    >
+                      <span className="font-code text-[10px] font-bold uppercase">
+                        {isRightPanelOpen ? "Close Data" : "View Data"}
+                      </span>
+                      <span className="text-xs">
+                        {isRightPanelOpen ? "→" : "←"}
+                      </span>
+                    </button>
+                  </div>
+                </header>
+
+                {/* Contenido Texto */}
+                <article>{activeChapter.fullContent}</article>
+
+                {/* Botón Mobile para abrir panel ("Ver Más") al final o flotante */}
+                <div className="md:hidden mt-12 pt-8 border-t border-white/10 flex justify-center">
+                  <button
+                    onClick={() => setIsRightPanelOpen(true)}
+                    className="bg-[#d4af37] text-black font-cinzel font-bold px-8 py-3 rounded-sm shadow-[0_0_20px_rgba(212,175,55,0.3)]"
+                  >
+                    VIEW VISUAL DATA & MAPS
+                  </button>
+                </div>
+              </motion.div>
+            </main>
+
+            {/* 3. RIGHT COLUMN: META (Push Desktop / Overlay Mobile) */}
+            {/* Desktop: Anima el ancho. Mobile: Fixed position. */}
+            <motion.aside
+              initial={false}
+              animate={{
+                width:
+                  window.innerWidth >= 768
+                    ? isRightPanelOpen
+                      ? 400
+                      : 0
+                    : "100%", // Desktop: 400px o 0. Mobile: Controlado por CSS fijo abajo.
+                x:
+                  window.innerWidth < 768 ? (isRightPanelOpen ? 0 : "100%") : 0, // Mobile: Slide in. Desktop: No X translate, solo width.
+              }}
+              className={`
+                bg-[#0c0c0c] border-l border-[#d4af37]/20 z-40 overflow-hidden flex flex-col shrink-0
+                ${window.innerWidth < 768 ? "fixed inset-0 top-14 pt-0" : "relative h-full"}
+              `}
+              style={{ display: "flex" }} // Asegurar flex layout
+            >
+              {/* Contenido interno del panel (Ancho fijo para evitar squashing durante la animación de width) */}
+              <div className="w-full md:w-[400px] h-full flex flex-col overflow-y-auto min-w-[350px]">
+                {/* Header Panel */}
+                <div className="p-6 bg-[#0e0e0e] border-b border-white/10 flex justify-between items-center sticky top-0 z-10">
+                  <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 bg-[#d4af37] rounded-full"></div>
+                    <span className="font-code text-xs font-bold text-gray-400 uppercase tracking-widest">
+                      Visual_Data_Log
+                    </span>
+                  </div>
+                  <button
+                    onClick={() => setIsRightPanelOpen(false)}
+                    className="text-white hover:text-[#d4af37] font-code text-xs"
+                  >
+                    [ CLOSE ]
+                  </button>
+                </div>
+
+                {/* Imagen Full Color (Sin efectos) */}
+                {activeChapter.visualData.image ? (
+                  <div className="w-full aspect-video md:aspect-square bg-black border-b border-white/10 relative group">
+                    <img
+                      src={activeChapter.visualData.image}
+                      alt="Ref"
+                      className="w-full h-full object-cover object-top opacity-100 transition-opacity duration-500"
+                    />
+                    {/* Pequeña viñeta solo en bordes */}
+                    <div className="absolute inset-0 shadow-[inset_0_0_50px_rgba(0,0,0,0.8)] pointer-events-none"></div>
+                  </div>
+                ) : (
+                  <div className="w-full h-48 bg-white/5 flex items-center justify-center border-b border-white/10">
+                    <span className="font-code text-[10px] text-gray-600">
+                      NO_VISUAL_FEED
+                    </span>
+                  </div>
+                )}
+
+                {/* Meta Data */}
+                <div className="p-8 space-y-8">
+                  <div>
+                    <h4 className="font-cinzel text-sm text-[#d4af37] font-bold mb-4 uppercase tracking-wider">
+                      System Analysis
+                    </h4>
+                    <div className="grid grid-cols-2 gap-4">
+                      {activeChapter.visualData.stats.map((stat, i) => (
+                        <div
+                          key={i}
+                          className="bg-[#111] p-3 border border-white/5"
+                        >
+                          <span className="block font-code text-[9px] text-gray-500 uppercase mb-1">
+                            {stat.label}
+                          </span>
+                          <span className="block font-cormorant text-lg text-gray-200 leading-none">
+                            {stat.value}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Tags */}
+                  <div>
+                    <div className="flex flex-wrap gap-2">
+                      {activeChapter.visualData.tags.map((tag, i) => (
+                        <span
+                          key={i}
+                          className="font-code text-[10px] text-[#d4af37] border border-[#d4af37]/30 px-2 py-1 rounded-sm bg-[#d4af37]/5 uppercase"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Summary Box */}
+                  <div className="border-t border-white/10 pt-6">
+                    <p className="font-cormorant text-lg text-gray-400 italic leading-relaxed">
+                      {activeChapter.visualData.summary}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </motion.aside>
           </motion.div>
         )}
       </AnimatePresence>

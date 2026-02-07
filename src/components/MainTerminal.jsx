@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import mapBg from "../assets/images/map_with_factions_01.webp";
-// YA NO IMPORTA background_04.webp
 
-// --- FONDOS DINÁMICOS (Solo aparecen en Hover) ---
+// --- FONDOS DINÁMICOS (Solo aparecen en Hover o activo en móvil) ---
 
 const EngineerBg = () => (
   <motion.div
@@ -62,6 +61,15 @@ const MetaBg = () => (
 // --- COMPONENTE PRINCIPAL ---
 const MainTerminal = ({ setMode }) => {
   const [hoveredSection, setHoveredSection] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detectar si es móvil para ajustar comportamiento (sin hover)
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const sections = [
     {
@@ -114,23 +122,22 @@ const MainTerminal = ({ setMode }) => {
     >
       {/* === NUEVO FONDO: EL VACÍO DIGITAL (CSS PURO) === */}
       <div className="absolute inset-0 z-0 bg-[#050505]">
-        {/* 1. Gradiente Radial: Simula luz de fondo sutil */}
+        {/* 1. Gradiente Radial */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#1a1a1a] via-[#050505] to-[#000000] opacity-60"></div>
 
-        {/* 2. Ruido/Grano: Para textura industrial */}
+        {/* 2. Ruido/Grano */}
         <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
 
-        {/* 3. Scanlines: Mantienen el look terminal */}
+        {/* 3. Scanlines */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] pointer-events-none opacity-20"></div>
-
-        {/* 4. Partículas sutiles (Opcional) */}
-        <div className="absolute inset-0 animate-pulse opacity-10 bg-[radial-gradient(circle_800px_at_50%_50%,#222,transparent)]"></div>
       </div>
       {/* ================================================= */}
 
       {sections.map((section, index) => {
         const isHovered = hoveredSection === section.id;
         const isDimmed = hoveredSection && !isHovered;
+        // En móvil siempre mostramos la descripción
+        const showDetails = isHovered || isMobile;
 
         return (
           <motion.div
@@ -139,25 +146,26 @@ const MainTerminal = ({ setMode }) => {
             onMouseLeave={() => setHoveredSection(null)}
             onClick={() => setMode(section.id)}
             className={`
-              relative z-20 h-full border-r border-white/5 cursor-pointer overflow-hidden group 
+              relative z-20 h-full border-b md:border-b-0 md:border-r border-white/5 cursor-pointer overflow-hidden group 
               transition-all duration-700 ease-out flex flex-col justify-end
             `}
             animate={{
-              flex: isHovered ? 3 : 1,
+              flex: isHovered && !isMobile ? 3 : 1, // En móvil no cambiamos el tamaño flex drásticamente
               filter: isDimmed ? "brightness(0.3)" : "brightness(1)",
             }}
           >
             <AnimatePresence>
-              {isHovered && section.bgComponent}
+              {(isHovered || (isMobile && section.id === "creator")) &&
+                section.bgComponent}
             </AnimatePresence>
 
             <div className="relative z-30 w-full flex flex-col justify-end h-full pb-6 md:pb-8 px-6 md:px-10 transition-all duration-500">
               <div className="mb-2 overflow-hidden h-6">
                 <motion.span
-                  className={`block font-code text-[10px] font-bold text-gray-400 ${isHovered ? section.accent : ""}`}
+                  className={`block font-code text-[10px] font-bold text-gray-400 ${showDetails ? section.accent : ""}`}
                   animate={{
-                    y: isHovered ? 0 : 20,
-                    opacity: isHovered ? 1 : 0,
+                    y: showDetails ? 0 : 20,
+                    opacity: showDetails ? 1 : 0,
                   }}
                 >
                   0{index + 1} // ACCESS
@@ -168,22 +176,22 @@ const MainTerminal = ({ setMode }) => {
                 <motion.h2
                   layout
                   className={`
-                    text-6xl md:text-8xl leading-none mb-2 origin-bottom-left transition-colors duration-300 whitespace-nowrap flex items-baseline gap-3
+                    text-5xl md:text-8xl leading-none mb-2 origin-bottom-left transition-colors duration-300 whitespace-nowrap flex items-baseline gap-3
                     ${section.fontTitle} 
                     ${isHovered ? section.accent : "text-gray-500"} 
                   `}
-                  style={{ textShadow: "0 4px 20px rgba(0,0,0,0.8)" }} // Sombra más fuerte para resaltar sobre el fondo limpio
+                  style={{ textShadow: "0 4px 20px rgba(0,0,0,0.8)" }} // Sombra más fuerte
                   animate={{
                     scale: isHovered ? 1 : 0.9,
+                    opacity: isHovered || isMobile ? 1 : 0.6,
                     x: isHovered ? 0 : 0,
-                    opacity: isHovered ? 1 : 0.6,
                   }}
                 >
                   {section.id === "meta" ? (
                     <>
                       <span className="text-white">META</span>
                       <span
-                        className={`font-maguntia text-5xl md:text-7xl ml-3 ${isHovered ? section.accent : "text-gray-600"}`}
+                        className={`font-maguntia text-4xl md:text-7xl ml-3 ${isHovered ? section.accent : "text-gray-600"}`}
                       >
                         Creator
                       </span>
@@ -195,14 +203,14 @@ const MainTerminal = ({ setMode }) => {
 
                 <motion.div
                   className={`h-1 mb-6 bg-white/10 transition-colors duration-300 ${isHovered ? section.bgAccent : ""}`}
-                  animate={{ width: isHovered ? 80 : 0 }}
+                  animate={{ width: showDetails ? 80 : 0 }}
                 ></motion.div>
 
                 <motion.div
                   className="space-y-3 overflow-hidden"
                   animate={{
-                    height: isHovered ? "auto" : 0,
-                    opacity: isHovered ? 1 : 0,
+                    height: showDetails ? "auto" : 0,
+                    opacity: showDetails ? 1 : 0,
                   }}
                 >
                   <div className="min-w-[300px] pb-4">
@@ -213,7 +221,7 @@ const MainTerminal = ({ setMode }) => {
                     </p>
 
                     <p
-                      className={`${section.fontDesc} mt-2 text-gray-400 max-w-md`}
+                      className={`${section.fontDesc} mt-2 text-gray-400 max-w-md text-xs md:text-sm`}
                     >
                       {section.desc}
                     </p>

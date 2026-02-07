@@ -75,7 +75,6 @@ const BlueprintView = ({ setMode }) => {
       </div>
 
       {/* --- SIDEBAR (PERFIL) --- */}
-      {/* En Desktop es estático, en Móvil es un Overlay animado */}
       <AnimatePresence>
         {(isMobileSidebarOpen || window.innerWidth >= 768) && (
           <motion.aside
@@ -88,7 +87,6 @@ const BlueprintView = ({ setMode }) => {
               border-r border-white/10 flex flex-col shrink-0 bg-[#080808] shadow-2xl
               ${window.innerWidth < 768 ? "h-full" : "h-full"}
             `}
-            // Evitar cerrar al hacer swipe dentro del sidebar
             onTouchStart={(e) => e.stopPropagation()}
           >
             {/* Botón cerrar solo móvil */}
@@ -170,7 +168,7 @@ const BlueprintView = ({ setMode }) => {
         )}
       </AnimatePresence>
 
-      {/* Overlay Oscuro para móvil cuando el sidebar está abierto */}
+      {/* Overlay Oscuro para móvil */}
       <AnimatePresence>
         {isMobileSidebarOpen && (
           <motion.div
@@ -259,7 +257,7 @@ const BlueprintView = ({ setMode }) => {
                   </div>
                 </div>
 
-                {/* EXPANDED CONTENT (BOTONES RECUPERADOS) */}
+                {/* EXPANDED CONTENT */}
                 <AnimatePresence>
                   {isExpanded && (
                     <motion.div
@@ -283,7 +281,8 @@ const BlueprintView = ({ setMode }) => {
                                   <div className="w-2 h-2 rounded-full bg-green-500/50"></div>
                                 </div>
                               </div>
-                              <div className="bg-[#0c0c0c] p-4 rounded-b-sm border border-white/10 font-code text-[10px] md:text-xs text-gray-400 overflow-x-auto shadow-inner">
+                              {/* FIX: max-w-[85vw] para evitar scroll horizontal en móvil */}
+                              <div className="bg-[#0c0c0c] p-4 rounded-b-sm border border-white/10 font-code text-[10px] md:text-xs text-gray-400 overflow-x-auto shadow-inner max-w-[85vw] md:max-w-none">
                                 <pre>
                                   <code>{item.codeSnippet}</code>
                                 </pre>

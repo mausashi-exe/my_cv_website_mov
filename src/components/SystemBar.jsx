@@ -36,8 +36,8 @@ const SystemBar = ({ currentMode, setMode }) => {
   const activeTheme = THEME_CONFIG[currentMode] || THEME_CONFIG.terminal;
 
   const navItems = [
-    { id: "engineer", label: "ENGINEER" },
-    { id: "creator", label: "CREATOR" },
+    { id: "engineer", label: "ENG" }, // Etiqueta corta para móvil
+    { id: "creator", label: "LORE" },
     { id: "meta", label: "META" },
   ];
 
@@ -45,14 +45,15 @@ const SystemBar = ({ currentMode, setMode }) => {
     // 2. CONTENEDOR PRINCIPAL
     <div
       className={`
-        fixed bottom-0 left-0 w-full h-12 z-[70]
-        bg-[#050505]/80 backdrop-blur-xl
+        fixed bottom-0 left-0 w-full z-[70]
+        h-14 md:h-12 
+        pb-[env(safe-area-inset-bottom)] 
+        bg-[#050505]/90 backdrop-blur-xl
         border-t ${activeTheme.border}
         transition-colors duration-700 ease-out
         flex items-center justify-between 
-        /* AJUSTE PARA MÓVIL: Padding y texto responsivo */
-        px-2 md:px-6 
-        font-mono text-[9px] md:text-[10px] uppercase tracking-widest text-gray-500 selection:bg-white selection:text-black
+        px-4 md:px-6 
+        font-mono text-[10px] uppercase tracking-widest text-gray-500 selection:bg-white selection:text-black
       `}
     >
       {/* SECCIÓN IZQUIERDA: HOME + MODO */}
@@ -60,7 +61,7 @@ const SystemBar = ({ currentMode, setMode }) => {
         <button
           onClick={() => setMode("terminal")}
           className={`
-            flex items-center gap-2 transition-colors duration-300 group
+            flex items-center gap-2 p-2 -ml-2 transition-colors duration-300 group
             ${currentMode === "terminal" ? "text-white" : "hover:text-white"}
           `}
         >
@@ -80,11 +81,11 @@ const SystemBar = ({ currentMode, setMode }) => {
 
         {/* Separador */}
         <div
-          className={`h-3 w-px bg-white/10 transition-colors duration-700 ${activeTheme.border}`}
+          className={`h-3 w-px bg-white/10 hidden md:block transition-colors duration-700 ${activeTheme.border}`}
         ></div>
 
-        {/* Status Path - Oculto en móvil muy pequeño */}
-        <span className="hidden sm:inline text-white/40 transition-colors duration-700">
+        {/* Status Path - Oculto en móvil */}
+        <span className="hidden md:inline text-white/40 transition-colors duration-700">
           ACTIVE_DIR:{" "}
           <span
             className={`${activeTheme.accent} font-bold transition-colors duration-700`}
@@ -95,9 +96,17 @@ const SystemBar = ({ currentMode, setMode }) => {
       </div>
 
       {/* SECCIÓN CENTRAL: NAVEGACIÓN */}
-      <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1 md:gap-2">
+      <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-3 md:gap-2">
         {navItems.map((item) => {
           const isActive = currentMode === item.id;
+
+          // Lógica para mostrar nombre completo en Desktop, corto en Móvil
+          const label =
+            window.innerWidth > 768 && item.id === "engineer"
+              ? "ENGINEER"
+              : window.innerWidth > 768 && item.id === "creator"
+                ? "CREATOR"
+                : item.label;
 
           // Estilos activos vs inactivos
           const activeClasses = isActive
@@ -109,11 +118,11 @@ const SystemBar = ({ currentMode, setMode }) => {
               key={item.id}
               onClick={() => setMode(item.id)}
               className={`
-                px-2 md:px-3 py-1 rounded-sm transition-all duration-300
+                px-3 py-1.5 md:px-3 md:py-1 rounded-sm transition-all duration-300
                 ${activeClasses}
               `}
             >
-              {item.label}
+              {label}
             </button>
           );
         })}
@@ -133,7 +142,7 @@ const SystemBar = ({ currentMode, setMode }) => {
             className={`w-1.5 h-1.5 rounded-full animate-pulse transition-colors duration-700 ${activeTheme.pulse}`}
           ></div>
           <span
-            className={`hidden sm:inline transition-colors duration-700 ${activeTheme.status}`}
+            className={`hidden md:inline transition-colors duration-700 ${activeTheme.status}`}
           >
             {currentMode === "terminal" ? "ONLINE" : "READING"}
           </span>
