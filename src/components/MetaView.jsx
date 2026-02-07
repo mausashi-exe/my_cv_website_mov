@@ -294,6 +294,28 @@ const MetaView = ({ setMode }) => {
   const [activeProject, setActiveProject] = useState(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  // SWIPE LOGIC
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX);
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isRightSwipe) setIsMobileMenuOpen(true);
+    if (isLeftSwipe) setIsMobileMenuOpen(false);
+  };
+
   useEffect(() => {
     const rightPanel = document.getElementById("meta-right-panel");
     if (rightPanel) rightPanel.scrollTo({ top: 0, behavior: "smooth" });
@@ -304,115 +326,134 @@ const MetaView = ({ setMode }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      // FIX: h-full en el contenedor padre
-      className={`flex flex-col md:flex-row h-full w-full bg-[#0a0a0a] text-[#e0e0e0] selection:bg-[#a855f7] selection:text-black overflow-hidden`}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+      className={`flex flex-col md:flex-row h-full w-full bg-[#0a0a0a] text-[#e0e0e0] selection:bg-[#a855f7] selection:text-black overflow-hidden relative`}
     >
-      {/* SIDEBAR */}
-      <aside
-        className="
-          w-full md:w-[30%] lg:w-[25%]
-          bg-[#080808] border-b md:border-b-0 md:border-r border-white/10
-          flex flex-col z-30 relative shadow-2xl
-          /* Altura flexible en movil para no aplastar el menú */
-          h-auto md:h-full
-        "
-      >
-        <div className="p-6 md:p-8 h-full flex flex-col justify-between">
-          <div>
-            <div className="flex justify-between items-start">
-              <HybridHeader />
-              <button
-                className="md:hidden text-2xl p-2"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              >
-                {isMobileMenuOpen ? "×" : "≡"}
-              </button>
-            </div>
+      {/* HEADER MÓVIL */}
+      <div className="md:hidden px-6 py-4 bg-[#0a0a0a] border-b border-white/10 flex justify-between items-center z-40 sticky top-0 shrink-0">
+        <span className="font-bebas text-white">META_ARCHIVE</span>
+        <button
+          onClick={() => setIsMobileMenuOpen(true)}
+          className="text-[#a855f7] text-xl"
+        >
+          ≡
+        </button>
+      </div>
 
-            <div
-              className={`mb-8 ${isMobileMenuOpen ? "block" : "hidden"} md:block`}
-            >
-              <div className="w-16 h-16 rounded-full overflow-hidden border border-white/10 group cursor-pointer">
-                <img
-                  src={profilePic}
-                  alt="Profile"
-                  className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
-                />
-              </div>
-            </div>
-
-            <nav
-              className={`
-                flex-1 overflow-y-auto scrollbar-hide space-y-1 mb-8
-                ${isMobileMenuOpen ? "block" : "hidden"} md:block
-              `}
-            >
-              <span className="font-code text-[9px] text-gray-600 uppercase tracking-widest block mb-4 border-b border-white/5 pb-2">
-                Index / Projects
-              </span>
-
-              {META_PROJECTS.map((p, i) => (
-                <div key={p.id}>
+      {/* SIDEBAR (NAV) - Overlay en móvil */}
+      <AnimatePresence>
+        {(isMobileMenuOpen || window.innerWidth >= 768) && (
+          <motion.aside
+            initial={window.innerWidth < 768 ? { x: "-100%" } : { x: 0 }}
+            animate={{ x: 0 }}
+            exit={window.innerWidth < 768 ? { x: "-100%" } : { x: 0 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className={`
+                fixed inset-y-0 left-0 z-50 w-[85%] md:w-[30%] lg:w-[25%] md:static
+                bg-[#080808] border-r border-white/10 flex flex-col shadow-2xl h-full
+                `}
+            onTouchStart={(e) => e.stopPropagation()}
+          >
+            <div className="p-6 md:p-8 h-full flex flex-col justify-between">
+              <div>
+                <div className="flex justify-between items-start">
+                  <HybridHeader />
                   <button
-                    onClick={() => {
-                      setActiveProject(p);
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className={`
-                        w-full text-left py-2 group flex items-baseline gap-3 transition-all duration-300 border-l-2 pl-3
-                        ${activeProject?.id === p.id ? `${BORDER_ACCENT} text-white` : "border-transparent text-gray-500 hover:text-gray-300 hover:border-white/20"}
-                    `}
+                    className="md:hidden text-2xl p-2"
+                    onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <span className="font-code text-[9px] opacity-50">
-                      0{i + 1}
-                    </span>
-                    <span className="font-cinzel text-sm font-bold truncate">
-                      {p.title}
-                    </span>
+                    ×
                   </button>
                 </div>
-              ))}
-            </nav>
-          </div>
 
-          <div
-            className={`
-              ${isMobileMenuOpen ? "block" : "hidden"} md:block
-              border-t border-white/10 pt-6 mt-4 pb-4 md:pb-0
-            `}
-          >
-            <span className="font-code text-[9px] text-gray-600 uppercase tracking-widest block mb-3">
-              Contact / Connect
-            </span>
+                <div className="mb-8 block">
+                  <div className="w-16 h-16 rounded-full overflow-hidden border border-white/10 group cursor-pointer">
+                    <img
+                      src={profilePic}
+                      alt="Profile"
+                      className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+                    />
+                  </div>
+                </div>
 
-            <a
-              href={`mailto:${CONTACT_INFO.email}`}
-              className={`block font-code text-xs text-white ${HOVER_TEXT_ACCENT} transition-colors mb-4`}
-            >
-              {CONTACT_INFO.email}
-            </a>
+                <nav className="flex-1 overflow-y-auto scrollbar-hide space-y-1 mb-8">
+                  <span className="font-code text-[9px] text-gray-600 uppercase tracking-widest block mb-4 border-b border-white/5 pb-2">
+                    Index / Projects
+                  </span>
 
-            <div className="flex flex-wrap gap-x-4 gap-y-2">
-              {CONTACT_INFO.socials.map((social) => (
+                  {META_PROJECTS.map((p, i) => (
+                    <div key={p.id}>
+                      <button
+                        onClick={() => {
+                          setActiveProject(p);
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className={`
+                                w-full text-left py-2 group flex items-baseline gap-3 transition-all duration-300 border-l-2 pl-3
+                                ${activeProject?.id === p.id ? `${BORDER_ACCENT} text-white` : "border-transparent text-gray-500 hover:text-gray-300 hover:border-white/20"}
+                            `}
+                      >
+                        <span className="font-code text-[9px] opacity-50">
+                          0{i + 1}
+                        </span>
+                        <span className="font-cinzel text-sm font-bold truncate">
+                          {p.title}
+                        </span>
+                      </button>
+                    </div>
+                  ))}
+                </nav>
+              </div>
+
+              <div className="border-t border-white/10 pt-6 mt-4 pb-4 md:pb-0">
+                <span className="font-code text-[9px] text-gray-600 uppercase tracking-widest block mb-3">
+                  Contact / Connect
+                </span>
+
                 <a
-                  key={social.label}
-                  href={social.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-cinzel text-xs text-gray-500 hover:text-white transition-colors border-b border-transparent hover:border-white/50"
+                  href={`mailto:${CONTACT_INFO.email}`}
+                  className={`block font-code text-xs text-white ${HOVER_TEXT_ACCENT} transition-colors mb-4`}
                 >
-                  {social.label}
+                  {CONTACT_INFO.email}
                 </a>
-              ))}
+
+                <div className="flex flex-wrap gap-x-4 gap-y-2">
+                  {CONTACT_INFO.socials.map((social) => (
+                    <a
+                      key={social.label}
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-cinzel text-xs text-gray-500 hover:text-white transition-colors border-b border-transparent hover:border-white/50"
+                    >
+                      {social.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </aside>
+          </motion.aside>
+        )}
+      </AnimatePresence>
+
+      {/* OVERLAY DE FONDO (MÓVIL) */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/80 z-40 md:hidden"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+        )}
+      </AnimatePresence>
 
       {/* MAIN CONTENT */}
       <main
         id="meta-right-panel"
-        // FIX: h-full y overflow relativo para permitir scroll
         className="flex-1 h-full overflow-y-auto relative p-6 md:p-12 lg:p-16 scroll-smooth bg-[#0a0a0a]"
       >
         <AnimatePresence mode="wait">

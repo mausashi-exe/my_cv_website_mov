@@ -24,15 +24,33 @@ const SkillBar = ({ label, level }) => (
 
 const BlueprintView = ({ setMode }) => {
   const [expandedId, setExpandedId] = useState(null);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const accent = "text-[#ff4425]";
+
+  // --- LOGICA SWIPE ---
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX);
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isRightSwipe) setIsMobileSidebarOpen(true); // Abrir Perfil
+    if (isLeftSwipe) setIsMobileSidebarOpen(false); // Cerrar Perfil
+  };
 
   const toggleExpand = (id) => {
     setExpandedId(expandedId === id ? null : id);
-  };
-
-  const scrollToProjects = () => {
-    const projectsSection = document.getElementById("projects-section");
-    if (projectsSection) projectsSection.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -40,106 +58,139 @@ const BlueprintView = ({ setMode }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      // Estructura Flex: Columna en móvil, Fila en Desktop
-      className="flex flex-col md:flex-row min-h-screen md:h-full w-full bg-[#050505] text-[#e0e0e0] selection:bg-[#ff4425] selection:text-white"
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+      className="flex flex-col md:flex-row h-full w-full bg-[#050505] text-[#e0e0e0] selection:bg-[#ff4425] selection:text-white relative"
     >
-      {/* --- SIDEBAR (IZQUIERDA/ARRIBA) --- */}
-      <aside
-        className="
-        w-full md:w-1/3 lg:w-[400px] 
-        border-b-2 md:border-b-0 md:border-r border-white/10 
-        flex flex-col 
-        shrink-0 
-        bg-[#080808] relative z-20 shadow-2xl
-        h-auto md:h-full 
-        "
-      >
-        <div className="flex-1 md:overflow-y-auto scrollbar-hide pt-12 px-8 pb-12 md:pb-24">
-          <div className="mb-10 bg-[#0a0a0a] p-1 border border-white/10 shadow-2xl group">
-            <div className="w-full aspect-square mb-4 overflow-hidden border border-white/5 relative">
-              <img
-                src={profilePic}
-                alt="Profile"
-                className="w-full h-full object-cover opacity-60 grayscale"
-              />
-              <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-10 bg-[length:100%_2px,3px_100%] pointer-events-none opacity-20"></div>
-            </div>
+      {/* --- BOTÓN MÓVIL (HEADER) --- */}
+      <div className="md:hidden w-full px-6 py-4 bg-[#0a0a0a] border-b border-white/10 flex justify-between items-center shrink-0 z-30 sticky top-0">
+        <span className="font-bebas text-xl text-white">ENG_LOG</span>
+        <button
+          onClick={() => setIsMobileSidebarOpen(true)}
+          className="text-[#ff4425] border border-[#ff4425]/30 px-3 py-1 rounded-sm font-code font-bold text-xs bg-[#ff4425]/10"
+        >
+          PROFILE / SKILLS ≡
+        </button>
+      </div>
 
-            <div className="p-3">
-              <h1
-                className={`font-bebas text-5xl leading-none mb-1 text-white tracking-wide`}
+      {/* --- SIDEBAR (PERFIL) --- */}
+      {/* En Desktop es estático, en Móvil es un Overlay animado */}
+      <AnimatePresence>
+        {(isMobileSidebarOpen || window.innerWidth >= 768) && (
+          <motion.aside
+            initial={window.innerWidth < 768 ? { x: "-100%" } : { x: 0 }}
+            animate={{ x: 0 }}
+            exit={window.innerWidth < 768 ? { x: "-100%" } : { x: 0 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className={`
+              fixed inset-y-0 left-0 z-50 w-[85%] md:w-1/3 lg:w-[400px] md:static
+              border-r border-white/10 flex flex-col shrink-0 bg-[#080808] shadow-2xl
+              ${window.innerWidth < 768 ? "h-full" : "h-full"}
+            `}
+            // Evitar cerrar al hacer swipe dentro del sidebar
+            onTouchStart={(e) => e.stopPropagation()}
+          >
+            {/* Botón cerrar solo móvil */}
+            <div className="md:hidden p-4 flex justify-end border-b border-white/10">
+              <button
+                onClick={() => setIsMobileSidebarOpen(false)}
+                className="text-gray-500 font-code text-xs"
               >
-                MAURICIO
-                <br />
-                <span className={accent}>OLVERA</span>
-              </h1>
-              <p className="font-archivo text-[10px] uppercase tracking-widest text-gray-500 flex justify-between">
-                <span>Full Stack Engineer</span>
-                <span className="text-[#ff4425]">[MX-01]</span>
-              </p>
+                [ CLOSE ]
+              </button>
             </div>
 
-            {/* BOTÓN SALTO MÓVIL */}
-            <button
-              onClick={scrollToProjects}
-              className="md:hidden w-full mt-4 py-3 bg-[#ff4425] text-black font-bold font-archivo text-xs uppercase tracking-widest border border-white/10"
-            >
-              ↓ SKIP TO PROJECTS
-            </button>
-          </div>
+            <div className="flex-1 overflow-y-auto scrollbar-hide pt-8 px-8 pb-24 md:pt-12">
+              <div className="mb-10 bg-[#0a0a0a] p-1 border border-white/10 shadow-2xl group">
+                <div className="w-full aspect-square mb-4 overflow-hidden border border-white/5 relative">
+                  <img
+                    src={profilePic}
+                    alt="Profile"
+                    className="w-full h-full object-cover opacity-60 grayscale"
+                  />
+                  <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-10 bg-[length:100%_2px,3px_100%] pointer-events-none opacity-20"></div>
+                </div>
 
-          <div className="mb-8 p-4 bg-red-900/5 border-l-2 border-[#ff4425]/50">
-            <p className="font-code text-[11px] leading-relaxed text-gray-400">
-              <strong className="text-[#ff4425] block mb-2 font-archivo uppercase tracking-widest">
-                /// SYSTEM_BIO_LOADED
-              </strong>
-              Ingeniero creativo especializado en construir arquitecturas
-              escalables e interfaces inmersivas.
-            </p>
-            <a
-              href="https://github.com/mausashi-exe?tab=repositories"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 block w-full py-3 bg-[#ff4425]/10 border border-[#ff4425]/30 text-center font-code text-[10px] text-[#ff4425] uppercase hover:bg-[#ff4425] hover:text-black transition-all duration-300"
-            >
-              View GitHub Profile &rarr;
-            </a>
-          </div>
+                <div className="p-3">
+                  <h1
+                    className={`font-bebas text-5xl leading-none mb-1 text-white tracking-wide`}
+                  >
+                    MAURICIO
+                    <br />
+                    <span className={accent}>OLVERA</span>
+                  </h1>
+                  <p className="font-archivo text-[10px] uppercase tracking-widest text-gray-500 flex justify-between">
+                    <span>Full Stack Engineer</span>
+                    <span className="text-[#ff4425]">[MX-01]</span>
+                  </p>
+                </div>
+              </div>
 
-          <div className="space-y-8">
-            <div>
-              <h3
-                className={`font-archivo text-xs font-bold uppercase mb-4 border-b border-white/10 pb-2 text-white flex justify-between`}
-              >
-                <span>Core_Stack</span>
-                <span className="text-[#ff4425] animate-pulse">●</span>
-              </h3>
-              {SKILLS.map((skill, i) => (
-                <SkillBar key={i} label={skill.label} level={skill.level} />
-              ))}
+              <div className="mb-8 p-4 bg-red-900/5 border-l-2 border-[#ff4425]/50">
+                <p className="font-code text-[11px] leading-relaxed text-gray-400">
+                  <strong className="text-[#ff4425] block mb-2 font-archivo uppercase tracking-widest">
+                    /// SYSTEM_BIO_LOADED
+                  </strong>
+                  Ingeniero creativo especializado en construir arquitecturas
+                  escalables.
+                </p>
+                <a
+                  href="https://github.com/mausashi-exe?tab=repositories"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 block w-full py-3 bg-[#ff4425]/10 border border-[#ff4425]/30 text-center font-code text-[10px] text-[#ff4425] uppercase hover:bg-[#ff4425] hover:text-black transition-all duration-300"
+                >
+                  View GitHub Profile &rarr;
+                </a>
+              </div>
+
+              <div className="space-y-8">
+                <div>
+                  <h3
+                    className={`font-archivo text-xs font-bold uppercase mb-4 border-b border-white/10 pb-2 text-white flex justify-between`}
+                  >
+                    <span>Core_Stack</span>
+                    <span className="text-[#ff4425] animate-pulse">●</span>
+                  </h3>
+                  {SKILLS.map((skill, i) => (
+                    <SkillBar key={i} label={skill.label} level={skill.level} />
+                  ))}
+                </div>
+                <div className="mt-8 pt-6 border-t border-white/10">
+                  <h3 className="font-archivo text-xs font-bold uppercase mb-2 text-white flex justify-between">
+                    <span>Live_System_Link</span>
+                    <span className="text-[#ff4425] animate-pulse">● REC</span>
+                  </h3>
+                  <CommLink />
+                </div>
+              </div>
             </div>
-            <div className="mt-8 pt-6 border-t border-white/10">
-              <h3 className="font-archivo text-xs font-bold uppercase mb-2 text-white flex justify-between">
-                <span>Live_System_Link</span>
-                <span className="text-[#ff4425] animate-pulse">● REC</span>
-              </h3>
-              <CommLink />
-            </div>
-          </div>
-        </div>
-      </aside>
+          </motion.aside>
+        )}
+      </AnimatePresence>
 
-      {/* --- MAIN CONTENT (DERECHA/ABAJO) --- */}
-      <main
-        id="projects-section"
-        className="flex-1 flex flex-col h-auto md:h-full md:overflow-y-auto relative scrollbar-hide bg-[#0a0a0a]"
-      >
-        <div className="pt-12 px-8 md:px-12 pb-8 border-b border-white/10 flex justify-between items-end bg-[#0a0a0a] sticky top-0 z-30">
+      {/* Overlay Oscuro para móvil cuando el sidebar está abierto */}
+      <AnimatePresence>
+        {isMobileSidebarOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsMobileSidebarOpen(false)}
+            className="fixed inset-0 bg-black/80 z-40 md:hidden"
+          />
+        )}
+      </AnimatePresence>
+
+      {/* --- MAIN CONTENT (PROYECTOS) --- */}
+      <main className="flex-1 flex flex-col h-full overflow-y-auto relative scrollbar-hide bg-[#0a0a0a]">
+        <div className="pt-8 px-6 md:pt-12 md:px-12 pb-8 border-b border-white/10 flex justify-between items-end bg-[#0a0a0a] sticky top-0 z-20">
           <div>
-            <h1 className="font-bebas text-6xl md:text-8xl tracking-tight leading-none text-white">
+            <h1 className="font-bebas text-5xl md:text-8xl tracking-tight leading-none text-white">
               ENGINEER<span className={accent}>_</span>LOG
             </h1>
-            <span className="font-code text-[10px] uppercase tracking-[0.2em] text-gray-500 mt-2 block">
+            <span className="font-code text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-gray-500 mt-2 block">
               Deployments & Repositories // V.24
             </span>
           </div>
@@ -162,16 +213,14 @@ const BlueprintView = ({ setMode }) => {
             </div>
           </div>
 
-          {/* --- LISTA DE PROYECTOS --- */}
+          {/* LISTA PROYECTOS */}
           {ENGINEER_DATA.map((item, index) => {
             const isExpanded = expandedId === item.id;
-
             return (
               <div
                 key={index}
                 className="group border-b border-white/10 bg-[#0a0a0a] transition-all duration-300"
               >
-                {/* ROW PRINCIPAL */}
                 <div
                   onClick={() => toggleExpand(item.id)}
                   className={`grid grid-cols-1 md:grid-cols-12 cursor-pointer transition-colors duration-300 ${isExpanded ? "bg-[#ff4425]/10" : "hover:bg-white/5"}`}
@@ -185,7 +234,7 @@ const BlueprintView = ({ setMode }) => {
                     )}
                   </div>
 
-                  {/* INFO PRINCIPAL */}
+                  {/* INFO */}
                   <div className="col-span-1 md:col-span-9 border-r border-white/10 p-6 md:p-4 flex flex-col justify-center">
                     <div className="flex flex-col md:flex-row md:items-baseline md:gap-4 mb-2">
                       <h2
@@ -202,7 +251,7 @@ const BlueprintView = ({ setMode }) => {
                     </p>
                   </div>
 
-                  {/* AÑO (Visible en móvil y desktop) */}
+                  {/* YEAR */}
                   <div className="col-span-1 md:col-span-2 p-4 flex items-center justify-center border-t md:border-t-0 border-white/10 bg-white/5 md:bg-transparent">
                     <span className="font-code text-xs text-gray-600 group-hover:text-white transition-colors">
                       {item.year}
@@ -210,7 +259,7 @@ const BlueprintView = ({ setMode }) => {
                   </div>
                 </div>
 
-                {/* --- DETALLE EXPANDIBLE (AQUÍ ESTABAN LOS BOTONES PERDIDOS) --- */}
+                {/* EXPANDED CONTENT (BOTONES RECUPERADOS) */}
                 <AnimatePresence>
                   {isExpanded && (
                     <motion.div
@@ -220,12 +269,9 @@ const BlueprintView = ({ setMode }) => {
                       className="overflow-hidden bg-[#050505]"
                     >
                       <div className="grid grid-cols-1 md:grid-cols-12 border-t border-red-900/30">
-                        {/* Espaciador Desktop */}
                         <div className="hidden md:block col-span-1 border-r border-white/5 bg-black/50"></div>
-
                         <div className="col-span-11 p-6 md:p-8">
                           <div className="flex flex-col xl:flex-row gap-8">
-                            {/* COLUMNA CÓDIGO */}
                             <div className="w-full xl:w-2/3">
                               <div className="flex items-center justify-between mb-0 bg-[#111] px-4 py-2 border border-white/10 border-b-0 rounded-t-sm">
                                 <span className="font-archivo text-[9px] text-[#ff4425] font-bold uppercase tracking-wider">
@@ -244,7 +290,6 @@ const BlueprintView = ({ setMode }) => {
                               </div>
                             </div>
 
-                            {/* COLUMNA INFO + BOTONES */}
                             <div className="w-full xl:w-1/3 flex flex-col justify-between gap-6">
                               <div>
                                 <span className="font-archivo text-[9px] text-gray-600 font-bold uppercase block mb-3 tracking-widest">
@@ -263,7 +308,6 @@ const BlueprintView = ({ setMode }) => {
                               </div>
 
                               <div className="flex flex-col gap-3">
-                                {/* BOTÓN LIVE DEMO (Solo si existe) */}
                                 {item.liveLink !== "#" && (
                                   <a
                                     href={item.liveLink}
@@ -277,8 +321,6 @@ const BlueprintView = ({ setMode }) => {
                                     </span>
                                   </a>
                                 )}
-
-                                {/* BOTÓN GITHUB REPO */}
                                 <a
                                   href={item.repoLink}
                                   target="_blank"
