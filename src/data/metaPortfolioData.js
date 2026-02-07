@@ -109,10 +109,10 @@ export const META_PROJECTS = [
 
 // DATOS DE CONTACTO
 export const CONTACT_INFO = {
-  email: "mauricio.olvera@nomos.com",
+  email: "maoh2c@gmail.com",
   socials: [
     { label: "Instagram", url: "https://instagram.com" },
     { label: "LinkedIn", url: "https://linkedin.com" },
-    { label: "GitHub", url: "https://github.com" },
+    { label: "GitHub", url: "https://github.com/mausashi-exe" },
   ],
 };

@@ -1,4 +1,5 @@
 import React from "react";
+// Asegúrate de que la ruta a la imagen sea correcta
 import mapImage from "../assets/images/map_with_factions_01.webp";
 
 export const LORE_CHAPTERS = [
@@ -25,7 +26,7 @@ export const LORE_CHAPTERS = [
     fullContent: (
       <div className="space-y-12">
         <div className="border-l-2 border-[#d4af37] pl-6 py-2">
-          <h3 className="font-['UnifrakturCook'] text-3xl text-[#d4af37]">
+          <h3 className="font-cook text-3xl text-[#d4af37]">
             i. The War in the Firmament
           </h3>
           <p className="font-cormorant text-xl text-gray-300 mt-4 leading-relaxed">
@@ -47,7 +48,7 @@ export const LORE_CHAPTERS = [
         </div>
 
         <div className="space-y-4">
-          <h3 className="font-['UnifrakturCook'] text-3xl text-gray-400">
+          <h3 className="font-cook text-3xl text-gray-400">
             ii. The Flight of the Moon-Vessel
           </h3>
           <p className="font-cormorant text-xl text-gray-300 leading-relaxed">
@@ -62,7 +63,7 @@ export const LORE_CHAPTERS = [
         </div>
 
         <div className="space-y-4">
-          <h3 className="font-['UnifrakturCook'] text-3xl text-gray-400">
+          <h3 className="font-cook text-3xl text-gray-400">
             iii. The Stalking Hunger
           </h3>
           <p className="font-cormorant text-xl text-gray-300 leading-relaxed">
@@ -77,7 +78,7 @@ export const LORE_CHAPTERS = [
         </div>
 
         <div className="bg-white/5 p-8 border border-white/10 rounded-sm">
-          <h3 className="font-['UnifrakturCook'] text-3xl text-white mb-4">
+          <h3 className="font-cook text-3xl text-white mb-4">
             iv. The Fall and The Coil
           </h3>
           <p className="font-cormorant text-xl text-gray-300 italic leading-relaxed">
@@ -100,29 +101,6 @@ export const LORE_CHAPTERS = [
             form. He Coiled around the lands of the setting sun. The heat of the
             falling stars petrified him, turning his feathers into a wall of
             diamond mountains, shielding the West from the end of the world.
-          </p>
-        </div>
-
-        <div className="space-y-4">
-          <h3 className="font-['UnifrakturCook'] text-3xl text-gray-500">
-            v. The Age of the Sleepers
-          </h3>
-          <p className="font-cormorant text-xl text-gray-400 leading-relaxed">
-            For thirty thousand years, we have dwelt here. We call ourselves the
-            Masters of the Earth. We are not. We are Fleas.
-            <br />
-            <br />
-            We awoke in the cooling valleys of the Dragon’s hide. We found the
-            leaking humors of the gods—the Silver Marrow, the Golden Oil, the
-            Light of the Star—and we drank. We built our Ziggurats on the warmth
-            of a rotting corpse. Because the Magic flows like water, we forgot
-            the art of the wheel and the lever. Why toil when you can sing a
-            stone to float?
-            <br />
-            <br />
-            This is the Great Slumber. A dark age gilded in gold, maintained by
-            our addiction to the blood of the earth. We are parasites, feasting
-            on a giant, terrified that the sleeper might one day twitch.
           </p>
         </div>
       </div>
@@ -158,7 +136,7 @@ export const LORE_CHAPTERS = [
         </p>
 
         <div className="space-y-4">
-          <h3 className="font-['UnifrakturCook'] text-3xl text-gray-400">
+          <h3 className="font-cook text-3xl text-gray-400">
             i. The Discovery in the Mirror-Wastes
           </h3>
           <p className="font-cormorant text-xl text-gray-300 leading-relaxed">
@@ -260,7 +238,7 @@ export const LORE_CHAPTERS = [
         </header>
 
         <div className="space-y-4">
-          <h3 className="font-['UnifrakturCook'] text-3xl text-[#d4af37]">
+          <h3 className="font-cook text-3xl text-[#d4af37]">
             1. The Face of the Empire
           </h3>
           <p className="font-cormorant text-xl text-gray-300 leading-relaxed">
@@ -310,7 +288,7 @@ export const LORE_CHAPTERS = [
         </div>
 
         <div className="space-y-4">
-          <h3 className="font-['UnifrakturCook'] text-3xl text-[#d4af37]">
+          <h3 className="font-cook text-3xl text-[#d4af37]">
             3. The Basileius-Core
           </h3>
           <div className="p-6 border border-[#d4af37] bg-[#d4af37]/5">
@@ -328,17 +306,6 @@ export const LORE_CHAPTERS = [
               Living Catalyst, detonating like a miniature sun.
             </p>
           </div>
-        </div>
-
-        <div className="space-y-2 pt-4">
-          <h4 className="font-cinzel font-bold text-gray-400 text-sm mb-1">
-            Magic: Solar-Thaumaturgy
-          </h4>
-          <p className="font-cormorant text-xl text-gray-300">
-            Citing the Dragon's fossilized heat using Aqua-Sol.{" "}
-            <strong>Cost:</strong> The Hollow Soul. To cast fire is to burn a
-            memory of warmth from your own mind.
-          </p>
         </div>
       </div>
     ),
@@ -378,7 +345,7 @@ export const LORE_CHAPTERS = [
         </header>
 
         <div className="space-y-4">
-          <h3 className="font-['UnifrakturCook'] text-3xl text-gray-400">
+          <h3 className="font-cook text-3xl text-gray-400">
             1. The Passion of the Ore
           </h3>
           <p className="font-cormorant text-xl text-gray-300 leading-relaxed">
@@ -397,7 +364,7 @@ export const LORE_CHAPTERS = [
         </div>
 
         <div className="space-y-4">
-          <h3 className="font-['UnifrakturCook'] text-3xl text-gray-400">
+          <h3 className="font-cook text-3xl text-gray-400">
             2. The Visage of the March
           </h3>
           <p className="font-cormorant text-xl text-gray-300 leading-relaxed">
@@ -432,25 +399,6 @@ export const LORE_CHAPTERS = [
               calcify.
             </li>
           </ul>
-        </div>
-
-        <div className="space-y-4">
-          <h3 className="font-['UnifrakturCook'] text-3xl text-gray-400">
-            4. The Eisen-Mailplates
-          </h3>
-          <div className="p-6 border border-gray-500 bg-gray-800/20">
-            <p className="font-cormorant text-xl text-gray-300 leading-relaxed">
-              Heavy Full-Plated Armors of the Giménez aesthetic. Bulky,
-              hunchbacked reliquaries covered in rivets, chains, and exhaust
-              pipes. The pilot is entombed in the machine.
-              <br />
-              <br />
-              <span className="text-red-400">The Curse:</span>{" "}
-              <strong>Berserkergang.</strong> The mixture of Star and Dragon
-              energies creates a "Dissonance" in the engine that sounds like
-              screaming. Prolonged use drives the pilot mad with rage.
-            </p>
-          </div>
         </div>
       </div>
     ),
@@ -492,7 +440,7 @@ export const LORE_CHAPTERS = [
         </header>
 
         <div className="space-y-4">
-          <h3 className="font-['UnifrakturCook'] text-3xl text-cyan-200">
+          <h3 className="font-cook text-3xl text-cyan-200">
             1. The Hall of the Pale Star
           </h3>
           <p className="font-cormorant text-xl text-gray-300 leading-relaxed">
@@ -523,15 +471,11 @@ export const LORE_CHAPTERS = [
               bioluminescent skin. Logic is the language of Gods; emotion is a
               sickness.
             </li>
-            <li>
-              <strong>Thrall-Kin:</strong> The male population. Guardians and
-              laborers sworn to the shield-oath.
-            </li>
           </ul>
         </div>
 
         <div className="space-y-4">
-          <h3 className="font-['UnifrakturCook'] text-3xl text-cyan-200">
+          <h3 className="font-cook text-3xl text-cyan-200">
             3. The Valkyrja-Armor
           </h3>
           <div className="p-6 border border-cyan-400 bg-cyan-900/20">
@@ -588,7 +532,7 @@ export const LORE_CHAPTERS = [
         </header>
 
         <div className="space-y-4">
-          <h3 className="font-['UnifrakturCook'] text-3xl text-emerald-400">
+          <h3 className="font-cook text-3xl text-emerald-400">
             1. The Visage of the Dream
           </h3>
           <p className="font-cormorant text-xl text-gray-300 leading-relaxed">
@@ -617,15 +561,11 @@ export const LORE_CHAPTERS = [
               <strong>Rakshasa (Tiger-Folk):</strong> Noble warriors with
               metallic fur. Second-class citizens bound by honor.
             </li>
-            <li>
-              <strong>Ebisu (Mud-Dwellers):</strong> The casteless living in the
-              cold shadow on the surface, catching the refuse from paradise.
-            </li>
           </ul>
         </div>
 
         <div className="space-y-4">
-          <h3 className="font-['UnifrakturCook'] text-3xl text-emerald-400">
+          <h3 className="font-cook text-3xl text-emerald-400">
             3. The Asura-Vanguard
           </h3>
           <div className="p-6 border border-emerald-400 bg-emerald-900/20">
@@ -682,7 +622,7 @@ export const LORE_CHAPTERS = [
         </header>
 
         <div className="space-y-4">
-          <h3 className="font-['UnifrakturCook'] text-3xl text-red-500">
+          <h3 className="font-cook text-3xl text-red-500">
             1. The City of the White Heron
           </h3>
           <p className="font-cormorant text-xl text-gray-300 leading-relaxed">
@@ -698,28 +638,8 @@ export const LORE_CHAPTERS = [
           </p>
         </div>
 
-        <div className="bg-white/5 p-6 border-l-2 border-red-500">
-          <h4 className="font-cinzel font-bold text-white text-sm mb-2">
-            2. The Stratum of the Fifth Sun
-          </h4>
-          <ul className="list-disc pl-4 font-cormorant text-xl text-gray-400 space-y-2">
-            <li>
-              <strong>The Tlatoani (Speaker):</strong> The Voice of the Coil,
-              wearing the Turquoise Diadem.
-            </li>
-            <li>
-              <strong>The Pipiltin (Nobles):</strong> Gene-smiths and
-              astronomers who balance the Calendar of Debt.
-            </li>
-            <li>
-              <strong>The Tlacotin (Bonded):</strong> Laborers working off their
-              "Cosmic Balance." Labor is prayer.
-            </li>
-          </ul>
-        </div>
-
         <div className="space-y-4">
-          <h3 className="font-['UnifrakturCook'] text-3xl text-red-500">
+          <h3 className="font-cook text-3xl text-red-500">
             3. The Coatl-Colossi
           </h3>
           <div className="p-6 border border-red-500 bg-red-950/40">
@@ -727,12 +647,6 @@ export const LORE_CHAPTERS = [
               Giménez-Style Stone-Mechs. Massive statues of basalt and jade with
               exposed bio-muscle fibers. Armed with Turquoise-Serpent
               Flamethrowers.
-              <br />
-              <br />
-              <span className="text-red-500">The Price:</span>{" "}
-              <strong>The Heart-Burn.</strong> The machine burns Teotl (Divine
-              Energy). The pilot's own body is burned as kindling to keep the
-              stone giant moving.
             </p>
           </div>
         </div>
@@ -774,24 +688,17 @@ export const LORE_CHAPTERS = [
 
         {/* 1. The Harradin */}
         <div className="space-y-2">
-          <h3 className="font-['UnifrakturCook'] text-3xl text-stone-300">
-            1. The Harrādin
-          </h3>
+          <h3 className="font-cook text-3xl text-stone-300">1. The Harrādin</h3>
           <p className="font-cormorant text-xl text-gray-300">
             Colossal, highway-sized walls of seamless black basalt rising 300
             feet. To walk upon them is to feel the Omnus-Chorus, a vibration
             that repels the monsters of the Wilds.
-            <br />
-            <br />
-            <strong>The Cost:</strong> Anchorite-Mages must channel life-force
-            into the rock. Veteran guards turn to granite, fusing to their
-            posts.
           </p>
         </div>
 
         {/* 2. Regional Geography */}
         <div className="space-y-4">
-          <h3 className="font-['UnifrakturCook'] text-3xl text-stone-300">
+          <h3 className="font-cook text-3xl text-stone-300">
             2. The Landscapes of Myth
           </h3>
           <div className="grid grid-cols-1 gap-4">
@@ -804,15 +711,6 @@ export const LORE_CHAPTERS = [
                 getting lost in time.
               </span>
             </div>
-            <div className="bg-white/5 p-6 border-l-2 border-gray-500">
-              <strong className="text-gray-400 block font-cinzel mb-2">
-                The Iron Forest (North)
-              </strong>
-              <span className="font-cormorant text-xl text-gray-400">
-                Trees of iron-hard horn that weep black blood. The Reichland
-                burns it eternally.
-              </span>
-            </div>
             <div className="bg-white/5 p-6 border-l-2 border-purple-500">
               <strong className="text-purple-400 block font-cinzel mb-2">
                 The Glass Desert (Center)
@@ -823,18 +721,6 @@ export const LORE_CHAPTERS = [
               </span>
             </div>
           </div>
-        </div>
-
-        {/* 3. The Wilds */}
-        <div className="bg-white/5 p-6 border-l-4 border-red-900">
-          <h3 className="font-['UnifrakturCook'] text-2xl text-red-500 mb-2">
-            The Wilds (Untamed Anatomy)
-          </h3>
-          <p className="font-cormorant text-xl text-gray-400">
-            "Nature" is the overgrown body of the Titan. The mountains are its
-            spine. The islands are its broken wings. To step off the Road is to
-            step onto the skin of a god that hates you.
-          </p>
         </div>
       </div>
     ),
@@ -865,7 +751,7 @@ export const LORE_CHAPTERS = [
 
         {/* 1. North */}
         <div className="space-y-4">
-          <h3 className="font-['UnifrakturCook'] text-3xl text-gray-400 border-b border-gray-600 pb-2">
+          <h3 className="font-cook text-3xl text-gray-400 border-b border-gray-600 pb-2">
             1. Beasts of the North
           </h3>
           <ul className="space-y-4 font-cormorant text-xl text-gray-400">
@@ -877,16 +763,12 @@ export const LORE_CHAPTERS = [
               <strong className="text-white">The Lindwyrm:</strong> Massive pale
               serpents with human faces frozen in a scream. Burrowers.
             </li>
-            <li>
-              <strong className="text-white">Verlorene (Orks):</strong> Mutated
-              soldiers fused to their armor by the toxic mud of the trenches.
-            </li>
           </ul>
         </div>
 
         {/* 2. South */}
         <div className="space-y-4">
-          <h3 className="font-['UnifrakturCook'] text-3xl text-[#d4af37] border-b border-[#d4af37]/30 pb-2">
+          <h3 className="font-cook text-3xl text-[#d4af37] border-b border-[#d4af37]/30 pb-2">
             2. Beasts of the South
           </h3>
           <ul className="space-y-4 font-cormorant text-xl text-gray-400">
@@ -898,48 +780,7 @@ export const LORE_CHAPTERS = [
               <strong className="text-white">Manticore:</strong> Red lion with
               scorpion tail. Venom is Liquid Fire. Loves riddles.
             </li>
-            <li>
-              <strong className="text-white">Pazuzu-Swarm:</strong> Locusts
-              flying in the shape of a giant man.
-            </li>
           </ul>
-        </div>
-
-        {/* 3. East & West */}
-        <div className="space-y-4">
-          <h3 className="font-['UnifrakturCook'] text-3xl text-emerald-400 border-b border-emerald-500/30 pb-2">
-            3. Beasts of East & West
-          </h3>
-          <ul className="space-y-4 font-cormorant text-xl text-gray-400">
-            <li>
-              <strong className="text-white">Gashadokuro (East):</strong> 50ft
-              skeleton of dried mud. Bringer of starvation.
-            </li>
-            <li>
-              <strong className="text-white">Ahuizotl (West):</strong>{" "}
-              Water-beast with a hand on its tail. Mimics a baby to lure prey.
-            </li>
-            <li>
-              <strong className="text-white">Tzitzimitl (West):</strong>{" "}
-              Skeletal star-demons that fall from the sky during eclipses.
-            </li>
-          </ul>
-        </div>
-
-        {/* 4. Shadow Kings */}
-        <div className="bg-purple-900/10 p-6 border border-purple-900/50">
-          <h3 className="font-['UnifrakturCook'] text-2xl text-purple-400 mb-2">
-            The Shadow-Kings
-          </h3>
-          <p className="font-cormorant text-xl text-gray-300">
-            Intelligent rivals to the Empires.
-            <br />
-            <strong>Hemat-Archons (Vampires):</strong> Alchemists who drank
-            refined Dragon-Blood. Lords of tragic elegance.
-            <br />
-            <strong>Sphinx (Logic-Keepers):</strong> Biomechanical statues
-            guarding the deep libraries. They test logic, not riddles.
-          </p>
         </div>
       </div>
     ),
