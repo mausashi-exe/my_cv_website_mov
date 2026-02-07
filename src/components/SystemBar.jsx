@@ -49,12 +49,14 @@ const SystemBar = ({ currentMode, setMode }) => {
         bg-[#050505]/80 backdrop-blur-xl
         border-t ${activeTheme.border}
         transition-colors duration-700 ease-out
-        flex items-center justify-between px-4 md:px-6 
-        font-mono text-[10px] uppercase tracking-widest text-gray-500 selection:bg-white selection:text-black
+        flex items-center justify-between 
+        /* AJUSTE PARA MÓVIL: Padding y texto responsivo */
+        px-2 md:px-6 
+        font-mono text-[9px] md:text-[10px] uppercase tracking-widest text-gray-500 selection:bg-white selection:text-black
       `}
     >
       {/* SECCIÓN IZQUIERDA: HOME + MODO */}
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-4 md:gap-6">
         <button
           onClick={() => setMode("terminal")}
           className={`
@@ -81,8 +83,8 @@ const SystemBar = ({ currentMode, setMode }) => {
           className={`h-3 w-px bg-white/10 transition-colors duration-700 ${activeTheme.border}`}
         ></div>
 
-        {/* Status Path */}
-        <span className="hidden md:inline text-white/40 transition-colors duration-700">
+        {/* Status Path - Oculto en móvil muy pequeño */}
+        <span className="hidden sm:inline text-white/40 transition-colors duration-700">
           ACTIVE_DIR:{" "}
           <span
             className={`${activeTheme.accent} font-bold transition-colors duration-700`}
@@ -107,7 +109,7 @@ const SystemBar = ({ currentMode, setMode }) => {
               key={item.id}
               onClick={() => setMode(item.id)}
               className={`
-                px-3 py-1 rounded-sm transition-all duration-300
+                px-2 md:px-3 py-1 rounded-sm transition-all duration-300
                 ${activeClasses}
               `}
             >
@@ -118,7 +120,7 @@ const SystemBar = ({ currentMode, setMode }) => {
       </div>
 
       {/* SECCIÓN DERECHA: STATUS TÉCNICO */}
-      <div className="flex items-center gap-6 text-right">
+      <div className="flex items-center gap-4 md:gap-6 text-right">
         <span className="hidden md:inline opacity-50">VERACRUZ, MX</span>
 
         <div
@@ -131,7 +133,7 @@ const SystemBar = ({ currentMode, setMode }) => {
             className={`w-1.5 h-1.5 rounded-full animate-pulse transition-colors duration-700 ${activeTheme.pulse}`}
           ></div>
           <span
-            className={`transition-colors duration-700 ${activeTheme.status}`}
+            className={`hidden sm:inline transition-colors duration-700 ${activeTheme.status}`}
           >
             {currentMode === "terminal" ? "ONLINE" : "READING"}
           </span>

@@ -123,7 +123,7 @@ const MainTerminal = ({ setMode }) => {
         {/* 3. Scanlines: Mantienen el look terminal */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] pointer-events-none opacity-20"></div>
 
-        {/* 4. Partículas sutiles (Opcional - solo si quieres movimiento en el 'vacío') */}
+        {/* 4. Partículas sutiles (Opcional) */}
         <div className="absolute inset-0 animate-pulse opacity-10 bg-[radial-gradient(circle_800px_at_50%_50%,#222,transparent)]"></div>
       </div>
       {/* ================================================= */}
@@ -144,7 +144,6 @@ const MainTerminal = ({ setMode }) => {
             `}
             animate={{
               flex: isHovered ? 3 : 1,
-              // Como el fondo ahora es oscuro y limpio, el dimming puede ser más sutil
               filter: isDimmed ? "brightness(0.3)" : "brightness(1)",
             }}
           >

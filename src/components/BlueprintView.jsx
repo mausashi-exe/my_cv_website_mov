@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import profilePic from "../assets/images/main_icon.webp";
-import { ENGINEER_DATA, SKILLS, TOOLS } from "../data/EngineerData.jsx";
+import { ENGINEER_DATA, SKILLS } from "../data/engineerData";
 import CommLink from "./CommLink";
 
 const SkillBar = ({ label, level }) => (
@@ -25,7 +25,6 @@ const SkillBar = ({ label, level }) => (
 const BlueprintView = ({ setMode }) => {
   const [expandedId, setExpandedId] = useState(null);
   const accent = "text-[#ff4425]";
-  const bgAccent = "bg-[#ff4425]";
 
   const toggleExpand = (id) => {
     setExpandedId(expandedId === id ? null : id);
@@ -36,8 +35,8 @@ const BlueprintView = ({ setMode }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      // FIX 1: Usar h-full en lugar de min-h-screen para evitar sumar altura extra al layout
-      className="flex flex-col md:flex-row h-full w-full bg-[#050505] text-[#e0e0e0] selection:bg-[#ff4425] selection:text-white overflow-hidden"
+      // FIX CRITICO: flex-col en movil, flex-row en escritorio.
+      className="flex flex-col md:flex-row h-full w-full bg-[#050505] text-[#e0e0e0] selection:bg-[#ff4425] selection:text-white"
     >
       {/* SIDEBAR */}
       <aside
@@ -45,12 +44,14 @@ const BlueprintView = ({ setMode }) => {
         w-full md:w-1/3 lg:w-[400px] 
         border-b-2 md:border-b-0 md:border-r border-white/10 
         flex flex-col 
-        h-full /* FIX 2: Altura completa del padre, no de la pantalla */
+        shrink-0 
         bg-[#080808] relative z-20 shadow-2xl
-      "
+        /* En móvil altura automática, en PC altura completa */
+        h-auto md:h-full 
+        "
       >
-        {/* overflow-y-auto aquí para que el scroll sea interno */}
-        <div className="flex-1 overflow-y-auto scrollbar-hide pt-12 px-8 pb-24">
+        {/* Scroll interno solo en PC (md:overflow-y-auto) */}
+        <div className="flex-1 md:overflow-y-auto scrollbar-hide pt-12 px-8 pb-12 md:pb-24">
           <div className="mb-10 bg-[#0a0a0a] p-1 border border-white/10 shadow-2xl group">
             <div className="w-full aspect-square mb-4 overflow-hidden border border-white/5 relative">
               <img
@@ -124,8 +125,8 @@ const BlueprintView = ({ setMode }) => {
       </aside>
 
       {/* MAIN LOG */}
-      {/* FIX 3: h-full */}
-      <main className="flex-1 flex flex-col h-full overflow-y-auto relative scrollbar-hide bg-[#0a0a0a]">
+      {/* En móvil se apila abajo. En PC ocupa el resto del ancho y tiene scroll independiente */}
+      <main className="flex-1 flex flex-col h-full md:overflow-y-auto relative scrollbar-hide bg-[#0a0a0a]">
         <div className="pt-12 px-8 md:px-12 pb-8 border-b border-white/10 flex justify-between items-end bg-[#0a0a0a] sticky top-0 z-30">
           <div>
             <h1 className="font-bebas text-6xl md:text-8xl tracking-tight leading-none text-white">
@@ -145,6 +146,7 @@ const BlueprintView = ({ setMode }) => {
         </div>
 
         <div className="w-full pb-32">
+          {/* Header de la tabla oculto en móvil para ahorrar espacio */}
           <div className="hidden md:grid grid-cols-12 border-b border-white/10 bg-[#0f0f0f] text-gray-500 sticky top-[180px] z-20">
             <div className="col-span-1 p-3 border-r border-white/10 font-bold font-archivo text-[9px] uppercase text-center">
               ID

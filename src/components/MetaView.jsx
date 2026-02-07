@@ -7,7 +7,6 @@ import profilePic from "../assets/images/main_icon.webp";
 // COLOR DE ACENTO: PURPLE
 const ACCENT = "text-[#a855f7]";
 const BORDER_ACCENT = "border-[#a855f7]";
-const BG_ACCENT = "bg-[#a855f7]";
 const HOVER_BORDER_ACCENT = "hover:border-[#a855f7]";
 const HOVER_TEXT_ACCENT = "hover:text-[#a855f7]";
 
@@ -305,7 +304,8 @@ const MetaView = ({ setMode }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className={`flex flex-col md:flex-row h-full w-full bg-[#0a0a0a] text-[#e0e0e0] selection:${BG_ACCENT} selection:text-black overflow-hidden`}
+      // FIX: h-full en el contenedor padre
+      className={`flex flex-col md:flex-row h-full w-full bg-[#0a0a0a] text-[#e0e0e0] selection:bg-[#a855f7] selection:text-black overflow-hidden`}
     >
       {/* SIDEBAR */}
       <aside
@@ -313,9 +313,11 @@ const MetaView = ({ setMode }) => {
           w-full md:w-[30%] lg:w-[25%]
           bg-[#080808] border-b md:border-b-0 md:border-r border-white/10
           flex flex-col z-30 relative shadow-2xl
-      "
+          /* Altura flexible en movil para no aplastar el menú */
+          h-auto md:h-full
+        "
       >
-        <div className="p-6 md:p-8 h-full flex flex-col justify-between pb-24 md:pb-24">
+        <div className="p-6 md:p-8 h-full flex flex-col justify-between">
           <div>
             <div className="flex justify-between items-start">
               <HybridHeader />
@@ -343,7 +345,7 @@ const MetaView = ({ setMode }) => {
               className={`
                 flex-1 overflow-y-auto scrollbar-hide space-y-1 mb-8
                 ${isMobileMenuOpen ? "block" : "hidden"} md:block
-            `}
+              `}
             >
               <span className="font-code text-[9px] text-gray-600 uppercase tracking-widest block mb-4 border-b border-white/5 pb-2">
                 Index / Projects
@@ -376,8 +378,8 @@ const MetaView = ({ setMode }) => {
           <div
             className={`
               ${isMobileMenuOpen ? "block" : "hidden"} md:block
-              border-t border-white/10 pt-6 mt-4
-          `}
+              border-t border-white/10 pt-6 mt-4 pb-4 md:pb-0
+            `}
           >
             <span className="font-code text-[9px] text-gray-600 uppercase tracking-widest block mb-3">
               Contact / Connect
@@ -410,6 +412,7 @@ const MetaView = ({ setMode }) => {
       {/* MAIN CONTENT */}
       <main
         id="meta-right-panel"
+        // FIX: h-full y overflow relativo para permitir scroll
         className="flex-1 h-full overflow-y-auto relative p-6 md:p-12 lg:p-16 scroll-smooth bg-[#0a0a0a]"
       >
         <AnimatePresence mode="wait">
