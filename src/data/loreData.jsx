@@ -1,518 +1,1011 @@
-import React from 'react';
-// Ajusta la ruta de la imagen según tu estructura real
-import mapImage from '../assets/images/known_world_map.jpg'; 
+import React from "react";
+import mapImage from "../assets/images/map_with_factions_01.webp";
 
-// ==========================================
-// DATA VISUAL (COLUMNA DERECHA)
-// ==========================================
-export const VISUAL_DATABASE = [
-  { 
-    title: "KNOWN_WORLD_MAP", 
-    type: "Cartography", 
-    image: mapImage, 
-    desc: "Imperial Cartography. Note the Vertebral Trench running North to South.",
-    tags: ["Scale 1:10M", "Post-Breach"] 
-  },
-  { 
-    title: "ORC_WARLORD_PLATE", 
-    type: "Bio-Specimen", 
-    image: null, 
-    desc: "Chest-plate fused with ribcage. Fluted steel protruding through dermis. Runes indicate former rank: 'Lieutenant'.",
-    tags: ["Fused-Alloy", "Hazard: High"]
-  },
-  { 
-    title: "AZTLAN_OBSIDIAN", 
-    type: "Contraband", 
-    image: null, 
-    desc: "Razor-edged glass dagger. Radiates heat. Do not touch with bare skin.",
-    tags: ["Heretical", "Blood-Active"] 
-  },
-  { 
-    title: "DVERGR_MYCELIUM", 
-    type: "Anatomy", 
-    image: null, 
-    desc: "Microscopic view of 'Beard' filaments plugging into Granite. Note the bioluminescent pulse indicating data transfer.",
-    tags: ["Fungal", "Lithic"] 
-  }
-];
-
-// ==========================================
-// LORE CHAPTERS (ÍNDICE Y CONTENIDO)
-// ==========================================
 export const LORE_CHAPTERS = [
+  // =====================================================================
+  // I. GENESIS
+  // =====================================================================
   {
-    id: "I_COSMOGONY",
-    title: "I. COSMOGONY",
-    label: "I. Cosmogony",
-    subtitle: "The Myth of the Fossilized Flame",
+    id: "FILE_01_GENESIS",
+    title: "Genesis",
+    subtitle: "The Stone and The Fire",
+    visualData: {
+      mainImage: mapImage,
+      type: "Cosmogony",
+      threatLevel: "Omnipresent",
+      tags: ["Origin", "Titan-War", "Apanchwi"],
+      stats: [
+        { label: "Era", value: "Time Before Time" },
+        { label: "Event", value: "The Calcification" },
+      ],
+      processLog:
+        "To the High Priest, a hymn. To the Natural Philosopher, the anatomy of a calamity.",
+      inspiration: "The collision of Spirit (Fire) and Logic (Ice).",
+    },
     fullContent: (
-      <div className="space-y-8">
-        <div className="p-6 border-l-2 border-gold/50 bg-white/5">
-          <h4 className="font-sans font-bold text-gold mb-2 uppercase tracking-widest text-xs">i. The Primordial Dissonance</h4>
-          <p className="font-serif text-lg text-gray-300">In the era before the first scribe touched pen to vellum, there was no "Nature." There was only the <strong>Aether-Ink</strong>, a sea of unwritten potential where logic and chaos were indistinguishable. This was not a void of emptiness, but a void of "Too-Muchness," where every history existed simultaneously.</p>
+      <div className="space-y-12">
+        <div className="border-l-2 border-[#d4af37] pl-6 py-2">
+          <h3 className="font-['UnifrakturCook'] text-3xl text-[#d4af37]">
+            i. The War in the Firmament
+          </h3>
+          <p className="font-cormorant text-xl text-gray-300 mt-4 leading-relaxed">
+            In the Time Before Time, when the stars were yet young, there was
+            only the Aether—the Ocean of Night. In this void, two Great Powers
+            waged a war of Spirit and Substance.
+            <br />
+            <br />
+            One was the <strong>Chryso-Pyr (The Golden Fire)</strong>, a Being
+            of infinite hunger and furious life, burning with the heat of a
+            thousand suns. It sought to consume the void and fill it with the
+            pain of feeling.
+            <br />
+            <br />
+            The other was the <strong>Argent-Ark (The Silver Logic)</strong>, a
+            Sphere of cold, perfect order. It sought to freeze the Aether into a
+            silent crystal, where nothing would ever bleed, or change, or die.
+          </p>
         </div>
-        <div>
-          <h4 className="font-sans font-bold text-white mb-2 uppercase tracking-widest text-xs">ii. The Descent of the Star-Heart</h4>
-          <p className="font-serif text-lg text-gray-300">From the "Cold Above" came the <strong>Star-Vessel</strong>, a shard of absolute, crystalline logic seeking to impose a singular Script. Where it stepped, the Aether froze into silver spires and geometric laws; it sought a world of perfect, silent stillness.</p>
+
+        <div className="space-y-4">
+          <h3 className="font-['UnifrakturCook'] text-3xl text-gray-400">
+            ii. The Flight of the Moon-Vessel
+          </h3>
+          <p className="font-cormorant text-xl text-gray-300 leading-relaxed">
+            From the burning heavens of the First-Born, the Argent-Ark fled. It
+            was not a god, though the pale men of the North pray to its shards.
+            It was a Vessel of the <strong>Aurelim (The High Ones)</strong>, a
+            moon made of silver glass and geometry, carrying the seeds of worlds
+            that were clean and silent. It sailed the winds of the stars,
+            seeking a "Blank Scroll"—a world without a story—where it could
+            write a new, perfect law.
+          </p>
         </div>
-        <div>
-          <h4 className="font-sans font-bold text-white mb-2 uppercase tracking-widest text-xs">iii. The Coiling of the Sun-Drake</h4>
-          <p className="font-serif text-lg text-gray-300">The Elden Sun-Drake, a creature of infinite thermal history, pursued the Star. In the First Breach, the Drake coiled around the Star-Heart. Its flesh did not rot; it calcified. The Dragon died to become the ground beneath our feet, hiding the cold, logical silence of the Star still beating at the world's core.</p>
+
+        <div className="space-y-4">
+          <h3 className="font-['UnifrakturCook'] text-3xl text-gray-400">
+            iii. The Stalking Hunger
+          </h3>
+          <p className="font-cormorant text-xl text-gray-300 leading-relaxed">
+            But the Fire followed. The <strong>Eldhrás (The Sun-Drake)</strong>{" "}
+            was no mere beast. It was a Celestial Leviathan, vast as a
+            continent, born from the death-throes of stars. It pursued the Ark
+            not out of hate, but out of Great Need. It craved the cold order of
+            the Ark as a man craves water in the dunes. It trailed the Ark
+            across the firmament, a comet of flesh and gold, burning the
+            darkness behind it.
+          </p>
+        </div>
+
+        <div className="bg-white/5 p-8 border border-white/10 rounded-sm">
+          <h3 className="font-['UnifrakturCook'] text-3xl text-white mb-4">
+            iv. The Fall and The Coil
+          </h3>
+          <p className="font-cormorant text-xl text-gray-300 italic leading-relaxed">
+            Fifty thousand years ago, the Hunger overtook the Silence in the
+            skies above our earth. The collision did not just crack the ground;
+            it shattered the seas, creating the Apanchwi (The Boiling Deluge).
+            <br />
+            <br />
+            <strong>The Transformation:</strong> When the Dragon’s burning flesh
+            touched the cold magic of the Ark, a great alchemy occurred. The
+            Dragon turned to Stone. Its body became the land we walk. Its spine
+            became the Misty Peaks. Its wings became the Broken Isles. The Ark
+            was buried beneath the weight of the beast, entombed in the ice of
+            the furthest North.
+            <br />
+            <br />
+            <strong>The Miracle of the West:</strong> While the Celestial Giants
+            fell, the god of the West, Quetzalcoatl, rose. To save his children
+            from the drowning waters, the Plumed Serpent expanded his divine
+            form. He Coiled around the lands of the setting sun. The heat of the
+            falling stars petrified him, turning his feathers into a wall of
+            diamond mountains, shielding the West from the end of the world.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="font-['UnifrakturCook'] text-3xl text-gray-500">
+            v. The Age of the Sleepers
+          </h3>
+          <p className="font-cormorant text-xl text-gray-400 leading-relaxed">
+            For thirty thousand years, we have dwelt here. We call ourselves the
+            Masters of the Earth. We are not. We are Fleas.
+            <br />
+            <br />
+            We awoke in the cooling valleys of the Dragon’s hide. We found the
+            leaking humors of the gods—the Silver Marrow, the Golden Oil, the
+            Light of the Star—and we drank. We built our Ziggurats on the warmth
+            of a rotting corpse. Because the Magic flows like water, we forgot
+            the art of the wheel and the lever. Why toil when you can sing a
+            stone to float?
+            <br />
+            <br />
+            This is the Great Slumber. A dark age gilded in gold, maintained by
+            our addiction to the blood of the earth. We are parasites, feasting
+            on a giant, terrified that the sleeper might one day twitch.
+          </p>
         </div>
       </div>
-    )
+    ),
   },
+
+  // =====================================================================
+  // II. PRELUDE
+  // =====================================================================
   {
-    id: "II_PRELUDE",
-    title: "II. THE PRELUDE",
-    label: "II. The Prelude",
-    subtitle: "Account of the Unknown Scribe",
+    id: "FILE_02_PRELUDE",
+    title: "Prelude",
+    subtitle: "Confession of the Scribe",
+    visualData: {
+      mainImage: null,
+      type: "Meta-Data",
+      threatLevel: "Low",
+      tags: ["Heresy", "Truth", "Warning"],
+      stats: [
+        { label: "Scribe", value: "Ibn Al-Althaeir" },
+        { label: "Status", value: "Purged" },
+      ],
+      processLog:
+        "Written in a shaking hand on the back of a stolen scroll, stained with the red dust of the desert.",
+      inspiration: "The breaking of the Fourth Wall of History.",
+    },
     fullContent: (
-      <div className="italic font-serif text-xl leading-loose opacity-90 pl-6 border-l border-white/20">
-        <p className="mb-6">"I have walked the corridors of Ever-Metal when the Eye-Sentinels were blind, and I have tasted the soot of the Vertebral Trenches where the sky is a permanent bruise. They tell you the world is 'natural.' They tell you the pikes stay sharp because of 'industry' and the Sun shines because of 'grace.' They lie.</p>
-        <p className="mb-6">I found these records in a place erased from the Imperial Archive. The ink is made of Refined Marrow, and it remembers things your priests try to forget.</p>
-        <p className="text-gold font-medium">You hold a map of a graveyard, little Princess. Do not mistake the flowers for life; they are merely the patterns the Dragon's decay makes upon the logic of the Star."</p>
+      <div className="space-y-12">
+        <p className="font-cormorant text-2xl text-gray-300 leading-relaxed border-l-4 border-red-900 pl-6 italic">
+          "Princess Zayna, Light of the Morning, if you read this, I have
+          already passed into the Shadow. The Keepers of Memory do not forgive
+          those who dig too deep."
+        </p>
+
+        <div className="space-y-4">
+          <h3 className="font-['UnifrakturCook'] text-3xl text-gray-400">
+            i. The Discovery in the Mirror-Wastes
+          </h3>
+          <p className="font-cormorant text-xl text-gray-300 leading-relaxed">
+            "I found it in the Lake of Visions, where the High-Road crumbles
+            into the salt. It was a place of silence, where the memory of the
+            earth had faded to grey dust.
+            <br />
+            <br />
+            There, buried beneath the sands of an ancient city, I found the Rib
+            of the Star. It was not bone. It was a metal that wept cold light,
+            forged not by hammers, but grown like crystal. And etched into it,
+            in a script that hurt my eyes to behold, was the Chronicle of the
+            Silver Ark.
+            <br />
+            <br />I read the truth, and my heart turned to ash.{" "}
+            <strong>
+              Xandros the Great did not conquer the sun; he stole a heart-shard
+              from a dying beast.
+            </strong>{" "}
+            The Iron-Barons of the North are not mining ore; they are cutting
+            into the nerves of a god. The West is not lost; they are the only
+            ones holding the gate shut against the flood.
+            <br />
+            <br />
+            We do not live on a world, Princess. We live on a Murder."
+          </p>
+        </div>
+
+        <div className="bg-red-950/20 p-8 border border-red-900/50 rounded-sm">
+          <strong className="text-red-500 font-cinzel text-sm uppercase tracking-widest block mb-4">
+            ii. The Warning to the Reader
+          </strong>
+          <p className="font-cormorant text-xl text-red-200/90 italic leading-relaxed">
+            "You hold the Onomastikon. It is the only map that tells no lies.
+            But hear my warning:
+            <br />
+            <br />
+            To know this truth is to lose the peace of the Sanctioned Lie. You
+            will never taste the Golden Water again without tasting the blood of
+            a Titan. You will never look at the Silver Pike without seeing the
+            spine of a monster. You will be alone in a world of sleepwalkers.
+            <br />
+            <br />
+            Burn this scroll, and you may live as a Queen in a cage of gold.
+            <br />
+            Read it, and you become a traitor to your blood—and perhaps, the
+            only soul who can save us.
+            <br />
+            <br />
+            The Dragon stirs, Zayna. The Jade-Knot unravels. The Slumber is
+            ending. Awaken."
+            <br />
+            <br />
+            <span className="font-bold not-italic text-red-400 font-cinzel text-base">
+              — Ibn Al-Althaeir, Last Sage of the House of Wisdom.
+            </span>
+          </p>
+        </div>
       </div>
-    )
+    ),
   },
+
+  // =====================================================================
+  // III. FACTIONS (SPLIT)
+  // =====================================================================
+
+  // --- AL-XANDRIS ---
   {
-    id: "III_AL_XANDRIS",
-    title: "III. AL-XANDRIS",
-    label: "III. The Sun Empire",
+    id: "FILE_03_SUN_EMPIRE",
+    title: "Al-Xandris",
     subtitle: "The Shahr-Hegemony",
+    visualData: {
+      mainImage: null,
+      type: "Faction",
+      threatLevel: "High",
+      tags: ["Solar", "Gold", "Despotism"],
+      stats: [
+        { label: "Capital", value: "Xandropolis" },
+        { label: "Relic", value: "Basileius-Core" },
+      ],
+      processLog:
+        "Biomechanical Babylon. Hydraulic Despotism realized through Giménez Baroque aesthetics.",
+      inspiration: "The Tower of Babel meets Solar Punk.",
+    },
     fullContent: (
       <div className="space-y-12">
-        <p className="font-serif text-xl italic text-gold/80">"The Sanctioned Lie: Civilization is the only thing preventing the world from dissolving."</p>
-        
-        <p className="font-serif text-lg text-gray-300">Rising from the shimmering dunes like a geometric mirage, the Shahr is the pinnacle of Hydraulic Despotism. A land of white marble plated in Auric-Gold, founded by Xandros I (The Sun-God).</p>
+        <header className="border-b border-[#d4af37]/30 pb-6">
+          <p className="font-cinzel text-sm text-[#d4af37] mb-2 font-bold">
+            OFFICIAL NAME: The Most Radiant Shahr-Hegemony of Xandros I
+          </p>
+          <p className="font-cormorant text-xl text-gray-300">
+            Common Epithets: The Sun-Empire, The World Ziggurat, The Gilded Lie,
+            The Hydraulic Despotism, The Last Pyre.
+            <br />
+            <strong>Secret Truth:</strong> Xandros was a thief. He stole a
+            heart-shard from the Dragon and stabbed the world to create the
+            Golden Oil. He was the first Rebis (Hermaphrodite Demigod).
+          </p>
+        </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-           <div>
-              <h4 className="font-sans font-bold text-white uppercase tracking-widest text-xs mb-2 border-b border-white/10 pb-1">1. Demographics</h4>
-              <ul className="list-disc pl-4 text-sm text-gray-400 space-y-2 font-sans">
-                 <li><strong>The Kashani (62%):</strong> Gilded Humans. Ritual skin-grafting with gold dust.</li>
-                 <li><strong>Client-Tribes (24%):</strong> The Un-Gilded. Traded history for protection.</li>
-                 <li><strong>Enclave Dvergr (8%):</strong> "Animated Property". Sub-surface laborers.</li>
-              </ul>
-           </div>
-           <div>
-              <h4 className="font-sans font-bold text-white uppercase tracking-widest text-xs mb-2 border-b border-white/10 pb-1">2. Geography</h4>
-              <ul className="list-disc pl-4 text-sm text-gray-400 space-y-2 font-sans">
-                 <li><strong>Siph-Arra Basin:</strong> Inner Heart. Artificial paradise.</li>
-                 <li><strong>Auric Delta:</strong> The Breadbasket. Solar-irrigated terraces.</li>
-                 <li><strong>Scythe of Xandros:</strong> The jagged borderlands.</li>
-              </ul>
-           </div>
+        <div className="space-y-4">
+          <h3 className="font-['UnifrakturCook'] text-3xl text-[#d4af37]">
+            1. The Face of the Empire
+          </h3>
+          <p className="font-cormorant text-xl text-gray-300 leading-relaxed">
+            The Shahr-Hegemony is a civilization built on the "Head" of the
+            Dragon. It is a Tower of Babel realized through the heavy, ornate
+            aesthetics of the Baroque Age mixed with the grandeur of Babylon.
+            <br />
+            <br />
+            From the air, it appears as tiered ziggurats like steps to a stolen
+            heaven. Hanging Gardens spill emerald vines and lapis lazuli over
+            mathematically precise boulevards. Aqueducts stride across deserts
+            on arches of fused sandstone, carrying not water but Liquid Gold—the
+            Aqua-Sol.
+            <br />
+            <br />
+            The capital, Xandropolis, is the Primal Wound made glorious: a
+            concentric series of walls, each taller and more resplendent than
+            the last, culminating in The Gilded Palace, a needle of gold that
+            pierces the sky.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-           <div>
-              <h4 className="font-sans font-bold text-white uppercase tracking-widest text-xs mb-2 border-b border-white/10 pb-1">3. Governance</h4>
-              <p className="text-sm text-gray-400 font-sans"><strong>Solar Satrapic Bureaucracy.</strong> The Basileia-Sultana rules from the Throne of Lenses. Rebellion is met with hydraulic diversion—drying out a province's water and memory.</p>
-           </div>
-           <div>
-              <h4 className="font-sans font-bold text-white uppercase tracking-widest text-xs mb-2 border-b border-white/10 pb-1">4. Religion</h4>
-              <p className="text-sm text-gray-400 font-sans"><strong>Liturgy of the Bound Sun.</strong> Worship is contractual: "I offer my history; You offer your light." Rituals involve burning Drako-Incense.</p>
-           </div>
+        <div className="bg-white/5 p-6 border-l-2 border-[#d4af37]">
+          <h4 className="font-cinzel font-bold text-white text-sm mb-2">
+            2. The Stratum of the Gilded Lie
+          </h4>
+          <ul className="list-disc pl-4 font-cormorant text-xl text-gray-400 space-y-2">
+            <li>
+              <strong>The Gilded Palace (Core):</strong> Home of the Dynastoi.
+              They exhibit dual genders, a mutation from the Pyrochrysos Heart.
+              They are living archives of False History.
+            </li>
+            <li>
+              <strong>The Silver Caste:</strong> Soldiers and Captains.
+              Assimilated warriors who wear silver masks.
+            </li>
+            <li>
+              <strong>The Kashani (Citizenry):</strong> They bear Runic Sigils
+              of precious metals engraved into their skin.
+            </li>
+            <li>
+              <strong>The Foundations:</strong> Beneath the gleaming streets lie
+              the stifling tunnels where Enclave Dvergr and the Un-Named
+              maintain the hydraulic despotism.
+            </li>
+          </ul>
         </div>
 
-        <div>
-           <h4 className="font-sans font-bold text-white uppercase tracking-widest text-xs mb-2 border-b border-white/10 pb-1">5. Military: The Hammer of the Sun</h4>
-           <ul className="space-y-3 text-sm text-gray-300 font-sans">
-              <li><strong>The Golden Phalanx:</strong> Infantry in "Liturgy-Plated" bronze. Sarissas that "clip" the Aether to stop magic.</li>
-              <li><strong>Companion Cataphracts:</strong> Cavalry with Dover-Iron hooves that gallop on air.</li>
-              <li><strong>The Basileius-Core (The Nukes):</strong> Colossal, thick-plated suits of gold-iron (Walking Ziggurats). Powered by Marrow-Boilers, piloted by "Venth-Readers". A single unit can incinerate a village by citing the Dragon's heat.</li>
-           </ul>
+        <div className="space-y-4">
+          <h3 className="font-['UnifrakturCook'] text-3xl text-[#d4af37]">
+            3. The Basileius-Core
+          </h3>
+          <div className="p-6 border border-[#d4af37] bg-[#d4af37]/5">
+            <p className="font-cormorant text-xl text-gray-300 leading-relaxed">
+              The transcendent weapon. Not a machine, but a Walking, Armored
+              Statue of mithril, platinum, and crystallized fire. It resembles a
+              classical Greek or Babylonian god, flayed to reveal gears of
+              gold-iron.
+              <br />
+              <br />
+              <span className="text-[#d4af37]">The Price:</span>{" "}
+              <strong>Pyrochrysian Transmutation.</strong> Piloting consumes the
+              pilot’s Historicity (Memories, Identity). A pilot emerges
+              forgetting their child's face. Pushed too far, they become a
+              Living Catalyst, detonating like a miniature sun.
+            </p>
+          </div>
         </div>
 
-        <div className="bg-white/5 p-4 border border-white/10">
-           <h4 className="font-sans font-bold text-gold uppercase tracking-widest text-xs mb-2">6. Notable Figures</h4>
-           <p className="text-sm text-gray-400 font-sans mb-2"><strong>Princess Zayna Al-Zion:</strong> The "Black Cat". Secretly reading forbidden chronicles.</p>
-           <p className="text-sm text-gray-400 font-sans mb-2"><strong>Grand Vizier Mazdak:</strong> Architect of Memory Erasures. So silver-grafted he forgot his name.</p>
-           <p className="text-sm text-gray-400 font-sans"><strong>Polemarch Kaleb:</strong> Commander of the Basileius-Core who hears "screams" from his armor.</p>
+        <div className="space-y-2 pt-4">
+          <h4 className="font-cinzel font-bold text-gray-400 text-sm mb-1">
+            Magic: Solar-Thaumaturgy
+          </h4>
+          <p className="font-cormorant text-xl text-gray-300">
+            Citing the Dragon's fossilized heat using Aqua-Sol.{" "}
+            <strong>Cost:</strong> The Hollow Soul. To cast fire is to burn a
+            memory of warmth from your own mind.
+          </p>
         </div>
       </div>
-    )
+    ),
   },
+
+  // --- REICHLAND ---
   {
-    id: "IV_EISEN_MARROW",
-    title: "IV. EISEN-MARROW",
-    label: "IV. The Iron Reich",
-    subtitle: "The Reichland of the Methal-Barons",
+    id: "FILE_04_REICHLAND",
+    title: "Methal-Barons",
+    subtitle: "The Sacred Reichland",
+    visualData: {
+      mainImage: null,
+      type: "Faction",
+      threatLevel: "Severe",
+      tags: ["Industrial", "Iron", "Gothic"],
+      stats: [
+        { label: "Capital", value: "The Trench" },
+        { label: "Relic", value: "Eisen-Mail" },
+      ],
+      processLog:
+        "Industrial Feudalism. The critique of Colonial Extractivism raised to a theology.",
+      inspiration: "The Cathedral of Soot. Warhammer 40k meets WWI.",
+    },
     fullContent: (
       <div className="space-y-12">
-        <p className="font-serif text-xl italic text-gray-400">"The Cult of the Anvil: The world is a broken machine that must be repaired through suffering."</p>
-        
-        <p className="font-serif text-lg text-gray-300">If the South is a mirage of gold, the North is a visceral reality of soot and iron. Built into the petrified ribcage of the world, it is a society of Militarized Industrial Feudality.</p>
+        <header className="border-b border-gray-600 pb-6">
+          <p className="font-cinzel text-sm text-gray-400 mb-2 font-bold">
+            OFFICIAL NAME: Das Heilige Erzherzogtum der Eisenmark
+          </p>
+          <p className="font-cormorant text-xl text-gray-300">
+            Common Epithets: The Iron-Reich, The Anvil of God, The Grinding
+            North, The Bleeding March.
+            <br />
+            <strong>Secret Truth:</strong> A miner-prophet mistook the Dragon's
+            ribs for a Crucified God. Mining is "Sacred Surgery."
+          </p>
+        </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-           <div>
-              <h4 className="font-sans font-bold text-white uppercase tracking-widest text-xs mb-2 border-b border-white/10 pb-1">1. Demographics</h4>
-              <ul className="list-disc pl-4 text-sm text-gray-400 space-y-2 font-sans">
-                 <li><strong>The Eisen-Volk (74%):</strong> Skeletons infused with Drako-Lead. Strong, but doomed to painful calcification.</li>
-                 <li><strong>The Exiled Sons (12%):</strong> Adoptees from Nifl-wulf. Potential Runic Knights.</li>
-                 <li><strong>The Hods (10%):</strong> Sub-surface laborers dredging marrow in lethal trenches.</li>
-              </ul>
-           </div>
-           <div>
-              <h4 className="font-sans font-bold text-white uppercase tracking-widest text-xs mb-2 border-b border-white/10 pb-1">2. Geography</h4>
-              <ul className="list-disc pl-4 text-sm text-gray-400 space-y-2 font-sans">
-                 <li><strong>The Vertebral Trench:</strong> Vertical city miles deep along the Dragon's spine.</li>
-                 <li><strong>The Black-Thal:</strong> The Foundry Valley.</li>
-                 <li><strong>The Rib-Spires:</strong> Fortifications on the Dragon's ribs.</li>
-              </ul>
-           </div>
+        <div className="space-y-4">
+          <h3 className="font-['UnifrakturCook'] text-3xl text-gray-400">
+            1. The Passion of the Ore
+          </h3>
+          <p className="font-cormorant text-xl text-gray-300 leading-relaxed">
+            <strong>The Origin Myth:</strong> Karl-Urich, a mine-overseer, broke
+            through a wall of black basalt and found a Vein of Pulsing Silver
+            (The Arg-Marrow). Bathed in radiation, he received a "Divine
+            Mandate." He claimed the land was the body of a Wounded God-King,
+            crucified to save the world.
+            <br />
+            <br />
+            <strong>The Civilizing Mission:</strong> He declared that mining was
+            Medicine. Their duty was the <em>Ewige Aderlass</em> (Eternal
+            Bloodletting)—to drain the "infected" blood and refine it into Order
+            (Iron). He united the tribes under the Crusade of the Drill.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-           <div>
-              <h4 className="font-sans font-bold text-white uppercase tracking-widest text-xs mb-2 border-b border-white/10 pb-1">3. Governance</h4>
-              <p className="text-sm text-gray-400 font-sans">Ruled by <strong>Erz-Herzogs</strong> (Arch-Dukes). Governance via "Anvil-Laws" prioritizing state production. Rebels are shackled with runic chains that drain their history.</p>
-           </div>
-           <div>
-              <h4 className="font-sans font-bold text-white uppercase tracking-widest text-xs mb-2 border-b border-white/10 pb-1">4. Religion</h4>
-              <p className="text-sm text-gray-400 font-sans"><strong>Iron Piety.</strong> Marrow is the divine blood of a Martyr-God. Extraction is sacred surgery.</p>
-           </div>
+        <div className="space-y-4">
+          <h3 className="font-['UnifrakturCook'] text-3xl text-gray-400">
+            2. The Visage of the March
+          </h3>
+          <p className="font-cormorant text-xl text-gray-300 leading-relaxed">
+            A land of violent duality. Emerald valleys and snow-capped peaks are
+            eaten away by the Industry of the Drill. The industrial zones are
+            choked by the smog of a thousand Markscheiden (Refinery-Temples).
+            <br />
+            <br />
+            The great capitals are not built on the ground, but carved into the
+            canyon walls of the Vertebral Trench. They are sprawling, brutalist
+            fortresses of black iron and gargoyles that spew smoke, connected by
+            endless webs of wet trenches.
+          </p>
         </div>
 
-        <div>
-           <h4 className="font-sans font-bold text-white uppercase tracking-widest text-xs mb-2 border-b border-white/10 pb-1">5. Military: The Meat-Grinder</h4>
-           <ul className="space-y-3 text-sm text-gray-300 font-sans">
-              <li><strong>Attrition Squares:</strong> Massive formations of pike-men. Soviet-style sacrifice.</li>
-              <li><strong>Marrow-Steam Engines:</strong> Crawler-Forts using pressurized marrow-vapor for drills and flamethrowers.</li>
-              <li><strong>The Marrow-Crackers (Elite):</strong> Knights with armor hammered into their bones. Wield "Gravity-Maces" containing Dragon-shard. A strike creates localized Narrative Collapse, turning targets to inert stone.</li>
-           </ul>
+        <div className="bg-white/5 p-6 border-l-2 border-gray-500">
+          <h4 className="font-cinzel font-bold text-white text-sm mb-2">
+            3. The Stratum of the Grind
+          </h4>
+          <ul className="list-disc pl-4 font-cormorant text-xl text-gray-400 space-y-2">
+            <li>
+              <strong>Methal-Barons (Electors):</strong> Lords addicted to
+              Marrow-fumes, granting them "Steel-Conscience" (no pity).
+            </li>
+            <li>
+              <strong>Iron-Sons (Eisen-Orden):</strong> Genetically pure giants
+              imported from the North. The Teutonic Knights of the age.
+            </li>
+            <li>
+              <strong>The Penitents (Sühner):</strong> Criminals sealed into
+              iron masks, forced to work the toxic "Hot-Veins" until they
+              calcify.
+            </li>
+          </ul>
         </div>
 
-        <div className="bg-white/5 p-4 border border-white/10">
-           <h4 className="font-sans font-bold text-gold uppercase tracking-widest text-xs mb-2">6. Notable Figures</h4>
-           <p className="text-sm text-gray-400 font-sans mb-2"><strong>Erz-Herzog Vargus:</strong> "The Iron-Lungs". Breathes through a runic respirator.</p>
-           <p className="text-sm text-gray-400 font-sans mb-2"><strong>Knight-Captain Bram:</strong> Veteran who survived 3 Iron-Baptisms. Can no longer feel pain.</p>
-           <p className="text-sm text-gray-400 font-sans"><strong>The Scribe Malachi:</strong> Mapping the "screams" of the drills to find the Dragon's heart.</p>
+        <div className="space-y-4">
+          <h3 className="font-['UnifrakturCook'] text-3xl text-gray-400">
+            4. The Eisen-Mailplates
+          </h3>
+          <div className="p-6 border border-gray-500 bg-gray-800/20">
+            <p className="font-cormorant text-xl text-gray-300 leading-relaxed">
+              Heavy Full-Plated Armors of the Giménez aesthetic. Bulky,
+              hunchbacked reliquaries covered in rivets, chains, and exhaust
+              pipes. The pilot is entombed in the machine.
+              <br />
+              <br />
+              <span className="text-red-400">The Curse:</span>{" "}
+              <strong>Berserkergang.</strong> The mixture of Star and Dragon
+              energies creates a "Dissonance" in the engine that sounds like
+              screaming. Prolonged use drives the pilot mad with rage.
+            </p>
+          </div>
         </div>
       </div>
-    )
+    ),
   },
+
+  // --- NAGLFARBORG ---
   {
-    id: "V_NIFL_WULF",
-    title: "V. NIFL-WULF",
-    label: "V. Nifl-Wulf",
-    subtitle: "The Aesir-Vaticum (City of Frozen Thunder)",
+    id: "FILE_05_NAGLFARBORG",
+    title: "Naglfarborg",
+    subtitle: "Citadel of the Dead Moon",
+    visualData: {
+      mainImage: null,
+      type: "Faction",
+      threatLevel: "Critical",
+      tags: ["Technocracy", "Ice", "Star-Logic"],
+      stats: [
+        { label: "Site", value: "Ark Crash" },
+        { label: "Relic", value: "Valkyrja" },
+      ],
+      processLog:
+        "Beowulf played out in a cathedral of crystal and chrome. Squatters in a dead engine.",
+      inspiration: "High Norse meets Syd Mead.",
+    },
     fullContent: (
       <div className="space-y-12">
-        <p className="font-serif text-xl italic text-blue-200/80">"Ontological Decrees: A crime is a Narrative Dissonance that must be ritualistically erased."</p>
-        
-        <p className="font-serif text-lg text-gray-300">Located at the northernmost point, under an Aegis-Dome of perpetual twilight. A gothic-prismatic marvel where history is sanctified and preserved in crystalline lattices.</p>
+        <header className="border-b border-cyan-500/30 pb-6">
+          <p className="font-cinzel text-sm text-cyan-400 mb-2 font-bold">
+            OFFICIAL NAME: The Matriarchal Technocracy of Nilfthilien
+          </p>
+          <p className="font-cormorant text-xl text-gray-300">
+            Common Epithets: The Moon-Keep, The Pale Spire, The Grave of the
+            Star, The Silent Cathedral.
+            <br />
+            <strong>Secret Truth:</strong> A kingdom built by the servants of
+            the Star-Gods inside the wreckage of their fallen Chariot. They
+            believe they are guardians; in truth, they are squatters in the
+            engine room of a dead machine.
+          </p>
+        </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-           <div>
-              <h4 className="font-sans font-bold text-white uppercase tracking-widest text-xs mb-2 border-b border-white/10 pb-1">1. Demographics</h4>
-              <ul className="list-disc pl-4 text-sm text-gray-400 space-y-2 font-sans">
-                 <li><strong>The Ljós-Kin (40%):</strong> Luminescent, immortal, slowly turning to silver statues (Narrative Calcification).</li>
-                 <li><strong>The Mnemir (10%):</strong> Silent Witnesses. Elven-variants who act as archivists.</li>
-                 <li><strong>High-Human Nobility (35%):</strong> Ancient lineages serving the Synod.</li>
-              </ul>
-           </div>
-           <div>
-              <h4 className="font-sans font-bold text-white uppercase tracking-widest text-xs mb-2 border-b border-white/10 pb-1">2. Geography</h4>
-              <ul className="list-disc pl-4 text-sm text-gray-400 space-y-2 font-sans">
-                 <li><strong>Crater Archipelago:</strong> Obsidian islands over an abyss.</li>
-                 <li><strong>Glacial Spokes:</strong> Bridges of "Frozen Light".</li>
-                 <li><strong>Void-Mist:</strong> Silver fog acting as a sensory barrier.</li>
-              </ul>
-           </div>
+        <div className="space-y-4">
+          <h3 className="font-['UnifrakturCook'] text-3xl text-cyan-200">
+            1. The Hall of the Pale Star
+          </h3>
+          <p className="font-cormorant text-xl text-gray-300 leading-relaxed">
+            Naglfarborg is a vertical city built inside and around the exposed,
+            colossal ribs of the crashed Ark. Spires of white whale-bone and
+            scavenged star-metal rise from the ice, tethered by humming chains
+            of Galdr-Light.
+            <br />
+            <br />
+            There are no fires here, only the cold, blue hum of the Liquid
+            Starlight leaking from the Ark’s heart. The city sings—a constant,
+            resonant frequency that keeps the ice from crushing the walls.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-           <div>
-              <h4 className="font-sans font-bold text-white uppercase tracking-widest text-xs mb-2 border-b border-white/10 pb-1">3. Governance</h4>
-              <p className="text-sm text-gray-400 font-sans"><strong>Matriarchal Academic Synod.</strong> Ruled by the Twelve Elder Mothers who have achieved "Cold-Ascension".</p>
-           </div>
-           <div>
-              <h4 className="font-sans font-bold text-white uppercase tracking-widest text-xs mb-2 border-b border-white/10 pb-1">4. Religion</h4>
-              <p className="text-sm text-gray-400 font-sans"><strong>The Lunar Liturgy.</strong> Worship of the Star-Heart (Valar-shard). The Dragon's world is seen as a messy hallucination.</p>
-           </div>
+        <div className="bg-white/5 p-6 border-l-2 border-cyan-400">
+          <h4 className="font-cinzel font-bold text-white text-sm mb-2">
+            2. The Weave of Fate
+          </h4>
+          <ul className="list-disc pl-4 font-cormorant text-xl text-gray-400 space-y-2">
+            <li>
+              <strong>Urðar-Matriarchs (Norns):</strong> Cyborg council fused
+              into the Ark’s control mechanisms. They interpret dying
+              data-streams as divine whispers.
+            </li>
+            <li>
+              <strong>Daughters of Light:</strong> Tall, pale women with
+              bioluminescent skin. Logic is the language of Gods; emotion is a
+              sickness.
+            </li>
+            <li>
+              <strong>Thrall-Kin:</strong> The male population. Guardians and
+              laborers sworn to the shield-oath.
+            </li>
+          </ul>
         </div>
 
-        <div>
-           <h4 className="font-sans font-bold text-white uppercase tracking-widest text-xs mb-2 border-b border-white/10 pb-1">5. Military: Wrath of the Void</h4>
-           <ul className="space-y-3 text-sm text-gray-300 font-sans">
-              <li><strong>Einherjar-Guard:</strong> Battle-mages in porcelain-faced armor. Wield "Frozen Thunder" blades that phase through armor.</li>
-              <li><strong>Astral-Scripting:</strong> Rewriting local gravity or pressure.</li>
-              <li><strong>The Valkyries (The Nukes):</strong> Fractal-angels of screaming light. They create a "Static-Scream" that freezes enemies into glass statues, deleting them from the present.</li>
-           </ul>
-        </div>
-
-        <div className="bg-white/5 p-4 border border-white/10">
-           <h4 className="font-sans font-bold text-gold uppercase tracking-widest text-xs mb-2">6. Notable Figures</h4>
-           <p className="text-sm text-gray-400 font-sans mb-2"><strong>The Lunar Seer, Ranni-Vola:</strong> Replaced her body with a four-armed porcelain doll.</p>
-           <p className="text-sm text-gray-400 font-sans"><strong>Arch-Scribe Beow-Ulf:</strong> Warrior-poet guarding the archive with a spear of "Un-Ice".</p>
+        <div className="space-y-4">
+          <h3 className="font-['UnifrakturCook'] text-3xl text-cyan-200">
+            3. The Valkyrja-Armor
+          </h3>
+          <div className="p-6 border border-cyan-400 bg-cyan-900/20">
+            <p className="font-cormorant text-xl text-gray-300 leading-relaxed">
+              Tall, slender suits etched from the Ark's translucent hull. They
+              resemble winged angels of death. They wield Gungnir-Lances
+              (Gravity Beams).
+              <br />
+              <br />
+              <span className="text-cyan-400">The Price:</span>{" "}
+              <strong>The Fading.</strong> The pilot slowly loses her connection
+              to the earth. She forgets warmth, taste, and love, becoming a
+              "Ghost in the Shell" who can no longer remove the armor.
+            </p>
+          </div>
         </div>
       </div>
-    )
+    ),
   },
+
+  // --- AMARTYA-ZEN ---
   {
-    id: "VI_AMARTYA_ZEN",
-    title: "VI. AMARTYA-ZEN",
-    label: "VI. The Jade Shogunate",
-    subtitle: "The Celestial Shogunate of the Thousand-Petaled Dharma",
+    id: "FILE_06_AMARTYA",
+    title: "The Shogunate",
+    subtitle: "The Tenjō Shogunate",
+    visualData: {
+      mainImage: null,
+      type: "Faction",
+      threatLevel: "Neutral",
+      tags: ["Jade", "Floating", "Resonance"],
+      stats: [
+        { label: "Axis", value: "Shattered Tree" },
+        { label: "Relic", value: "Asura" },
+      ],
+      processLog:
+        "High Eastern Fantasy filtered through Baroque Tragedy. A garden hanging over an infinite drop.",
+      inspiration: "Floating World Ukiyo-e.",
+    },
     fullContent: (
       <div className="space-y-12">
-        <p className="font-serif text-xl italic text-emerald-400/80">"The World-Breath: The Shogun rules not by force, but by Spiritual Synchronization."</p>
-        
-        <p className="font-serif text-lg text-gray-300">Situated where dawn kisses the continent. Floating bamboo pagodas and jungles that hum with ancient resonance. A land where the boundaries between physical and spiritual are thinned.</p>
+        <header className="border-b border-emerald-500/30 pb-6">
+          <p className="font-cinzel text-sm text-emerald-400 mb-2 font-bold">
+            OFFICIAL NAME: The Celestial Shogunate of the Thousand-Petaled
+            Dharma
+          </p>
+          <p className="font-cormorant text-xl text-gray-300">
+            Common Epithets: The Jade Empire, The Resonant Kingdom, The Floating
+            World.
+            <br />
+            <strong>Secret Truth:</strong> Founded on a Suspended Catastrophe.
+            The islands float only because the chanting of the monks matches the
+            vibration of the falling earth.
+          </p>
+        </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-           <div>
-              <h4 className="font-sans font-bold text-white uppercase tracking-widest text-xs mb-2 border-b border-white/10 pb-1">1. Demographics</h4>
-              <ul className="list-disc pl-4 text-sm text-gray-400 space-y-2 font-sans">
-                 <li><strong>Dharmic Humans (55%):</strong> Tattooed with Sanskrit-Runes.</li>
-                 <li><strong>Rakshasa (18%):</strong> Tigermen warrior-caste. Metallic fur.</li>
-                 <li><strong>Vanara (15%):</strong> Monkey-kin scholars of Aether.</li>
-                 <li><strong>Asura-Touched (2%):</strong> Beings with extra limbs/glowing skin.</li>
-              </ul>
-           </div>
-           <div>
-              <h4 className="font-sans font-bold text-white uppercase tracking-widest text-xs mb-2 border-b border-white/10 pb-1">2. Geography</h4>
-              <ul className="list-disc pl-4 text-sm text-gray-400 space-y-2 font-sans">
-                 <li><strong>Ganges-of-the-Stars:</strong> River flowing with spirit-mist.</li>
-                 <li><strong>Jade Jungle:</strong> Bioluminescent saturation zone.</li>
-                 <li><strong>Spires of Amaterasu:</strong> Floating crystalline mountains.</li>
-              </ul>
-           </div>
+        <div className="space-y-4">
+          <h3 className="font-['UnifrakturCook'] text-3xl text-emerald-400">
+            1. The Visage of the Dream
+          </h3>
+          <p className="font-cormorant text-xl text-gray-300 leading-relaxed">
+            A vertical empire. The Celestial Canopy consists of continent-sized
+            islands of white jade floating miles above the ruined surface.
+            Rivers flow upwards from the abyss.
+            <br />
+            <br />
+            The architecture is organic: pagodas rise from the hollows of
+            petrified mega-fauna bones, and temples are carved into giant
+            floating roots. It is a place of breathtaking, terrifying beauty.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-           <div>
-              <h4 className="font-sans font-bold text-white uppercase tracking-widest text-xs mb-2 border-b border-white/10 pb-1">3. Governance</h4>
-              <p className="text-sm text-gray-400 font-sans"><strong>Theocratic Shogunate.</strong> The Shogun mediates between spirits and humans. Daimyos use "Mudra-Laws" to bend the environment.</p>
-           </div>
-           <div>
-              <h4 className="font-sans font-bold text-white uppercase tracking-widest text-xs mb-2 border-b border-white/10 pb-1">4. Religion</h4>
-              <p className="text-sm text-gray-400 font-sans"><strong>Dharma-Resonance.</strong> The world is a song. Goal is "Moksha-Stability" to see the Radiant State without madness.</p>
-           </div>
+        <div className="bg-white/5 p-6 border-l-2 border-emerald-400">
+          <h4 className="font-cinzel font-bold text-white text-sm mb-2">
+            2. Stratum of Resonance
+          </h4>
+          <ul className="list-disc pl-4 font-cormorant text-xl text-gray-400 space-y-2">
+            <li>
+              <strong>The Devaraja (Shogun):</strong> A Living Tuning Fork. He
+              sits on the Lotus Throne, wired into the root-system, dreaming the
+              Empire into stability.
+            </li>
+            <li>
+              <strong>Rakshasa (Tiger-Folk):</strong> Noble warriors with
+              metallic fur. Second-class citizens bound by honor.
+            </li>
+            <li>
+              <strong>Ebisu (Mud-Dwellers):</strong> The casteless living in the
+              cold shadow on the surface, catching the refuse from paradise.
+            </li>
+          </ul>
         </div>
 
-        <div>
-           <h4 className="font-sans font-bold text-white uppercase tracking-widest text-xs mb-2 border-b border-white/10 pb-1">5. Military: The Symphony of War</h4>
-           <ul className="space-y-3 text-sm text-gray-300 font-sans">
-              <li><strong>Warrior-Monk Sects:</strong> Duelists who "pinch" lines of history to break armor.</li>
-              <li><strong>Indra-Elephants:</strong> Six-tusked beasts emitting low-frequency Aum-Hum that liquifies organs.</li>
-              <li><strong>The Asura-Vanguard (The Nukes):</strong> Elite warriors in "Frenzy". Manifest spectral arms wielding blades of Hardened Sound.</li>
-           </ul>
-        </div>
-
-        <div className="bg-white/5 p-4 border border-white/10">
-           <h4 className="font-sans font-bold text-gold uppercase tracking-widest text-xs mb-2">6. Notable Figures</h4>
-           <p className="text-sm text-gray-400 font-sans mb-2"><strong>Shogun Amartya-Zen II:</strong> A youth who floats in perpetual trance.</p>
-           <p className="text-sm text-gray-400 font-sans"><strong>General Rakshas-Khan:</strong> Tigerman with a lightning-forged katana.</p>
+        <div className="space-y-4">
+          <h3 className="font-['UnifrakturCook'] text-3xl text-emerald-400">
+            3. The Asura-Vanguard
+          </h3>
+          <div className="p-6 border border-emerald-400 bg-emerald-900/20">
+            <p className="font-cormorant text-xl text-gray-300 leading-relaxed">
+              Colossal Samurai-Effigies of heavy, red-lacquered iron. They
+              possess four arms (two physical, two spectral). Their blade severs
+              the "String of Fate," erasing enemies from reincarnation.
+              <br />
+              <br />
+              <span className="text-emerald-400">The Price:</span>{" "}
+              <strong>Karmic Suicide.</strong> To power the Asura, the pilot
+              burns his own future lives. A battle of one hour destroys ten
+              thousand years of rebirths.
+            </p>
+          </div>
         </div>
       </div>
-    )
+    ),
   },
+
+  // --- TEO-AZTLAN ---
   {
-    id: "VII_DVERGR",
-    title: "VII. THE DVERGR",
-    label: "VII. The Root-Kin",
-    subtitle: "The Deep Maintenance (The Lithic-Mycelium)",
+    id: "FILE_07_AZTLAN",
+    title: "Teo-Aztlan",
+    subtitle: "Hegemony of the Fifth Sun",
+    visualData: {
+      mainImage: null,
+      type: "Faction",
+      threatLevel: "Severe",
+      tags: ["Blood", "Obsidian", "Debt"],
+      stats: [
+        { label: "Site", value: "The Coil" },
+        { label: "Relic", value: "Coatl-Colossi" },
+      ],
+      processLog:
+        "Tenochtitlan reimagined as a Biomechanical Utopia. Survivors of the Great Deluge.",
+      inspiration: "The only adults in the room.",
+    },
     fullContent: (
       <div className="space-y-12">
-        <p className="font-serif text-lg text-gray-300">To surface-dwellers, they are smiths. The truth is more alien. The Dvergr are <strong>Mineral-Fungal Hybrids</strong> exuded from the Dragon’s marrow. They view the world as a colossal machine that must be tuned to prevent the Aether-Ink from leaking back in.</p>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white/5 p-4 border border-white/10">
-                <h4 className="font-bold text-gold mb-2 text-xs uppercase font-sans">1. Appearance</h4>
-                <p className="text-sm text-gray-300 font-sans">Skin of cold slate and rusted iron. "Muscles" are translucent fungal-fibers. Their beards are Mycelium-Filaments that plug into the stone to "taste" geological instability.</p>
+        <header className="border-b border-red-900/50 pb-6">
+          <p className="font-cinzel text-sm text-red-500 mb-2 font-bold">
+            OFFICIAL NAME: The Hegemony of the Fifth Sun
+          </p>
+          <p className="font-cormorant text-xl text-gray-300">
+            Epithets: The Coiled Kingdom, The Place of Whiteness, Land of Seven
+            Caves.
+            <br />
+            <strong>Secret Truth:</strong> They are survivors of the Great
+            Deluge, preserved by the sacrifice of Quetzalcoatl. They pay the
+            Cosmic Debt (Blood) to keep the petrified God from uncoiling and
+            letting the flood back in.
+          </p>
+        </header>
+
+        <div className="space-y-4">
+          <h3 className="font-['UnifrakturCook'] text-3xl text-red-500">
+            1. The City of the White Heron
+          </h3>
+          <p className="font-cormorant text-xl text-gray-300 leading-relaxed">
+            Hidden inside the Xibalba Crater (The Eye of the Coil),
+            Tenochtitlan-Rebis floats on the Lake of the Moon. It is a white
+            city of bleached limestone and silver.
+            <br />
+            <br />
+            The crater walls are not rock; they are the fossilized, iridescent
+            plumes of the Serpent. The technology is spiritual; elevators rise
+            on columns of solidified water, and floating gardens grow
+            Bio-Crystal Circuitry.
+          </p>
+        </div>
+
+        <div className="bg-white/5 p-6 border-l-2 border-red-500">
+          <h4 className="font-cinzel font-bold text-white text-sm mb-2">
+            2. The Stratum of the Fifth Sun
+          </h4>
+          <ul className="list-disc pl-4 font-cormorant text-xl text-gray-400 space-y-2">
+            <li>
+              <strong>The Tlatoani (Speaker):</strong> The Voice of the Coil,
+              wearing the Turquoise Diadem.
+            </li>
+            <li>
+              <strong>The Pipiltin (Nobles):</strong> Gene-smiths and
+              astronomers who balance the Calendar of Debt.
+            </li>
+            <li>
+              <strong>The Tlacotin (Bonded):</strong> Laborers working off their
+              "Cosmic Balance." Labor is prayer.
+            </li>
+          </ul>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="font-['UnifrakturCook'] text-3xl text-red-500">
+            3. The Coatl-Colossi
+          </h3>
+          <div className="p-6 border border-red-500 bg-red-950/40">
+            <p className="font-cormorant text-xl text-gray-300 leading-relaxed">
+              Giménez-Style Stone-Mechs. Massive statues of basalt and jade with
+              exposed bio-muscle fibers. Armed with Turquoise-Serpent
+              Flamethrowers.
+              <br />
+              <br />
+              <span className="text-red-500">The Price:</span>{" "}
+              <strong>The Heart-Burn.</strong> The machine burns Teotl (Divine
+              Energy). The pilot's own body is burned as kindling to keep the
+              stone giant moving.
+            </p>
+          </div>
+        </div>
+      </div>
+    ),
+  },
+
+  // =====================================================================
+  // IV. ARTERIES (GEOGRAPHY)
+  // =====================================================================
+  {
+    id: "FILE_08_ARTERIES",
+    title: "IV. Arteries",
+    subtitle: "Geography & The Great Works",
+    visualData: {
+      mainImage: null,
+      type: "Geography",
+      threatLevel: "N/A",
+      tags: ["Infrastructure", "Harradin", "Wilds"],
+      stats: [
+        { label: "Network", value: "Wall-Roads" },
+        { label: "Danger", value: "The Wilds" },
+      ],
+      processLog: "The anatomy of a God. The roads are veins.",
+      inspiration: "A world where 'Nature' is the enemy immune system.",
+    },
+    fullContent: (
+      <div className="space-y-12">
+        <header className="border-b border-stone-600 pb-6">
+          <p className="font-cinzel text-sm text-stone-400 mb-2 font-bold">
+            OFFICIAL DESIGNATION: The Harrādin-Kiru Network
+          </p>
+          <p className="font-cormorant text-xl text-gray-300">
+            The Wall-Roads. Not built by hands, but the fossilized arteries of
+            the Dragon, reinforced to allow mortals to traverse the necrotic
+            flesh of a Titan without being digested by its immune system.
+          </p>
+        </header>
+
+        {/* 1. The Harradin */}
+        <div className="space-y-2">
+          <h3 className="font-['UnifrakturCook'] text-3xl text-stone-300">
+            1. The Harrādin
+          </h3>
+          <p className="font-cormorant text-xl text-gray-300">
+            Colossal, highway-sized walls of seamless black basalt rising 300
+            feet. To walk upon them is to feel the Omnus-Chorus, a vibration
+            that repels the monsters of the Wilds.
+            <br />
+            <br />
+            <strong>The Cost:</strong> Anchorite-Mages must channel life-force
+            into the rock. Veteran guards turn to granite, fusing to their
+            posts.
+          </p>
+        </div>
+
+        {/* 2. Regional Geography */}
+        <div className="space-y-4">
+          <h3 className="font-['UnifrakturCook'] text-3xl text-stone-300">
+            2. The Landscapes of Myth
+          </h3>
+          <div className="grid grid-cols-1 gap-4">
+            <div className="bg-white/5 p-6 border-l-2 border-[#d4af37]">
+              <strong className="text-[#d4af37] block font-cinzel mb-2">
+                The Mirror-Wastes (South)
+              </strong>
+              <span className="font-cormorant text-xl text-gray-400">
+                A salt-lake that reflects the sky of 10,000 years ago. Travelers
+                getting lost in time.
+              </span>
             </div>
-            <div className="bg-white/5 p-4 border border-white/10">
-                <h4 className="font-bold text-gold mb-2 text-xs uppercase font-sans">2. Religion: The Stone-Song</h4>
-                <p className="text-sm text-gray-300 font-sans">They worship <strong>The Symphony of Stasis</strong>. Their faith is rhythmic calibration. If they stop singing, the world-machine collapses.</p>
+            <div className="bg-white/5 p-6 border-l-2 border-gray-500">
+              <strong className="text-gray-400 block font-cinzel mb-2">
+                The Iron Forest (North)
+              </strong>
+              <span className="font-cormorant text-xl text-gray-400">
+                Trees of iron-hard horn that weep black blood. The Reichland
+                burns it eternally.
+              </span>
             </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div>
-               <h4 className="font-sans font-bold text-white uppercase tracking-widest text-xs mb-2 border-b border-white/10 pb-1">3. Magic & Cost</h4>
-               <p className="text-sm text-gray-400 font-sans"><strong>Lithic-Resonance.</strong> Humming frequencies to make stone flow. <br/><strong>Cost:</strong> Petrification. They slowly turn into permanent statues.</p>
+            <div className="bg-white/5 p-6 border-l-2 border-purple-500">
+              <strong className="text-purple-400 block font-cinzel mb-2">
+                The Glass Desert (Center)
+              </strong>
+              <span className="font-cormorant text-xl text-gray-400">
+                The Forbidden Zone. Black silica sand and violet lightning. Home
+                of the Shadow-Keepers.
+              </span>
             </div>
-            <div>
-               <h4 className="font-sans font-bold text-white uppercase tracking-widest text-xs mb-2 border-b border-white/10 pb-1">4. Governance</h4>
-               <p className="text-sm text-gray-400 font-sans"><strong>The Great Mycelium Accord.</strong> Consensus via Hive-Mind connection to Root-Mothers.</p>
-            </div>
-        </div>
-        
-        <div>
-            <h4 className="font-sans font-bold text-white uppercase tracking-widest text-xs mb-2 border-b border-white/10 pb-1">5. Military: Architectural Defiance</h4>
-            <p className="text-sm text-gray-400 font-sans mb-2">They control the floor beneath your feet. <strong>Seismic-Breaching:</strong> Liquefying foundation stones.</p>
-            <p className="text-sm text-gray-400 font-sans"><strong>The Grubs:</strong> Colossal worm-like bio-constructs that chew through Ever-Metal, deleting fortifications.</p>
-        </div>
-      </div>
-    )
-  },
-  {
-    id: "VIII_FRAGMENT",
-    title: "VIII. [ AZTLAN ]",
-    label: "VIII. Aztlan",
-    subtitle: "The Xi-Ba'al Hegemony (The Sun-Eaters)",
-    fullContent: (
-      <div className="border border-red-900/50 bg-red-950/10 p-8 relative overflow-hidden space-y-8">
-        <div className="absolute top-0 right-0 p-2 text-[10px] font-mono text-red-500 uppercase border border-red-500 bg-black">Heretical Data</div>
-        
-        <p className="mb-6 text-red-200/80 font-serif italic text-xl">"They don't want to rule you—they want to Harvest you to save a Dragon you don't even believe in."</p>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-           <div>
-              <h4 className="font-sans font-bold text-red-500 uppercase tracking-widest text-xs mb-2 border-b border-red-500/30 pb-1">1. Demographics</h4>
-              <ul className="list-disc pl-4 text-sm text-red-200/70 space-y-2 font-sans">
-                 <li><strong>Nahual-Kin (70%):</strong> Skin tattooed with ground jade and dragon-glass.</li>
-                 <li><strong>Jaguar-Hussars (15%):</strong> Grafted with Dragon-nerves.</li>
-                 <li><strong>Serpentine-Scribes:</strong> Write history in "Living Ink" (blood).</li>
-              </ul>
-           </div>
-           <div>
-              <h4 className="font-sans font-bold text-red-500 uppercase tracking-widest text-xs mb-2 border-b border-red-500/30 pb-1">2. Geography</h4>
-              <ul className="list-disc pl-4 text-sm text-red-200/70 space-y-2 font-sans">
-                 <li><strong>Xibalba-Crater:</strong> Massive sunken valley.</li>
-                 <li><strong>Smoking Mirror Coast:</strong> Obsidian cliffs.</li>
-              </ul>
-           </div>
+          </div>
         </div>
 
-        <div>
-           <h4 className="font-sans font-bold text-red-500 uppercase tracking-widest text-xs mb-2 border-b border-red-500/30 pb-1">3. Philosophy: The Great Reciprocity</h4>
-           <p className="text-sm text-red-200/70 font-sans">For every harvest, a specific number of "Narratives" must be extinguished to prevent the Dragon from rotting. The world is a divine patient, they are the surgeons.</p>
-        </div>
-
-        <div>
-           <h4 className="font-sans font-bold text-red-500 uppercase tracking-widest text-xs mb-2 border-b border-red-500/30 pb-1">4. Military: The Obsidian Shadow</h4>
-           <p className="text-sm text-red-200/70 font-sans mb-2"><strong>Atlatl-Shock-Troops:</strong> Throw "Blood-Bolts" that dissolve armor.</p>
-           <p className="text-sm text-red-200/70 font-sans"><strong>The Quetzal-Eaters (Nukes):</strong> Drop "Cenote-Bombs" that create Chronicle-Voids, physically deleting targets from memory.</p>
-        </div>
-      </div>
-    )
-  },
-  {
-    id: "IX_TAXONOMY",
-    title: "IX. TAXONOMY",
-    label: "IX. Taxonomy",
-    subtitle: "Ontological Taxonomy of Races",
-    fullContent: (
-      <div className="space-y-8">
-        <p className="font-serif text-lg text-gray-400">Biology in this world is not evolution; it is a reaction to the Dragon's decay or the Star's logic.</p>
-        
-        <ul className="space-y-8">
-          <li>
-              <strong className="text-xl block text-white mb-2 font-gothic">I. HOMO-NOMOS (Narrative Parasites)</strong>
-              <p className="text-gray-400 font-sans text-sm leading-relaxed">Humans possess "Narrative Plasticity." They are shaped by the stories of their masters. <br/><span className="text-gold">Gilded Humans</span> (South) are conduits for sun-magic. <br/><span className="text-gray-200">Marrow-Bound</span> (North) have skeletons of Drako-Lead.</p>
-          </li>
-          <li>
-              <strong className="text-xl block text-white mb-2 font-gothic">II. THE MNEMIR (Elves/Aurilim)</strong>
-              <p className="text-gray-400 font-sans text-sm leading-relaxed">Amoral custodians of the Original Script. To look into their eyes is to see the "Seams" of the universe—a psychedelic experience that leaves observers "Narratively Void."</p>
-          </li>
-          <li>
-              <strong className="text-xl block text-white mb-2 font-gothic">III. THE CHIMERA-KIN</strong>
-              <p className="text-gray-400 font-sans text-sm leading-relaxed">Biological masterpieces of Resonance. <br/><span className="text-orange-400">Rakshasa</span> (Tigermen) act as Faraday cages. <br/><span className="text-yellow-600">Vanara</span> (Monkey-men) navigate Aether-currents. <br/><span className="text-stone-400">Felids</span> (Cat-folk) are the sensory network.</p>
-          </li>
-          <li>
-              <strong className="text-xl block text-white mb-2 font-gothic">IV. THE MONOLITHS</strong>
-              <p className="text-gray-400 font-sans text-sm leading-relaxed">Geological burdens. <br/><span className="text-red-900">Centaurs</span> are Bio-Engines. <br/><span className="text-purple-400">Cyclopes</span> see only the Radiant Code, blind to the "Physical Lie".</p>
-          </li>
-        </ul>
-      </div>
-    )
-  },
-  {
-    id: "X_BESTIARY",
-    title: "X. THE BESTIARY",
-    label: "X. The Bestiary",
-    subtitle: "The Accumulated Horrors",
-    fullContent: (
-      <div className="space-y-10">
-        <p className="text-xl italic text-gray-500 font-serif">"The horror of Nomos is not that there are monsters under the bed; it’s that we are the ones who wrote them into existence."</p>
-        
-        <div>
-            <h4 className="font-bold text-purple-300 uppercase tracking-widest mb-2 font-sans">1. Vampires (Aristocracy of Hunger)</h4>
-            <p className="text-sm text-gray-400 font-sans leading-relaxed">Born from the "Sanctioned Lie" of Eternal Sovereignty. Nobles whose Narrative Weight has become parasitic. They must drain the "History" of others to avoid calcifying into statues.</p>
-        </div>
-        
-        <div>
-            <h4 className="font-bold text-emerald-700 uppercase tracking-widest mb-2 font-sans">2. The Wendigo (Hunger of the Husk)</h4>
-            <p className="text-sm text-gray-400 font-sans leading-relaxed">Corruption of the Survival Narrative. Manifests when biological hunger overrides rational script. Gaunt parodies of humanity with skin stretched over Dragon-bone. They consume the "Will" of victims.</p>
-        </div>
-        
-        <div>
-            <h4 className="font-bold text-cyan-200 uppercase tracking-widest mb-2 font-sans">3. The Cyclopes (The Ancient Gaze)</h4>
-            <p className="text-sm text-gray-400 font-sans leading-relaxed">Sages who have looked directly into the Radiant State for too long. Their eye is a hole in reality that sees the code but not the beauty.</p>
-        </div>
-
-        <div>
-            <h4 className="font-bold text-white uppercase tracking-widest mb-2 font-sans">4. Dissonance-Spawn</h4>
-            <p className="text-sm text-gray-400 font-sans leading-relaxed">Creatures manifested when local belief violently contradicts the Dragon's memory. Glitching, unstable anatomies.</p>
-        </div>
-      </div>
-    )
-  },
-  {
-    id: "XI_DISCARDED",
-    title: "XI. THE DISCARDED",
-    label: "XI. The Discarded",
-    subtitle: "Races of the Trench (Orcs & Goblins)",
-    fullContent: (
-      <div className="space-y-10">
-        <p className="font-serif text-lg text-gray-300">Soldiers "Un-Named" by the state. They are not separate races, but <strong>Degenerated Narratives</strong> left to rot in the Static Zones.</p>
-
+        {/* 3. The Wilds */}
         <div className="bg-white/5 p-6 border-l-4 border-red-900">
-            <h3 className="font-gothic text-3xl text-red-500 mb-2">THE ORC-VARIANTS (GRINDER-KIN)</h3>
-            <p className="text-gray-300 mb-4 font-sans text-sm">Massive, hunchbacked entities whose original plate-armor has physically fused with their dermis. Tusks are marrow-outgrowths.</p>
-            <p className="text-sm text-red-300 font-sans mb-1"><strong>Religion:</strong> Liturgy of the Last Command. Obsessed with the last order received before being Un-Named.</p>
-            <p className="text-sm text-red-300 font-sans"><strong>Magic Cost:</strong> Biological Overwrite. Using power makes the iron dig deeper into their organs.</p>
+          <h3 className="font-['UnifrakturCook'] text-2xl text-red-500 mb-2">
+            The Wilds (Untamed Anatomy)
+          </h3>
+          <p className="font-cormorant text-xl text-gray-400">
+            "Nature" is the overgrown body of the Titan. The mountains are its
+            spine. The islands are its broken wings. To step off the Road is to
+            step onto the skin of a god that hates you.
+          </p>
+        </div>
+      </div>
+    ),
+  },
+
+  // =====================================================================
+  // V. TERATOLOGIA (BESTIARY)
+  // =====================================================================
+  {
+    id: "FILE_09_BESTIARY",
+    title: "V. Teratologia",
+    subtitle: "The Book of Beasts",
+    visualData: {
+      mainImage: null,
+      type: "Bestiary",
+      threatLevel: "Extreme",
+      tags: ["Monsters", "Antibodies", "Mutants"],
+      stats: [],
+      processLog:
+        "These are not animals. They are the Antibodies of the Titan.",
+      inspiration: "Witcher 3 meets Biological Horror.",
+    },
+    fullContent: (
+      <div className="space-y-12">
+        <p className="font-cormorant text-xl text-gray-300 italic">
+          "Silver for the Spirits, Lead for the Flesh, and Fire for the Rot."
+        </p>
+
+        {/* 1. North */}
+        <div className="space-y-4">
+          <h3 className="font-['UnifrakturCook'] text-3xl text-gray-400 border-b border-gray-600 pb-2">
+            1. Beasts of the North
+          </h3>
+          <ul className="space-y-4 font-cormorant text-xl text-gray-400">
+            <li>
+              <strong className="text-white">The Leshen:</strong> General of the
+              Wilds. Roots and deer-skulls. It does not slash; it Commands.
+            </li>
+            <li>
+              <strong className="text-white">The Lindwyrm:</strong> Massive pale
+              serpents with human faces frozen in a scream. Burrowers.
+            </li>
+            <li>
+              <strong className="text-white">Verlorene (Orks):</strong> Mutated
+              soldiers fused to their armor by the toxic mud of the trenches.
+            </li>
+          </ul>
         </div>
 
-        <div className="bg-white/5 p-6 border-l-4 border-yellow-700">
-            <h3 className="font-gothic text-3xl text-yellow-600 mb-2">THE HOBGOBLINS (SCAVENGER-VERMIN)</h3>
-            <p className="text-gray-300 mb-4 font-sans text-sm">Remnants of maintenance crews. Bodies are a nightmare of Junk-Grafts (rusted hydraulics, stolen eyes). They "taste" the static of storms.</p>
-            <p className="text-sm text-yellow-500 font-sans mb-1"><strong>Religion:</strong> The Great Salvage. Worship "Narrative Shards" (artifacts) to build a new truth.</p>
-            <p className="text-sm text-yellow-500 font-sans"><strong>Magic Cost:</strong> Memetic Fragmentation. Speaking in voices of dead men, losing their "Self".</p>
+        {/* 2. South */}
+        <div className="space-y-4">
+          <h3 className="font-['UnifrakturCook'] text-3xl text-[#d4af37] border-b border-[#d4af37]/30 pb-2">
+            2. Beasts of the South
+          </h3>
+          <ul className="space-y-4 font-cormorant text-xl text-gray-400">
+            <li>
+              <strong className="text-white">Royal Griffin:</strong> Apex
+              predator. Golden eagle head, flexible bronze feathers.
+            </li>
+            <li>
+              <strong className="text-white">Manticore:</strong> Red lion with
+              scorpion tail. Venom is Liquid Fire. Loves riddles.
+            </li>
+            <li>
+              <strong className="text-white">Pazuzu-Swarm:</strong> Locusts
+              flying in the shape of a giant man.
+            </li>
+          </ul>
+        </div>
+
+        {/* 3. East & West */}
+        <div className="space-y-4">
+          <h3 className="font-['UnifrakturCook'] text-3xl text-emerald-400 border-b border-emerald-500/30 pb-2">
+            3. Beasts of East & West
+          </h3>
+          <ul className="space-y-4 font-cormorant text-xl text-gray-400">
+            <li>
+              <strong className="text-white">Gashadokuro (East):</strong> 50ft
+              skeleton of dried mud. Bringer of starvation.
+            </li>
+            <li>
+              <strong className="text-white">Ahuizotl (West):</strong>{" "}
+              Water-beast with a hand on its tail. Mimics a baby to lure prey.
+            </li>
+            <li>
+              <strong className="text-white">Tzitzimitl (West):</strong>{" "}
+              Skeletal star-demons that fall from the sky during eclipses.
+            </li>
+          </ul>
+        </div>
+
+        {/* 4. Shadow Kings */}
+        <div className="bg-purple-900/10 p-6 border border-purple-900/50">
+          <h3 className="font-['UnifrakturCook'] text-2xl text-purple-400 mb-2">
+            The Shadow-Kings
+          </h3>
+          <p className="font-cormorant text-xl text-gray-300">
+            Intelligent rivals to the Empires.
+            <br />
+            <strong>Hemat-Archons (Vampires):</strong> Alchemists who drank
+            refined Dragon-Blood. Lords of tragic elegance.
+            <br />
+            <strong>Sphinx (Logic-Keepers):</strong> Biomechanical statues
+            guarding the deep libraries. They test logic, not riddles.
+          </p>
         </div>
       </div>
-    )
+    ),
   },
+
+  // =====================================================================
+  // VI. SMALL FOLK
+  // =====================================================================
   {
-    id: "XII_TIMELINE",
-    title: "XII. CHRONICLE OF AGES",
-    label: "XII. Timeline",
-    subtitle: "The Stratigraphy of Trauma",
+    id: "FILE_10_SMALL_FOLK",
+    title: "VI. Small Folk",
+    subtitle: "Parasites of the Aether",
+    visualData: {
+      mainImage: null,
+      type: "Fauna",
+      threatLevel: "Low",
+      tags: ["Spirits", "Helpers", "Pests"],
+      stats: [],
+      processLog: "The bacteria of magic. Micro-flora of the Titan.",
+      inspiration: "Folklore filler.",
+    },
     fullContent: (
       <div className="space-y-8">
-        <p className="font-serif text-lg text-gray-400 italic">"Do not read this as a history. Read it as a Countdown."</p>
-        
-        <ul className="border-l border-white/20 ml-4 pl-8 space-y-12 relative font-sans">
-          <li className="relative">
-              <span className="absolute -left-[39px] top-1 w-5 h-5 rounded-full bg-white border-4 border-black"></span>
-              <strong className="text-white block text-lg mb-1">I. AGE OF THE UNBOUND</strong>
-              <span className="text-[10px] uppercase tracking-widest text-gray-500 block mb-2">The Era of Script</span>
-              <p className="text-sm opacity-60">Pure logic, geometry, and the Star-Vessel. A perfect, silent song of mathematics.</p>
-          </li>
-          <li className="relative">
-              <span className="absolute -left-[39px] top-1 w-5 h-5 rounded-full bg-gold border-4 border-black"></span>
-              <strong className="text-gold block text-lg mb-1">II. AGE OF THE DRAKE</strong>
-              <span className="text-[10px] uppercase tracking-widest text-gold/50 block mb-2">The Era of the Fall</span>
-              <p className="text-sm opacity-60">The Dragon coils around the Star. The birth of Natural Law, mountains, and cooling seas.</p>
-          </li>
-          <li className="relative">
-              <span className="absolute -left-[39px] top-1 w-5 h-5 rounded-full bg-gray-500 border-4 border-black"></span>
-              <strong className="text-gray-400 block text-lg mb-1">III. AGE OF THE FRAGMENTED MASK</strong>
-              <span className="text-[10px] uppercase tracking-widest text-gray-600 block mb-2">The Rise of the Lie</span>
-              <p className="text-sm opacity-60">Xandros I creates the Sanctioned Narratives to hide the dead god. The "Lie of Peace" is bought with blood.</p>
-          </li>
-          <li className="relative">
-              <span className="absolute -left-[39px] top-1 w-5 h-5 rounded-full bg-red-600 border-4 border-black animate-pulse"></span>
-              <strong className="text-red-500 block text-lg mb-1">IV. AGE OF THE NOMOS (Present)</strong>
-              <span className="text-[10px] uppercase tracking-widest text-red-900 block mb-2">The Era of Silence</span>
-              <p className="text-sm opacity-60">The Fading Marrow. Empires crumble. The Heat of History leaks through cracks in reality. The Truth returns.</p>
-          </li>
-        </ul>
+        <p className="font-cormorant text-xl text-gray-300">
+          While the Great Beasts are the immune system, these are the
+          micro-flora feeding on the scraps of power.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="bg-white/5 p-4">
+            <strong className="block text-gray-300 uppercase text-xs mb-2 font-cinzel">
+              Kobolds (North)
+            </strong>
+            <p className="font-cormorant text-lg text-gray-400">
+              Small creatures of slate and ember. Infest mines. Obsessed with
+              gears and fire.
+            </p>
+          </div>
+          <div className="bg-white/5 p-4">
+            <strong className="block text-[#d4af37] uppercase text-xs mb-2 font-cinzel">
+              Shabti (South)
+            </strong>
+            <p className="font-cormorant text-lg text-gray-400">
+              Tiny clay dolls animated by minor magic. The "House Elves" of the
+              Sun-Empire.
+            </p>
+          </div>
+          <div className="bg-white/5 p-4">
+            <strong className="block text-emerald-400 uppercase text-xs mb-2 font-cinzel">
+              Kodama (East)
+            </strong>
+            <p className="font-cormorant text-lg text-gray-400">
+              Moss-children. Indicators of spiritual health. If they wither, the
+              island falls.
+            </p>
+          </div>
+          <div className="bg-white/5 p-4">
+            <strong className="block text-red-400 uppercase text-xs mb-2 font-cinzel">
+              Chaneques (West)
+            </strong>
+            <p className="font-cormorant text-lg text-gray-400">
+              Mask-Imps. Pranksters who guard the jungle borders with phantom
+              scents.
+            </p>
+          </div>
+        </div>
       </div>
-    )
-  }
+    ),
+  },
 ];

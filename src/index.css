@@ -1,74 +1,155 @@
 @import "tailwindcss";
 
 @theme {
-  /* --- BASE --- */
+  /* --- COLORES --- */
   --color-void: #050505;
+  --color-gold: #d4af37;
 
-  /* --- ENGINEER: INDUSTRIAL EDITORIAL --- */
-  --color-concrete: #f3f3f3; /* Fondo gris muy claro */
-  --color-ink: #111111; /* Texto casi negro */
-  --color-safety-orange: #ff4400; /* Acento Industrial */
-  --color-grid-line: #d4d4d4; /* Líneas de la grilla */
+  /* --- FUENTES ENGINEER --- */
+  --font-bebas: "Bebas Neue", sans-serif; /* Títulos Principales */
+  --font-archivo: "Archivo Black", sans-serif; /* Subtítulos */
+  --font-code: "Fira Code", monospace; /* Textos P (Google Sans Code Alt) */
 
-  /* --- ENGINEER: CAMBIAR COLORES A BONE-WHITE Y NEGRO OPACO (Legacy/Fallback) --- */
-  --color-snow: #f8f8ff;
-  --color-snow-dim: rgba(248, 248, 255, 0.75);
-  --color-snow-border: rgba(248, 248, 255, 0.2);
-  --color-snow-glow: rgba(255, 255, 255, 0.4);
+  /* --- FUENTES CREATOR --- */
+  --font-maguntia: "UnifrakturMaguntia", cursive; /* Títulos Principales */
+  --font-cook: "UnifrakturCook", cursive; /* Títulos Alternativos */
+  --font-cinzel: "Cinzel", serif; /* Subtítulos / UI / Botones */
+  --font-cormorant: "Cormorant Infant", serif; /* Textos P (Cuerpo) */
 
-  /* --- CREATOR: MANTENER COLORES --- */
-  --color-cargo-bg: #eae8e3;
-  --color-cargo-text: #1a1a1a;
-  --color-gold: #c5a059;
-  --color-cargo-accent: #c5a059;
-
-  /* --- META-CREATOR --- */
-  --color-meta-accent: #d8b4fe;
-  --color-meta-dim: rgba(216, 180, 254, 0.3);
-
-  /* --- FUENTES --- */
-  --font-display: "Syncopate", sans-serif;
-  --font-serif: "Cormorant Garamond", serif;
-  --font-mono: "JetBrains Mono", monospace;
-  --font-thick: "Oswald", sans-serif;
+  /* --- FUENTES META / GENERAL --- */
+  --font-mono: "Fira Code", monospace;
   --font-sans: "Inter", sans-serif;
-
-  /* --- NUEVAS FUENTES --- */
-  --font-roboto: "Roboto", sans-serif; /* Engineer */
-  --font-belle: "Bellefair", serif; /* Creator Body */
-  --font-quint: "Quintessential", cursive; /* Creator Headers */
-  --font-unifrak: "UnifrakturCook", cursive; /* Creator Titles */
+  --font-display: "Bebas Neue", sans-serif;
 }
 
 @layer base {
   body {
-    @apply bg-void text-snow h-screen w-screen overflow-hidden;
+    @apply bg-void text-gray-200 h-screen w-screen overflow-hidden antialiased;
   }
 }
 
-@layer components {
-  /* Marco Global */
-  .bone-frame {
-    @apply fixed inset-0 border-[16px] md:border-[24px] border-[#E8E6D9] pointer-events-none z-50;
-  }
+/* --- ANIMACIONES GLOBALES --- */
 
-  /* --- UTILIDADES CARGO (CREATOR) --- */
-  .cargo-container {
-    @apply w-full h-full bg-cargo-bg text-cargo-text overflow-hidden flex flex-col md:flex-row;
+/* Rotación lenta para fondos */
+@keyframes spin-slow {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
   }
-  .cargo-sidebar {
-    @apply w-full md:w-1/4 h-auto md:h-full p-8 border-b md:border-b-0 md:border-r border-cargo-text/10 overflow-y-auto bg-cargo-bg z-20;
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
   }
-  .cargo-content {
-    @apply w-full md:w-3/4 h-full overflow-y-auto p-8 md:p-16 scroll-smooth bg-cargo-bg relative;
+}
+.animate-spin-slow {
+  animation: spin-slow 40s linear infinite;
+}
+
+/* Ocultar Scrollbar */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Parpadeo sutil */
+@keyframes pulse-subtle {
+  0%,
+  100% {
+    opacity: 1;
   }
-  .chapter-title {
-    @apply font-display text-4xl md:text-6xl font-bold uppercase mb-8 border-b-2 border-cargo-text pb-4 mt-24 first:mt-0;
+  50% {
+    opacity: 0.5;
   }
-  .sub-header {
-    @apply font-thick text-2xl uppercase mb-4 mt-12 text-cargo-text/80;
+}
+.animate-pulse-subtle {
+  animation: pulse-subtle 3s ease-in-out infinite;
+}
+
+/* --- EFECTOS MAIN TERMINAL --- */
+
+/* Matrix Rain (Engineer) */
+@keyframes matrix-rain {
+  0% {
+    background-position: 0% 0%;
   }
-  .body-text {
-    @apply font-serif text-xl leading-loose text-cargo-text/90 max-w-3xl text-justify mb-6;
+  100% {
+    background-position: 0% 100%;
   }
+}
+.bg-matrix {
+  background-image:
+    linear-gradient(
+      0deg,
+      transparent 24%,
+      rgba(37, 99, 235, 0.3) 25%,
+      rgba(37, 99, 235, 0.3) 26%,
+      transparent 27%,
+      transparent 74%,
+      rgba(37, 99, 235, 0.3) 75%,
+      rgba(37, 99, 235, 0.3) 76%,
+      transparent 77%,
+      transparent
+    ),
+    linear-gradient(
+      90deg,
+      transparent 24%,
+      rgba(37, 99, 235, 0.3) 25%,
+      rgba(37, 99, 235, 0.3) 26%,
+      transparent 27%,
+      transparent 74%,
+      rgba(37, 99, 235, 0.3) 75%,
+      rgba(37, 99, 235, 0.3) 76%,
+      transparent 77%,
+      transparent
+    );
+  background-size: 50px 50px;
+  animation: matrix-rain 4s linear infinite;
+}
+
+/* Gold Embers (Creator) */
+@keyframes float-up {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+.particle {
+  position: absolute;
+  background: #d4af37;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Glitch Text (Meta) */
+@keyframes glitch-skew {
+  0% {
+    transform: skew(0deg);
+  }
+  20% {
+    transform: skew(-2deg);
+  }
+  40% {
+    transform: skew(2deg);
+  }
+  60% {
+    transform: skew(-1deg);
+  }
+  80% {
+    transform: skew(1deg);
+  }
+  100% {
+    transform: skew(0deg);
+  }
+}
+.animate-glitch {
+  animation: glitch-skew 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
 }

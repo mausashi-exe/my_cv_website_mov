@@ -1,384 +1,436 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import arrowIcon from "../assets/ui/arrow_pointing_down_righ.svg";
+import { META_PROJECTS, CONTACT_INFO } from "../data/metaPortfolioData";
+import arrowIcon from "../assets/images/arrow_pointing_left_up.svg";
+import profilePic from "../assets/images/main_icon.webp";
 
-// --- DATA: LOS ACTIVOS DEL VAULT ---
-const VAULT_ASSETS = [
-  {
-    id: "A_001",
-    category: "CODE",
-    type: "SNIPPET",
-    date: "2024.01.15",
-    size: "45KB",
-    title: "React Context Logic",
-    desc: "Fragmento de manejo de estado global.",
-  },
-  {
-    id: "A_002",
-    category: "DESIGN",
-    type: "WIREFRAME",
-    date: "2023.11.30",
-    size: "1.2MB",
-    title: "Nomos UI Sketch",
-    desc: "Boceto inicial de interfaz de usuario.",
-  },
-  {
-    id: "A_003",
-    category: "ART",
-    type: "RENDER",
-    date: "2024.02.01",
-    size: "8.5MB",
-    title: "Void Environment",
-    desc: "Render 3D en Blender, estilo brutalista.",
-  },
-  {
-    id: "A_004",
-    category: "ART",
-    type: "GLITCH",
-    date: "2023.10.12",
-    size: "3.1MB",
-    title: "Data Corruption #4",
-    desc: "Arte generativo basado en errores de buffer.",
-  },
-  {
-    id: "A_005",
-    category: "CODE",
-    type: "SCHEMATIC",
-    date: "2024.01.20",
-    size: "210KB",
-    title: "DB Relationship",
-    desc: "Diagrama de entidad-relación SQL.",
-  },
-  {
-    id: "A_006",
-    category: "DESIGN",
-    type: "SETUP",
-    date: "2024.02.03",
-    size: "4.2MB",
-    title: "Workstation_V3",
-    desc: "Fotografía del entorno de desarrollo.",
-  },
-  {
-    id: "A_007",
-    category: "CODE",
-    type: "SNIPPET",
-    date: "2024.01.18",
-    size: "32KB",
-    title: "GLSL Shader",
-    desc: "Código de shader para efectos de ruido.",
-  },
-  {
-    id: "A_008",
-    category: "DESIGN",
-    type: "WIREFRAME",
-    date: "2023.12.05",
-    size: "900KB",
-    title: "Mobile Nav Flow",
-    desc: "Flujo de navegación en pantallas pequeñas.",
-  },
-];
+// COLOR DE ACENTO: PURPLE
+const ACCENT = "text-[#a855f7]";
+const BORDER_ACCENT = "border-[#a855f7]";
+const BG_ACCENT = "bg-[#a855f7]";
+const HOVER_BORDER_ACCENT = "hover:border-[#a855f7]";
+const HOVER_TEXT_ACCENT = "hover:text-[#a855f7]";
 
-// Componente Marquee (Texto en movimiento)
-const Marquee = () => {
-  return (
-    <div className="overflow-hidden whitespace-nowrap bg-red-600 py-1 border-t border-red-700">
-      <motion.div
-        className="inline-block"
-        animate={{ x: [0, -1000] }}
-        transition={{ repeat: Infinity, ease: "linear", duration: 20 }}
-      >
-        {[...Array(10)].map((_, i) => (
-          <span
-            key={i}
-            className="text-[10px] font-mono font-bold text-white uppercase tracking-widest mx-4"
-          >
-            /// SYSTEM STATUS: OPTIMAL /// MEMORY: 45% /// LAST LOGIN: NOW ///
-            CONNECTION: SECURE ///
-          </span>
-        ))}
-      </motion.div>
-    </div>
-  );
-};
+const HybridHeader = () => (
+  <div className="mb-8 md:mb-10">
+    <h1 className="text-4xl md:text-5xl leading-none select-none">
+      <span className="font-bebas text-gray-200 tracking-wide">META</span>
+      <span className={`font-maguntia ${ACCENT} ml-2 tracking-normal`}>
+        Creator
+      </span>
+    </h1>
+    <p className="font-code text-[10px] text-gray-500 mt-2 uppercase tracking-widest">
+      Portfolio & Visual Archive
+    </p>
+  </div>
+);
 
-const MetaView = ({ setMode }) => {
-  const [selectedAsset, setSelectedAsset] = useState(null);
-  const [activeFilter, setActiveFilter] = useState("ALL");
-
-  // Lógica de Filtrado
-  const filteredAssets =
-    activeFilter === "ALL"
-      ? VAULT_ASSETS
-      : VAULT_ASSETS.filter((asset) => asset.category === activeFilter);
-
-  // Clases utilitarias (Clean Look)
-  const borderClass = "border-black/10";
-  const accentColor = "text-red-600";
-  const bgAccent = "bg-red-600";
+// --- LIGHTBOX ---
+const ImageViewer = ({ image, title, index, description, onClose }) => {
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, [onClose]);
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="flex w-full h-full bg-white text-black overflow-hidden relative"
+      className="fixed inset-0 z-[100] bg-[#050505]/95 backdrop-blur-sm flex items-center justify-center p-4 md:p-12 cursor-zoom-out"
+      onClick={onClose}
     >
-      {/* =====================================================================
-          IZQUIERDA: LA RETÍCULA (GALLERY GRID) - 2/3 ANCHO - SCROLL
-      ===================================================================== */}
-      <div
-        className={`w-full md:w-2/3 h-full overflow-y-auto hide-scroll border-r ${borderClass} pt-32 relative z-10 flex flex-col`}
-      >
-        {/* Header */}
-        <div className="px-6 mb-4 flex justify-between items-end opacity-60 font-mono text-[10px] uppercase tracking-widest font-bold">
-          <span>/ Root / Asset_Library</span>
-          <span className={accentColor}>↓ Scroll for data</span>
-        </div>
-        {/* GRID PRINCIPAL */}
-        {/* 'cursor-crosshair' para la micro-interacción */}
-        <div
-          className={`grid grid-cols-2 gap-px bg-black/10 border-t border-b ${borderClass} flex-grow cursor-crosshair`}
+      <div className="absolute top-6 left-6 md:top-10 md:left-10 z-10 pointer-events-none">
+        <span
+          className={`font-code text-[10px] ${ACCENT} uppercase tracking-widest block mb-1`}
         >
-          {filteredAssets.map((asset, index) => (
-            <div
-              key={asset.id}
-              onClick={() => setSelectedAsset(asset)}
-              className="group relative aspect-square bg-white overflow-hidden"
-            >
-              {/* Visual Placeholder */}
-              <div
-                className={`w-full h-full flex items-center justify-center p-8 bg-gradient-to-br ${index % 2 === 0 ? "from-white to-gray-50" : "from-gray-50 to-white"}`}
-              >
-                <div className="text-center opacity-20 group-hover:opacity-40 transition-opacity">
-                  <span
-                    className={`font-gothic font-black text-4xl md:text-6xl block mb-2 ${accentColor}`}
-                  >
-                    {asset.type.substring(0, 1)}
-                  </span>
-                  <span className="font-mono text-[9px] tracking-[0.2em] uppercase font-bold text-black">
-                    {asset.type}
-                  </span>
-                </div>
-              </div>
-
-              {/* Overlay Hover */}
-              <div
-                className={`absolute inset-0 bg-white/95 flex flex-col justify-between p-4 opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-sm border-2 border-transparent group-hover:border-red-600`}
-              >
-                <div
-                  className={`font-mono text-[9px] ${accentColor} flex justify-between font-bold uppercase`}
-                >
-                  <span>ID: {asset.id}</span>
-                  <span>[{asset.size}]</span>
-                </div>
-                <div>
-                  <h3 className="font-sans font-black text-lg uppercase mb-1 line-clamp-1 text-black">
-                    {asset.title}
-                  </h3>
-                  <p className="font-mono text-[10px] opacity-80 line-clamp-2 leading-tight text-black font-medium">
-                    {asset.desc}
-                  </p>
-                </div>
-                <div
-                  className={`font-mono text-[10px] text-right uppercase tracking-widest font-bold ${accentColor}`}
-                >
-                  View Asset →
-                </div>
-              </div>
-            </div>
-          ))}
-
-          {/* Mensaje vacío si no hay resultados */}
-          {filteredAssets.length === 0 && (
-            <div className="col-span-2 h-64 flex items-center justify-center bg-white font-mono text-xs text-red-600 uppercase tracking-widest font-bold">
-              [ No Data Found in Sector ]
-            </div>
-          )}
-        </div>
-        {/* Ticker Animado (Fixed al final del grid) */}
-        <Marquee />
-        <div className="h-32 bg-white"></div> {/* Espacio extra scroll */}
+          Fig_0{index + 1} // Full Res
+        </span>
+        <h3 className="font-cinzel text-xl md:text-3xl text-white">{title}</h3>
       </div>
 
-      {/* =====================================================================
-          DERECHA: PANEL DE CONTROL (SIDEBAR FIJO) - 1/3 ANCHO
-      ===================================================================== */}
-      <div
-        className={`hidden md:flex w-1/3 h-full flex-col justify-between p-6 pt-32 bg-white relative z-20 border-l ${borderClass}`}
+      <button
+        onClick={onClose}
+        className={`absolute top-6 right-6 md:top-10 md:right-10 text-white ${HOVER_TEXT_ACCENT} font-code text-xs uppercase tracking-widest z-20 pointer-events-auto`}
       >
-        {/* TOP: Info & Filtros */}
-        <div className="space-y-8">
-          <div>
-            <h1 className="font-gothic font-black text-5xl text-black leading-none mb-2">
-              THE VAULT
-            </h1>
-            <div className={`h-1.5 w-12 ${bgAccent} mb-3`}></div>
-            <p
-              className={`font-mono text-xs ${accentColor} tracking-widest uppercase font-bold`}
-            >
-              Visual Asset Database
-            </p>
-          </div>
+        [ Close X ]
+      </button>
 
-          {/* Stats Dinámicas */}
-          <div
-            className={`font-mono text-xs space-y-3 py-6 border-t border-b ${borderClass} font-medium`}
+      <motion.img
+        src={image}
+        alt="Full View"
+        className="max-w-full max-h-full object-contain shadow-2xl border border-white/10"
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        transition={{ type: "spring", damping: 25, stiffness: 300 }}
+        onClick={(e) => e.stopPropagation()}
+      />
+
+      <div className="absolute bottom-6 left-6 md:bottom-10 md:left-10 max-w-xl z-10 pointer-events-none">
+        <p
+          className={`font-code text-xs md:text-sm text-gray-400 bg-black/50 p-2 border-l-2 ${BORDER_ACCENT}`}
+        >
+          {description}
+        </p>
+      </div>
+    </motion.div>
+  );
+};
+
+// --- VISTAS ---
+
+const GalleryFeed = ({ onSelect }) => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    className="space-y-24 pb-32 max-w-5xl mx-auto"
+  >
+    {META_PROJECTS.map((project) => (
+      <div
+        key={project.id}
+        className="group cursor-pointer flex flex-col gap-6"
+        onClick={() => onSelect(project)}
+      >
+        <div className="border-t border-white/10 pt-4 flex flex-col md:flex-row md:items-baseline justify-between gap-2">
+          <h3
+            className={`font-cinzel text-2xl md:text-3xl text-gray-200 ${HOVER_TEXT_ACCENT} transition-colors`}
           >
-            <div className="flex justify-between">
-              <span className="opacity-60 uppercase">Visible Items:</span>
-              <span className={`font-bold ${accentColor}`}>
-                {filteredAssets.length} Units
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="opacity-60 uppercase">Status:</span>
-              <span
-                className={`flex items-center gap-2 ${accentColor} font-bold uppercase`}
-              >
-                <span
-                  className={`w-2 h-2 rounded-full ${bgAccent} animate-pulse`}
-                ></span>
-                Monitoring
-              </span>
+            {project.title}
+          </h3>
+          <span className="font-code text-[10px] text-gray-500 uppercase tracking-wider">
+            {project.category} — {project.year}
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div
+            className={`w-full h-64 md:h-80 bg-[#111] border border-white/10 p-3 flex items-center justify-center relative overflow-hidden ${HOVER_BORDER_ACCENT}/30 transition-colors`}
+          >
+            <img
+              src={project.cover}
+              alt={project.title}
+              className="max-w-full max-h-full object-contain shadow-lg"
+            />
+            <div className="absolute bottom-2 right-2 font-code text-[9px] text-gray-600 bg-black/50 px-1">
+              FIG_01
             </div>
           </div>
 
-          {/* Filtros Funcionales */}
-          <div>
-            <p className="font-mono text-[10px] uppercase opacity-50 mb-4 font-bold tracking-widest">
-              [ System Filter ]
-            </p>
-            <ul className="space-y-3 font-mono text-xs relative font-bold uppercase cursor-pointer">
-              {/* Línea indicadora animada */}
-              <div
-                className={`absolute left-0 w-1 h-4 ${bgAccent} transition-all duration-300 ease-out`}
-                style={{
-                  top:
-                    activeFilter === "ALL"
-                      ? "2px"
-                      : activeFilter === "CODE"
-                        ? "30px"
-                        : activeFilter === "DESIGN"
-                          ? "58px"
-                          : "86px",
-                }}
-              ></div>
-
-              <li
-                onClick={() => setActiveFilter("ALL")}
-                className={`pl-4 hover:text-red-600 transition-colors ${activeFilter === "ALL" ? "text-red-600" : "opacity-40"}`}
-              >
-                /// ALL SECTORS
-              </li>
-              <li
-                onClick={() => setActiveFilter("CODE")}
-                className={`pl-4 hover:text-red-600 transition-colors ${activeFilter === "CODE" ? "text-red-600" : "opacity-40"}`}
-              >
-                /// LOGIC & CODE
-              </li>
-              <li
-                onClick={() => setActiveFilter("DESIGN")}
-                className={`pl-4 hover:text-red-600 transition-colors ${activeFilter === "DESIGN" ? "text-red-600" : "opacity-40"}`}
-              >
-                /// VISUAL DESIGN
-              </li>
-              <li
-                onClick={() => setActiveFilter("ART")}
-                className={`pl-4 hover:text-red-600 transition-colors ${activeFilter === "ART" ? "text-red-600" : "opacity-40"}`}
-              >
-                /// EXPERIMENTAL ART
-              </li>
-            </ul>
+          <div
+            className={`w-full h-64 md:h-80 bg-[#111] border border-white/10 p-3 flex items-center justify-center relative overflow-hidden ${HOVER_BORDER_ACCENT}/30 transition-colors`}
+          >
+            <img
+              src={project.gallery[0]}
+              alt={project.title + " Detail"}
+              className="max-w-full max-h-full object-contain shadow-lg"
+            />
+            <div className="absolute bottom-2 right-2 font-code text-[9px] text-gray-600 bg-black/50 px-1">
+              FIG_02
+            </div>
           </div>
         </div>
 
-        {/* BOTTOM: Salida */}
-        <div className="space-y-6 font-mono text-xs">
-          <div
-            className={`p-4 bg-red-50 border border-red-100 text-justify opacity-80 leading-tight font-medium`}
+        <div className="md:w-[70%] mt-2">
+          <p className="font-code text-xs md:text-sm text-gray-400 leading-relaxed line-clamp-3 group-hover:text-gray-300 transition-colors">
+            {project.description}
+          </p>
+          <span
+            className={`font-code text-[10px] ${ACCENT} mt-3 block opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-widest`}
           >
-            <span className={`font-bold ${accentColor}`}>NOTICE:</span> Access
-            log recorded. Handle data with protocol 45-B.
-          </div>
-
-          <button
-            onClick={() => setMode("terminal")}
-            className={`w-full py-4 border ${borderClass} hover:bg-red-600 hover:text-white hover:border-red-600 flex justify-between items-center group transition-all duration-300`}
-          >
-            <span className="uppercase tracking-widest font-bold pl-4">
-              Close Vault
-            </span>
-            <div className="w-12 h-full flex items-center justify-center border-l border-black/10 group-hover:border-red-500 transition-all">
-              <img
-                src={arrowIcon}
-                className="w-3 h-3 rotate-180 group-hover:invert transition-all"
-                alt="<"
-              />
-            </div>
-          </button>
+            [ + View Full Project ]
+          </span>
         </div>
       </div>
+    ))}
+  </motion.div>
+);
 
-      {/* =====================================================================
-          MODAL DE VISTA RÁPIDA
-      ===================================================================== */}
+const getNextProject = (currentId) => {
+  const currentIndex = META_PROJECTS.findIndex((p) => p.id === currentId);
+  const nextIndex = (currentIndex + 1) % META_PROJECTS.length;
+  return META_PROJECTS[nextIndex];
+};
+
+const ProjectDetail = ({ project, onBack, onNext }) => {
+  const [selectedImgIndex, setSelectedImgIndex] = useState(null);
+
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === "Escape" && selectedImgIndex === null) onBack();
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, [onBack, selectedImgIndex]);
+
+  const nextProject = getNextProject(project.id);
+
+  return (
+    <>
       <AnimatePresence>
-        {selectedAsset && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-white/95 flex items-center justify-center p-8 backdrop-blur-sm"
-            onClick={() => setSelectedAsset(null)}
-          >
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              className="border-2 border-red-600 p-1 max-w-3xl w-full bg-white relative shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                onClick={() => setSelectedAsset(null)}
-                className={`absolute top-3 right-3 font-mono text-xs font-bold ${accentColor} hover:text-black transition-colors z-50`}
-              >
-                [CLOSE X]
-              </button>
-
-              <div className="w-full aspect-video bg-gray-50 flex items-center justify-center border-b border-red-100">
-                <div className="text-center">
-                  <span
-                    className={`font-gothic font-black text-6xl ${accentColor} opacity-20`}
-                  >
-                    {selectedAsset.category}
-                  </span>
-                </div>
-              </div>
-
-              <div className="p-8 font-mono text-black grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                  <div
-                    className={`flex justify-between text-xs ${accentColor} mb-4 uppercase tracking-widest font-bold`}
-                  >
-                    <span>ID: {selectedAsset.id}</span>
-                    <span>DATE: {selectedAsset.date}</span>
-                  </div>
-                  <h2 className="font-gothic font-black text-4xl mb-4 leading-none">
-                    {selectedAsset.title}
-                  </h2>
-                </div>
-                <div className="flex flex-col justify-end">
-                  <p className="text-sm font-medium leading-relaxed opacity-80 border-l-2 border-red-600 pl-4 mb-4">
-                    {selectedAsset.desc}
-                  </p>
-                  <button className="bg-red-600 text-white py-2 px-4 text-xs font-bold uppercase tracking-widest hover:bg-black transition-colors">
-                    Download Source
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
+        {selectedImgIndex !== null && (
+          <ImageViewer
+            image={project.gallery[selectedImgIndex]}
+            title={project.title}
+            index={selectedImgIndex}
+            description={project.description}
+            onClose={() => setSelectedImgIndex(null)}
+          />
         )}
       </AnimatePresence>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0 }}
+        className="pb-32 relative max-w-6xl mx-auto"
+      >
+        <div className="sticky top-6 right-0 flex justify-end z-50 pointer-events-none mb-4">
+          <button
+            onClick={onBack}
+            className={`pointer-events-auto bg-[#0a0a0a]/90 backdrop-blur-md border ${BORDER_ACCENT}/30 px-5 py-2 rounded-full
+                            ${ACCENT} hover:bg-[#a855f7] hover:text-black transition-all duration-300 group flex items-center gap-3 shadow-[0_0_20px_rgba(0,0,0,0.5)]`}
+          >
+            <span className="font-code text-[10px] uppercase tracking-widest font-bold">
+              Back to Index
+            </span>
+            <img
+              src={arrowIcon}
+              alt="Back"
+              className="w-3 h-3 group-hover:invert group-hover:rotate-0 rotate-0 transition-transform"
+            />
+          </button>
+        </div>
+
+        <div className="mb-12 border-b border-white/10 pb-8">
+          <h2 className="font-cinzel text-4xl md:text-6xl text-white mb-6 leading-tight">
+            {project.title}
+          </h2>
+          <div className="flex flex-col md:flex-row gap-8">
+            <div className="md:w-1/3">
+              <span
+                className={`font-code text-[10px] ${ACCENT} uppercase tracking-widest block mb-2`}
+              >
+                Project Data
+              </span>
+              <ul className="font-code text-xs text-gray-400 space-y-1">
+                <li>Client: Internal</li>
+                <li>Year: {project.year}</li>
+                <li>Cat: {project.category}</li>
+              </ul>
+            </div>
+            <div className="md:w-2/3">
+              <p className="font-code text-sm md:text-base text-gray-300 leading-relaxed">
+                {project.description}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {project.gallery.slice(0, 4).map((img, idx) => (
+            <div
+              key={idx}
+              onClick={() => setSelectedImgIndex(idx)}
+              className={`bg-[#111] border border-white/10 p-4 h-[300px] md:h-[400px] flex items-center justify-center cursor-zoom-in ${HOVER_BORDER_ACCENT}/50 transition-colors group relative`}
+            >
+              <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <span className="bg-black/50 text-white font-code text-[9px] px-2 py-1 rounded border border-white/20">
+                  + ENLARGE
+                </span>
+              </div>
+
+              <img
+                src={img}
+                alt={`Detail ${idx}`}
+                className="max-w-full max-h-full object-contain shadow-2xl pointer-events-none"
+              />
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-32 pt-12 border-t border-white/10 flex flex-col items-center gap-8">
+          <span className="font-maguntia text-xl text-gray-600">
+            End of Project
+          </span>
+
+          <button
+            onClick={() => onNext(nextProject)}
+            className={`group relative overflow-hidden border border-white/10 bg-[#111] px-12 py-8 text-center ${HOVER_BORDER_ACCENT}/50 transition-all duration-500 w-full md:w-2/3`}
+          >
+            <span className="font-code text-[9px] text-gray-500 uppercase tracking-widest block mb-2">
+              Next Entry
+            </span>
+            <h3
+              className={`font-cinzel text-3xl text-gray-300 ${HOVER_TEXT_ACCENT} transition-colors`}
+            >
+              {nextProject.title}
+            </h3>
+            <span
+              className={`font-code text-[10px] ${ACCENT} mt-4 block opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0`}
+            >
+              View Project -&gt;
+            </span>
+          </button>
+
+          <button
+            onClick={onBack}
+            className="font-code text-xs text-gray-500 hover:text-white transition-colors uppercase tracking-widest mt-4"
+          >
+            [ Return to Index ]
+          </button>
+        </div>
+      </motion.div>
+    </>
+  );
+};
+
+// --- MAIN COMPONENT ---
+
+const MetaView = ({ setMode }) => {
+  const [activeProject, setActiveProject] = useState(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const rightPanel = document.getElementById("meta-right-panel");
+    if (rightPanel) rightPanel.scrollTo({ top: 0, behavior: "smooth" });
+  }, [activeProject]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className={`flex flex-col md:flex-row h-full w-full bg-[#0a0a0a] text-[#e0e0e0] selection:${BG_ACCENT} selection:text-black overflow-hidden`}
+    >
+      {/* SIDEBAR */}
+      <aside
+        className="
+          w-full md:w-[30%] lg:w-[25%]
+          bg-[#080808] border-b md:border-b-0 md:border-r border-white/10
+          flex flex-col z-30 relative shadow-2xl
+      "
+      >
+        <div className="p-6 md:p-8 h-full flex flex-col justify-between pb-24 md:pb-24">
+          <div>
+            <div className="flex justify-between items-start">
+              <HybridHeader />
+              <button
+                className="md:hidden text-2xl p-2"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              >
+                {isMobileMenuOpen ? "×" : "≡"}
+              </button>
+            </div>
+
+            <div
+              className={`mb-8 ${isMobileMenuOpen ? "block" : "hidden"} md:block`}
+            >
+              <div className="w-16 h-16 rounded-full overflow-hidden border border-white/10 group cursor-pointer">
+                <img
+                  src={profilePic}
+                  alt="Profile"
+                  className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+                />
+              </div>
+            </div>
+
+            <nav
+              className={`
+                flex-1 overflow-y-auto scrollbar-hide space-y-1 mb-8
+                ${isMobileMenuOpen ? "block" : "hidden"} md:block
+            `}
+            >
+              <span className="font-code text-[9px] text-gray-600 uppercase tracking-widest block mb-4 border-b border-white/5 pb-2">
+                Index / Projects
+              </span>
+
+              {META_PROJECTS.map((p, i) => (
+                <div key={p.id}>
+                  <button
+                    onClick={() => {
+                      setActiveProject(p);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className={`
+                        w-full text-left py-2 group flex items-baseline gap-3 transition-all duration-300 border-l-2 pl-3
+                        ${activeProject?.id === p.id ? `${BORDER_ACCENT} text-white` : "border-transparent text-gray-500 hover:text-gray-300 hover:border-white/20"}
+                    `}
+                  >
+                    <span className="font-code text-[9px] opacity-50">
+                      0{i + 1}
+                    </span>
+                    <span className="font-cinzel text-sm font-bold truncate">
+                      {p.title}
+                    </span>
+                  </button>
+                </div>
+              ))}
+            </nav>
+          </div>
+
+          <div
+            className={`
+              ${isMobileMenuOpen ? "block" : "hidden"} md:block
+              border-t border-white/10 pt-6 mt-4
+          `}
+          >
+            <span className="font-code text-[9px] text-gray-600 uppercase tracking-widest block mb-3">
+              Contact / Connect
+            </span>
+
+            <a
+              href={`mailto:${CONTACT_INFO.email}`}
+              className={`block font-code text-xs text-white ${HOVER_TEXT_ACCENT} transition-colors mb-4`}
+            >
+              {CONTACT_INFO.email}
+            </a>
+
+            <div className="flex flex-wrap gap-x-4 gap-y-2">
+              {CONTACT_INFO.socials.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-cinzel text-xs text-gray-500 hover:text-white transition-colors border-b border-transparent hover:border-white/50"
+                >
+                  {social.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      {/* MAIN CONTENT */}
+      <main
+        id="meta-right-panel"
+        className="flex-1 h-full overflow-y-auto relative p-6 md:p-12 lg:p-16 scroll-smooth bg-[#0a0a0a]"
+      >
+        <AnimatePresence mode="wait">
+          {!activeProject ? (
+            <GalleryFeed key="feed" onSelect={setActiveProject} />
+          ) : (
+            <ProjectDetail
+              key="detail"
+              project={activeProject}
+              onBack={() => setActiveProject(null)}
+              onNext={setActiveProject}
+            />
+          )}
+        </AnimatePresence>
+
+        <div className="fixed top-0 right-0 w-full h-full pointer-events-none z-0 flex items-center justify-center overflow-hidden">
+          <h1 className="font-bebas text-[20vw] text-white opacity-[0.02] select-none">
+            {activeProject ? "[WIP]" : "WIP"}
+          </h1>
+        </div>
+      </main>
     </motion.div>
   );
 };

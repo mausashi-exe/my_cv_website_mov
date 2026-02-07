@@ -1,139 +1,235 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import mapBg from "../assets/images/map_with_factions_01.webp";
+// YA NO IMPORTAMOS background_04.webp
 
-// --- IMPORTS DE TEXTURAS DE FONDO ---
-// Asegúrate de tener estas imágenes o cambiar las rutas
-import scanTexture from "../assets/images/scan_texture_05.jpg"; // Fondo por defecto
-import bgEngineer from "../assets/images/red_vector.jpg"; // Fondo para Engineer (Ejemplo)
-import bgCreator from "../assets/images/drawing_nomos_03.jpg"; // Fondo para Creator (Ejemplo)
-// import bgMeta from "../assets/images/glitch_texture.jpg"; // Fondo para Meta (Si no tienes, usa scanTexture)
+// --- FONDOS DINÁMICOS (Solo aparecen en Hover) ---
 
-const sections = [
-  {
-    id: "engineer",
-    title: "THE ENGINEER",
-    subtitle: "SYSTEMS / LOGIC / STRUCTURE",
-    desc: "Full Stack Architecture.",
-    hoverColor: "group-hover:text-[#2563EB]", // Azul Técnico
-    bgImage: bgEngineer, // Asignamos la imagen importada
-  },
-  {
-    id: "creator",
-    title: "THE CREATOR",
-    subtitle: "NARRATIVE / VISUALS / LORE",
-    desc: "Worldbuilding & Design.",
-    hoverColor: "group-hover:text-[#d4af37]", // Dorado
-    bgImage: bgCreator,
-  },
-  {
-    id: "meta",
-    title: "META-CREATOR",
-    subtitle: "THE MERGE / SKILLS / CONTACT",
-    desc: "The complete profile.",
-    hoverColor: "group-hover:text-[#FF4400]", // Naranja lava
-    bgImage: scanTexture, // Usamos scanTexture o una específica para meta
-  },
-];
+const EngineerBg = () => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    className="absolute inset-0 z-10 overflow-hidden bg-[#050505]/95"
+  >
+    <div className="absolute inset-0 bg-[linear-gradient(0deg,transparent_24%,rgba(255,68,37,0.3)_25%,rgba(255,68,37,0.3)_26%,transparent_27%,transparent_74%,rgba(255,68,37,0.3)_75%,rgba(255,68,37,0.3)_76%,transparent_77%,transparent),linear-gradient(90deg,transparent_24%,rgba(255,68,37,0.3)_25%,rgba(255,68,37,0.3)_26%,transparent_27%,transparent_74%,rgba(255,68,37,0.3)_75%,rgba(255,68,37,0.3)_76%,transparent_77%,transparent)] bg-[length:50px_50px] animate-[matrix-rain_4s_linear_infinite] opacity-20"></div>
+    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#ff4425]/10 to-transparent h-[20%] w-full animate-[matrix-rain_2s_linear_infinite]"></div>
+  </motion.div>
+);
 
+const CreatorBg = () => {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="absolute inset-0 z-10 overflow-hidden bg-[#0a0a0a]/95"
+    >
+      <motion.div
+        className="absolute inset-0 w-full h-full"
+        animate={{ scale: [1, 1.1], x: [0, -20] }}
+        transition={{
+          duration: 20,
+          repeat: Infinity,
+          repeatType: "reverse",
+          ease: "linear",
+        }}
+      >
+        <img
+          src={mapBg}
+          alt="Map Background"
+          className="w-full h-full object-cover object-center opacity-40 grayscale-[0.5] sepia-[0.3]"
+        />
+      </motion.div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
+      <div className="absolute inset-0 bg-[#d4af37]/5 mix-blend-overlay"></div>
+    </motion.div>
+  );
+};
+
+const MetaBg = () => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    className="absolute inset-0 z-10 overflow-hidden bg-[#020202]/95"
+  >
+    <div className="absolute inset-0 bg-[linear-gradient(to_right,#222_1px,transparent_1px),linear-gradient(to_bottom,#222_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-40"></div>
+    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-purple-900/20 blur-[100px] rounded-full mix-blend-screen"></div>
+  </motion.div>
+);
+
+// --- COMPONENTE PRINCIPAL ---
 const MainTerminal = ({ setMode }) => {
-  // Estado para saber qué sección está siendo hovered
   const [hoveredSection, setHoveredSection] = useState(null);
 
+  const sections = [
+    {
+      id: "engineer",
+      label: "THE ENGINEER",
+      sub: "SYSTEMS / LOGIC",
+      desc: "Full Stack Development & DevOps.",
+      accent: "text-[#ff4425]",
+      bgAccent: "bg-[#ff4425]",
+      border: "group-hover:border-[#ff4425]",
+      bgComponent: <EngineerBg />,
+      fontTitle: "font-bebas tracking-widest",
+      fontSub: "font-archivo tracking-tight",
+      fontDesc: "font-code",
+    },
+    {
+      id: "creator",
+      label: "The Creator",
+      sub: "NARRATIVE / LORE",
+      desc: "Worldbuilding & Design.",
+      accent: "text-[#d4af37]",
+      bgAccent: "bg-[#d4af37]",
+      border: "group-hover:border-[#d4af37]",
+      bgComponent: <CreatorBg />,
+      fontTitle: "font-maguntia tracking-normal",
+      fontSub: "font-cinzel font-bold tracking-widest",
+      fontDesc: "font-cormorant italic text-lg",
+    },
+    {
+      id: "meta",
+      label: "META-CREATOR",
+      sub: "THE ARCHITECT",
+      desc: "The complete profile.",
+      accent: "text-[#a855f7]",
+      bgAccent: "bg-[#a855f7]",
+      border: "group-hover:border-[#a855f7]",
+      bgComponent: <MetaBg />,
+      fontTitle: "font-bebas tracking-widest",
+      fontSub: "font-mono font-bold",
+      fontDesc: "font-mono text-xs",
+    },
+  ];
+
   return (
-    <div className="h-full w-full flex flex-col md:flex-row items-stretch justify-center relative bg-void overflow-hidden">
-      {/* =================================================================
-          LAYER 1: FONDO BASE (Siempre visible, baja opacidad)
-      ================================================================= */}
-      <div
-        className="absolute inset-0 bg-cover bg-center opacity-10 pointer-events-none z-0"
-        style={{ backgroundImage: `url(${scanTexture})` }}
-      />
+    <motion.div
+      className="h-full w-full flex flex-col md:flex-row bg-[#050505] relative overflow-hidden"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, transition: { duration: 0.5 } }}
+    >
+      {/* === NUEVO FONDO: EL VACÍO DIGITAL (CSS PURO) === */}
+      <div className="absolute inset-0 z-0 bg-[#050505]">
+        {/* 1. Gradiente Radial: Simula luz de fondo sutil */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#1a1a1a] via-[#050505] to-[#000000] opacity-60"></div>
 
-      {/* =================================================================
-          LAYER 2: FONDO DINÁMICO (Cambia según el Hover)
-      ================================================================= */}
-      <AnimatePresence>
-        {hoveredSection && (
-          <motion.div
-            key={hoveredSection} // La clave hace que Framer detecte el cambio
-            initial={{ opacity: 0, scale: 1.05 }}
-            animate={{ opacity: 0.25, scale: 1 }} // Opacidad sutil (0.25) para no tapar el texto
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-            className="absolute inset-0 bg-cover bg-center z-0 pointer-events-none mix-blend-screen"
-            style={{
-              // Buscamos la imagen correspondiente al ID hovereado
-              backgroundImage: `url(${sections.find((s) => s.id === hoveredSection)?.bgImage})`,
-            }}
-          />
-        )}
-      </AnimatePresence>
+        {/* 2. Ruido/Grano: Para textura industrial */}
+        <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
 
-      {/* Gradient Overlay para legibilidad */}
-      <div className="absolute inset-0 bg-gradient-to-t from-void via-void/80 to-transparent z-0 pointer-events-none"></div>
+        {/* 3. Scanlines: Mantienen el look terminal */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] pointer-events-none opacity-20"></div>
 
-      {/* =================================================================
-          COLUMNAS INTERACTIVAS
-      ================================================================= */}
+        {/* 4. Partículas sutiles (Opcional - solo si quieres movimiento en el 'vacío') */}
+        <div className="absolute inset-0 animate-pulse opacity-10 bg-[radial-gradient(circle_800px_at_50%_50%,#222,transparent)]"></div>
+      </div>
+      {/* ================================================= */}
+
       {sections.map((section, index) => {
-        const isCreator = section.id === "creator";
+        const isHovered = hoveredSection === section.id;
+        const isDimmed = hoveredSection && !isHovered;
 
         return (
           <motion.div
             key={section.id}
-            // Eventos para detectar el Hover y cambiar el fondo
             onMouseEnter={() => setHoveredSection(section.id)}
             onMouseLeave={() => setHoveredSection(null)}
             onClick={() => setMode(section.id)}
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-            className="relative group flex-1 border-b md:border-b-0 md:border-r border-bone/10 p-8 md:p-12 flex flex-col justify-end cursor-pointer z-10 hover:bg-white/[0.02] transition-colors duration-500"
+            className={`
+              relative z-20 h-full border-r border-white/5 cursor-pointer overflow-hidden group 
+              transition-all duration-700 ease-out flex flex-col justify-end
+            `}
+            animate={{
+              flex: isHovered ? 3 : 1,
+              // Como el fondo ahora es oscuro y limpio, el dimming puede ser más sutil
+              filter: isDimmed ? "brightness(0.3)" : "brightness(1)",
+            }}
           >
-            {/* Index Vertical */}
-            <div className="absolute top-6 left-6 md:right-6 md:left-auto">
-              <span className="font-mono text-[10px] text-bone/30 group-hover:text-bone/80 transition-colors">
-                DIR_0{index + 1} //
-              </span>
-            </div>
+            <AnimatePresence>
+              {isHovered && section.bgComponent}
+            </AnimatePresence>
 
-            {/* Contenido */}
-            <div className="translate-y-2 group-hover:-translate-y-2 transition-transform duration-500 ease-out">
-              {/* TÍTULO */}
-              <h2
-                className={`
-                  font-black uppercase leading-[0.85] mb-6 transition-colors duration-300 ${section.hoverColor}
-                  ${
-                    isCreator
-                      ? "font-['UnifrakturCook'] text-5xl md:text-7xl tracking-normal normal-case"
-                      : "font-display text-4xl md:text-6xl tracking-tighter"
-                  }
-                `}
-              >
-                {isCreator
-                  ? section.title
-                  : section.title.split(" ").map((word, i) => (
-                      <span key={i} className="block">
-                        {word}
+            <div className="relative z-30 w-full flex flex-col justify-end h-full pb-6 md:pb-8 px-6 md:px-10 transition-all duration-500">
+              <div className="mb-2 overflow-hidden h-6">
+                <motion.span
+                  className={`block font-code text-[10px] font-bold text-gray-400 ${isHovered ? section.accent : ""}`}
+                  animate={{
+                    y: isHovered ? 0 : 20,
+                    opacity: isHovered ? 1 : 0,
+                  }}
+                >
+                  0{index + 1} // ACCESS
+                </motion.span>
+              </div>
+
+              <div className="w-full">
+                <motion.h2
+                  layout
+                  className={`
+                    text-6xl md:text-8xl leading-none mb-2 origin-bottom-left transition-colors duration-300 whitespace-nowrap flex items-baseline gap-3
+                    ${section.fontTitle} 
+                    ${isHovered ? section.accent : "text-gray-500"} 
+                  `}
+                  style={{ textShadow: "0 4px 20px rgba(0,0,0,0.8)" }} // Sombra más fuerte para resaltar sobre el fondo limpio
+                  animate={{
+                    scale: isHovered ? 1 : 0.9,
+                    x: isHovered ? 0 : 0,
+                    opacity: isHovered ? 1 : 0.6,
+                  }}
+                >
+                  {section.id === "meta" ? (
+                    <>
+                      <span className="text-white">META</span>
+                      <span
+                        className={`font-maguntia text-5xl md:text-7xl ml-3 ${isHovered ? section.accent : "text-gray-600"}`}
+                      >
+                        Creator
                       </span>
-                    ))}
-              </h2>
+                    </>
+                  ) : (
+                    section.label
+                  )}
+                </motion.h2>
 
-              {/* LÍNEA SEPARADORA */}
-              <div className="h-px w-8 group-hover:w-24 bg-bone/50 mb-4 transition-all duration-500"></div>
+                <motion.div
+                  className={`h-1 mb-6 bg-white/10 transition-colors duration-300 ${isHovered ? section.bgAccent : ""}`}
+                  animate={{ width: isHovered ? 80 : 0 }}
+                ></motion.div>
 
-              {/* SUBTÍTULOS */}
-              <div className="font-mono text-[10px] md:text-xs text-bone/60 group-hover:text-bone transition-colors space-y-1">
-                <p className="font-bold tracking-widest">{section.subtitle}</p>
-                <p className="opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 italic text-bone/40">
-                  {section.desc}
-                </p>
+                <motion.div
+                  className="space-y-3 overflow-hidden"
+                  animate={{
+                    height: isHovered ? "auto" : 0,
+                    opacity: isHovered ? 1 : 0,
+                  }}
+                >
+                  <div className="min-w-[300px] pb-4">
+                    <p
+                      className={`${section.fontSub} text-sm md:text-base uppercase transition-colors text-white`}
+                    >
+                      {section.sub}
+                    </p>
+
+                    <p
+                      className={`${section.fontDesc} mt-2 text-gray-400 max-w-md`}
+                    >
+                      {section.desc}
+                    </p>
+                  </div>
+                </motion.div>
               </div>
             </div>
+
+            <div
+              className={`absolute top-0 left-0 w-full h-full border-2 border-transparent ${section.border} opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none z-40`}
+            ></div>
           </motion.div>
         );
       })}
-    </div>
+    </motion.div>
   );
 };
 
