@@ -1,13 +1,10 @@
-// --- IMPORTS DE IMÁGENES  ---
-
-// 1. NOMOS DRAWINGS
+// --- IMPORTS DE IMÁGENES ---
 import drawNomos1 from "../assets/images/drawing_nomos_01.webp";
 import drawNomos2 from "../assets/images/drawing_nomos_02.webp";
 import drawNomos3 from "../assets/images/drawing_nomos_03.webp";
 import drawNomos4 from "../assets/images/drawing_nomos_04.webp";
 import drawNomos5 from "../assets/images/drawing_nomos_05.webp";
 
-// 2. POSTERS (Selección Mix: Brutalist + Standard + Template)
 import brutalist1 from "../assets/images/brutalist_poster_01.webp";
 import brutalist2 from "../assets/images/brutalist_poster_02.jpg";
 import brutalist3 from "../assets/images/brutalist_poster_03.webp";
@@ -19,46 +16,41 @@ import poster5 from "../assets/images/poster_05.webp";
 import posterTemplate1 from "../assets/images/poster_template_01.webp";
 import posterTemplate2 from "../assets/images/poster_template_02.webp";
 
-// 3. ILLUSTRATIONS
 import illus1 from "../assets/images/illustration_01.webp";
 import illus2 from "../assets/images/illustration_02.webp";
 import illus3 from "../assets/images/illustration_03.webp";
 import illus4 from "../assets/images/illustration_04.webp";
 
-// 4. SKETCHES
 import sketch1 from "../assets/images/sketch_01.webp";
 import sketch2 from "../assets/images/sketch_02.webp";
 import sketch3 from "../assets/images/sketch_03.webp";
 import sketch4 from "../assets/images/sketch_04.webp";
 
-// 5. BRANDING / TEMPLATES
 import cover1 from "../assets/images/cover_template_01.webp";
 import cover2 from "../assets/images/cover_template_02.webp";
 import logo1 from "../assets/images/logo_template_01.webp";
 import logo2 from "../assets/images/logo_template_02.webp";
 
-// --- DATOS DE PROYECTOS ---
 export const META_PROJECTS = [
   {
     id: "01",
     title: "Nomos Chronicles",
     category: "Worldbuilding / Ink",
     year: "2025",
-    cover: drawNomos1, // Portada principal
+    cover: drawNomos1,
     description:
       "Estudios profundos de personajes y facciones para el universo Nomos. Técnica de entintado digital enfocada en capturar la atmósfera 'Biomechanical Baroque'.",
-    // Todas las imágenes del grupo 'drawing_nomos'
     gallery: [drawNomos1, drawNomos2, drawNomos3, drawNomos4, drawNomos5],
+    tech: "Digital Ink / Procreate / Photoshop",
   },
   {
     id: "02",
-    title: "Brutalist & Editorial Posters",
+    title: "Brutalist Posters",
     category: "Graphic Design",
     year: "2024",
     cover: brutalist1,
     description:
-      "Exploración tipográfica y de composición. Una colección de pósters que desafían las retículas tradicionales, mezclando texturas analógicas con diseño suizo y estética brutalista.",
-    // 'poster_xx' y 'brutalist_poster_xx'
+      "Exploración tipográfica y de composición desafiando las retículas tradicionales, mezclando texturas analógicas con diseño suizo.",
     gallery: [
       brutalist1,
       poster1,
@@ -71,6 +63,7 @@ export const META_PROJECTS = [
       posterTemplate1,
       posterTemplate2,
     ],
+    tech: "Typography / Layout Design",
   },
   {
     id: "03",
@@ -79,9 +72,9 @@ export const META_PROJECTS = [
     year: "2023-2024",
     cover: illus1,
     description:
-      "Ilustraciones conceptuales de gran formato. Piezas narrativas que establecen el tono visual (mood) para entornos de ciencia ficción y fantasía oscura.",
-    // Grupo 'illustration'
+      "Ilustraciones conceptuales de gran formato que establecen el tono visual para entornos de ciencia ficción y fantasía oscura.",
     gallery: [illus1, illus2, illus3, illus4],
+    tech: "Environmental Concept Art",
   },
   {
     id: "04",
@@ -90,29 +83,28 @@ export const META_PROJECTS = [
     year: "2024",
     cover: sketch1,
     description:
-      "El pensamiento detrás de la línea. Archivo de bocetos rápidos, estudios de gestos y primeras ideas que preceden a la obra final.",
-    // Grupo 'sketch'
+      "Archivo de bocetos rápidos y estudios de gestos que preceden a la obra final, mostrando el proceso de pensamiento detrás de la línea.",
     gallery: [sketch1, sketch2, sketch3, sketch4],
+    tech: "Graphite / Digital Sketching",
   },
   {
     id: "05",
-    title: "Visual Identity Systems",
+    title: "Identity Systems",
     category: "Branding / UI",
     year: "2023",
     cover: cover1,
     description:
-      "Desarrollo de identidad visual y templates corporativos. Creación de logotipos y sistemas de portadas modulares para documentación técnica.",
-    // Grupo 'logo_template' y 'cover_template'
+      "Desarrollo de identidad visual y templates modulares para documentación técnica y sistemas corporativos.",
     gallery: [cover1, logo1, cover2, logo2],
+    tech: "Vector Art / UI Components",
   },
 ];
 
-// DATOS DE CONTACTO
 export const CONTACT_INFO = {
   email: "maoh2c@gmail.com",
   socials: [
     { label: "Instagram", url: "https://instagram.com" },
-    { label: "LinkedIn", url: "https://linkedin.com" },
+    { label: "LinkedIn", url: "https://linkedin.com/in/mauricio-olvera" },
     { label: "GitHub", url: "https://github.com/mausashi-exe" },
   ],
 };
