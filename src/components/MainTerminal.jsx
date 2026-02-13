@@ -228,6 +228,11 @@ const MainTerminal = ({ setMode }) => {
                   </div>
                 </motion.div>
               </div>
+              <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 flex items-center justify-center">
+                <h1 className="font-bebas text-[35vw] text-white opacity-[0.02] select-none tracking-tighter leading-none">
+                  WIP
+                </h1>
+              </div>
             </div>
 
             <div

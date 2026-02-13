@@ -27,7 +27,8 @@ export const ENGINEER_DATA = [
     description:
       "Portafolio interactivo desarrollado como una Single Page Application (SPA). Implementa un sistema de enrutamiento por estados para simular una terminal de sistema operativo. Cuenta con animaciones avanzadas orquestadas con Framer Motion, optimización de assets WebP y una arquitectura de componentes modulares en React.",
     tech: ["React", "Vite", "TailwindCSS", "Framer Motion"],
-    liveLink: "https://github.com/mausashi-exe/my_cv_website_mov",
+    liveLink:
+      "https://my-cv-website-ne1wig19c-mausashi-exes-projects.vercel.app/",
     repoLink: "https://github.com/mausashi-exe/my_cv_website_mov",
     codeSnippet: `
 // Viewport Transition Logic

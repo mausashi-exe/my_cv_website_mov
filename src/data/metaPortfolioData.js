@@ -103,8 +103,11 @@ export const META_PROJECTS = [
 export const CONTACT_INFO = {
   email: "maoh2c@gmail.com",
   socials: [
-    { label: "Instagram", url: "https://instagram.com" },
-    { label: "LinkedIn", url: "https://linkedin.com/in/mauricio-olvera" },
+    { label: "Instagram", url: "https://instagram.com/mauricio.ov" },
+    {
+      label: "LinkedIn",
+      url: "https://www.linkedin.com/in/mauricio-olvera-748692192/",
+    },
     { label: "GitHub", url: "https://github.com/mausashi-exe" },
   ],
 };
