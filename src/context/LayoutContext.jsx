@@ -1,51 +1,38 @@
 /*
-Layout State Machine
-Intent:
-- Centralize all viewport geometry logic
-- Prevent impossible layout states
-- Provide "The Brain" for hydraulic transitions
+LayoutContext.jsx (Deterministic Version)
+Under the Hood: 
+- Derived State: No more useState for 'layoutMode'. 
+- React Router Integration: Watches the URL to determine if it should be 
+  in 'blueprint', 'lore', or 'terminal' geometry.
 */
-import React, { createContext, useContext, useState, useMemo } from "react";
+import React, { createContext, useContext, useMemo } from "react";
+import { useLocation } from "react-router-dom";
 
 const LayoutContext = createContext();
 
-// --- 1. THE GEOMETRY MATRIX ---
-// Defines the exact "Mechanical Settings" for each mode.
+// THE HYDRAULIC SPECS
 const WIDTH_CONFIGS = {
-  // Terminal/Home: Balanced Dashboard
-  terminal: {
-    left: "20%",
-    center: "60%",
-    right: "20%",
-  },
-  // Engineer/Blueprint: Wide center for Code reading
-  blueprint: {
-    left: "15%",
-    center: "65%",
-    right: "20%",
-  },
-  // Creator/Lore: Focused reading with optional metadata
-  lore: {
-    left: "15%",
-    center: "55%",
-    right: "30%",
-  },
-  // Meta/Gallery: Full visual focus
-  meta: {
-    left: "10%",
-    center: "90%",
-    right: "0%",
-  },
+  terminal: { left: "20%", center: "60%", right: "20%" },
+  engineer: { left: "15%", center: "65%", right: "20%" }, // 'engineer' maps to /blueprint
+  creator: { left: "15%", center: "55%", right: "30%" }, // 'creator' maps to /lore
+  meta: { left: "10%", center: "90%", right: "0%" },
 };
 
 export const LayoutProvider = ({ children }) => {
-  // Default to 'terminal' mode
-  const [layoutMode, setLayoutMode] = useState("terminal");
+  const location = useLocation();
+
+  // DERIVED STATE: The URL is the absolute source of truth.
+  const layoutMode = useMemo(() => {
+    const path = location.pathname;
+    if (path.startsWith("/blueprint")) return "engineer";
+    if (path.startsWith("/lore")) return "creator";
+    if (path.startsWith("/meta")) return "meta";
+    return "terminal";
+  }, [location.pathname]);
 
   const value = useMemo(
     () => ({
       layoutMode,
-      setLayoutMode,
       currentWidths: WIDTH_CONFIGS[layoutMode] || WIDTH_CONFIGS.terminal,
     }),
     [layoutMode],
@@ -58,8 +45,6 @@ export const LayoutProvider = ({ children }) => {
 
 export const useLayout = () => {
   const context = useContext(LayoutContext);
-  if (!context) {
-    throw new Error("useLayout must be used within a LayoutProvider");
-  }
+  if (!context) throw new Error("useLayout requires LayoutProvider");
   return context;
 };

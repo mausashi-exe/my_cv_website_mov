@@ -1,3 +1,9 @@
+/*
+SystemBar (Restored Theme Logic)
+Under the Hood:
+- Theme Sync: Uses your original THEME_CONFIG to switch colors based on the URL-derived mode.
+- Navigation: Calls setMode (which now triggers a URL change) while keeping your hover and active styles.
+*/
 import React from "react";
 
 const SystemBar = ({ currentMode, setMode }) => {
@@ -59,7 +65,7 @@ const SystemBar = ({ currentMode, setMode }) => {
         <button
           onClick={() => setMode("terminal")}
           className={`
-            flex items-center gap-3 p-2 -ml-2 transition-colors duration-300 group
+            flex items-center gap-3 p-2 -ml-2 transition-colors duration-300 group cursor-pointer
             ${currentMode === "terminal" ? "text-white" : "hover:text-white"}
           `}
         >
@@ -108,9 +114,9 @@ const SystemBar = ({ currentMode, setMode }) => {
             <button
               key={item.id}
               onClick={() => setMode(item.id)}
-              className={`px-4 py-1.5 rounded-sm transition-all duration-300 ${activeClasses}`}
+              className={`px-4 py-1.5 rounded-sm transition-all duration-300 cursor-pointer ${activeClasses}`}
             >
-              {label}
+              {item.label}
             </button>
           );
         })}
