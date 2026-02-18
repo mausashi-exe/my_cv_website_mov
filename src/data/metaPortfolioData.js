@@ -34,8 +34,8 @@ import logo2 from "../assets/images/logo_template_02.webp";
 export const META_PROJECTS = [
   {
     id: "01",
-    title: "Nomos Chronicles",
-    category: "Worldbuilding / Ink",
+    title: "Nomos Worldbuilding",
+    category: "Worldbuilding",
     year: "2025",
     cover: drawNomos1,
     description:
@@ -50,7 +50,7 @@ export const META_PROJECTS = [
     year: "2024",
     cover: brutalist1,
     description:
-      "Exploración tipográfica y de composición desafiando las retículas tradicionales, mezclando texturas analógicas con diseño suizo.",
+      "Exploración tipográfica y de composición desafiando las retículas tradicionales, mezclando texturas analógicas con diseño brutalista.",
     gallery: [
       brutalist1,
       poster1,

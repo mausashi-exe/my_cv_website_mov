@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { AnimatePresence } from "framer-motion";
+
+// --- 1. NEW ARCHITECTURE IMPORT ---
+import { LayoutProvider } from "./context/LayoutContext";
 
 import CornerLayout from "./layouts/CornerLayout";
 import SystemBar from "./components/SystemBar";
-import LoadingScreen from "./components/LoadingScreen"; // Asegúrate de que la ruta sea correcta
+import LoadingScreen from "./components/LoadingScreen";
 
 import MainTerminal from "./components/MainTerminal";
 import BlueprintView from "./components/BlueprintView";
@@ -13,7 +16,8 @@ import MetaView from "./components/MetaView";
 function App() {
   const [mode, setMode] = useState("terminal");
 
-  // FIX 1: Lógica de persistencia de sesión para el Boot Sequence
+  // --- BOOT SEQUENCE LOGIC ---
+  // Checks if the user has already seen the boot screen in this session
   const [isInitialized, setIsInitialized] = useState(() => {
     return sessionStorage.getItem("sys_init") === "true";
   });
@@ -24,22 +28,31 @@ function App() {
   };
 
   return (
-    <>
+    /* LAYOUT PROVIDER (THE BRAIN)
+       Wraps the entire app so the Hydraulic Grid can read state 
+       from anywhere (Terminal, Engineer, Creator, Meta).
+    */
+    <LayoutProvider>
+      {/* 1. BOOT LOADER (Overlays everything) */}
       <AnimatePresence mode="wait">
         {!isInitialized && (
           <LoadingScreen key="loader" onComplete={handleBootComplete} />
         )}
       </AnimatePresence>
 
+      {/* 2. MAIN APPLICATION SHELL */}
       {isInitialized && (
         <CornerLayout currentMode={mode} setMode={setMode}>
-          {/* Contenedor principal con padding inferior para la SystemBar reforzada */}
+          {/* CONTENT AREA (With padding for SystemBar) */}
           <div className="w-full h-full pb-14 md:pb-16">
             <AnimatePresence mode="wait">
               {mode === "terminal" && (
                 <MainTerminal key="terminal" setMode={setMode} />
               )}
 
+              {/* NOTE: We map 'engineer' mode to the 'BlueprintView' component.
+                 Inside BlueprintView, it will auto-trigger the 'blueprint' layout width.
+              */}
               {mode === "engineer" && (
                 <BlueprintView key="blueprint" setMode={setMode} />
               )}
@@ -52,11 +65,11 @@ function App() {
             </AnimatePresence>
           </div>
 
-          {/* Barra de Navegación Inferior Reforzada */}
+          {/* NAVIGATION BAR (Fixed Bottom) */}
           <SystemBar currentMode={mode} setMode={setMode} />
         </CornerLayout>
       )}
-    </>
+    </LayoutProvider>
   );
 }
 
