@@ -1,3 +1,10 @@
+/*
+CommLink v2.0 (Hydraulic Compatible)
+Fixes:
+- Removed fixed height (h-[300px]) -> Now uses flex-1 h-full
+- Removed top margin (mt-4) -> Fits flush in the column
+- Added 'h-full' to container for proper expansion
+*/
 import React, { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import { motion, AnimatePresence } from "framer-motion";
@@ -19,7 +26,7 @@ const CommLink = () => {
   const sendMessage = async () => {
     if (currentMessage.trim() !== "") {
       const messageData = {
-        user: userId, // Envia el usuario explícitamente
+        user: userId,
         text: currentMessage,
         time: new Date().toLocaleTimeString([], {
           hour: "2-digit",
@@ -41,17 +48,12 @@ const CommLink = () => {
     socket.on("disconnect", () => setIsConnected(false));
 
     const handler = (data) => {
-      // --- PROTECCIÓN 2: SANITIZACIÓN DE DATOS ---
-      // Si el mensaje llega vacío o roto, lo ignora para no romper React
       if (!data) return;
-
-      // Crea un objeto seguro, si 'user' falta, ponemos 'UNKNOWN'
       const safeData = {
         user: data.user || "UNKNOWN",
         text: data.text || "...",
         time: data.time || "NOW",
       };
-
       setMessageList((list) => [...list, safeData]);
     };
 
@@ -69,8 +71,10 @@ const CommLink = () => {
   }, [messageList]);
 
   return (
-    <div className="w-full mt-4 flex flex-col font-mono text-[10px] bg-black border border-[#ff4425]/30 h-[300px] shadow-[0_0_15px_rgba(255,68,37,0.05)]">
-      <div className="bg-[#ff4425]/10 p-2 border-b border-[#ff4425]/30 flex justify-between items-center text-[#ff4425]">
+    // UPDATED CONTAINER STYLES: h-full, no margin, flex column
+    <div className="w-full h-full flex flex-col font-mono text-[10px] bg-black border border-[#ff4425]/30 shadow-[0_0_15px_rgba(255,68,37,0.05)]">
+      {/* HEADER */}
+      <div className="bg-[#ff4425]/10 p-2 border-b border-[#ff4425]/30 flex justify-between items-center text-[#ff4425] shrink-0">
         <div className="flex items-center gap-2">
           <span
             className={`w-1.5 h-1.5 rounded-full ${isConnected ? "bg-[#ff4425] animate-pulse" : "bg-gray-600"}`}
@@ -82,11 +86,10 @@ const CommLink = () => {
         <span className="opacity-50">{isConnected ? "ONLINE" : "OFFLINE"}</span>
       </div>
 
+      {/* MESSAGES AREA (Flexible Height) */}
       <div className="flex-1 overflow-y-auto p-3 space-y-2 scrollbar-hide bg-[#050505]">
         <AnimatePresence>
           {messageList.map((msg, index) => {
-            // --- PROTECCIÓN 3: RENDERIZADO SEGURO ---
-            // Aquí ya no usa startsWith, usamos comparación directa
             const isSystem = msg.user === "SYS_ADMIN";
             const isMe = msg.user === userId;
 
@@ -104,10 +107,7 @@ const CommLink = () => {
                   <span>[{msg.time}]</span>
                 </div>
                 <div
-                  className={`
-                            px-2 py-1 border-l-2 text-[10px] leading-relaxed break-all
-                            ${isSystem ? "border-yellow-500 bg-yellow-500/5" : "border-[#ff4425] bg-[#ff4425]/5 text-white"}
-                        `}
+                  className={`px-2 py-1 border-l-2 text-[10px] leading-relaxed break-all ${isSystem ? "border-yellow-500 bg-yellow-500/5" : "border-[#ff4425] bg-[#ff4425]/5 text-white"}`}
                 >
                   {msg.text}
                 </div>
@@ -118,7 +118,8 @@ const CommLink = () => {
         <div ref={bottomRef} />
       </div>
 
-      <div className="p-2 border-t border-[#ff4425]/30 bg-[#0a0a0a] flex gap-2 items-center">
+      {/* INPUT AREA (Fixed Bottom) */}
+      <div className="p-2 border-t border-[#ff4425]/30 bg-[#0a0a0a] flex gap-2 items-center shrink-0">
         <span className="text-[#ff4425] pl-1">&gt;</span>
         <input
           type="text"
