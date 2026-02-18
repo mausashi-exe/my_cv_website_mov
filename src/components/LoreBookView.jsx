@@ -1,18 +1,34 @@
 /*
-LoreBookView v4.2 (Syntax Fixed)
-Under the Hood:
-- Fix: Corrected mismatched JSX tags (sealed motion.div properly).
-- Soul: Restored your original Swipe Logic, ArtifactButton, and Landing Map.
-- Architecture: URL-Driven via useParams for the 'refactor/layout-determinism' branch.
+LoreBookView v4.4 (Bug Patch: Reducer Fix)
+Refactor:
+- FIXED: ReferenceError in chapterMap (acc vs map).
+- Reactive: useMediaQuery hook for 768px breakpoint.
+- Soul: Original Swipe Logic, Landing Gate, and WIP Module intact.
 */
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { LORE_CHAPTERS } from "../data/loreData";
 import mapImage from "../assets/images/map_with_factions_01.webp";
 import coinBtn from "../assets/images/map_landing_button_01.webp";
 
-// --- YOUR ORIGINAL AUXILIARY COMPONENTS ---
+// --- CUSTOM REACTIVE HOOK ---
+const useMediaQuery = (query) => {
+  const [matches, setMatches] = useState(
+    () => window.matchMedia(query).matches,
+  );
+
+  useEffect(() => {
+    const media = window.matchMedia(query);
+    const listener = (e) => setMatches(e.matches);
+    media.addEventListener("change", listener);
+    return () => media.removeEventListener("change", listener);
+  }, [query]);
+
+  return matches;
+};
+
+// --- AUXILIARY COMPONENTS ---
 const NoiseOverlay = () => (
   <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.03] mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
 );
@@ -62,22 +78,22 @@ const WIPModule = () => (
   </motion.div>
 );
 
-const LoreBookView = ({ setMode }) => {
+const LoreBookView = () => {
   const { chapterId } = useParams();
   const navigate = useNavigate();
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
-  // 1. GATED ENTRY LOGIC (URL-Aware)
   const [isArchiveOpen, setIsArchiveOpen] = useState(() => {
     if (chapterId) return true;
     return sessionStorage.getItem("lore_access") === "true";
   });
 
-  const handleEnter = () => {
+  const handleEnter = useCallback(() => {
     sessionStorage.setItem("lore_access", "true");
     setIsArchiveOpen(true);
-  };
+  }, []);
 
-  // 2. DATA DERIVATION
+  // FIXED: Corrected accumulator return (acc instead of map)
   const chapterMap = useMemo(() => {
     return LORE_CHAPTERS.reduce((acc, chap) => {
       acc[chap.id] = chap;
@@ -87,26 +103,24 @@ const LoreBookView = ({ setMode }) => {
 
   const activeChapter = chapterMap[chapterId] || LORE_CHAPTERS[0];
 
-  const groupedChapters = LORE_CHAPTERS.reduce((acc, chapter) => {
-    if (!acc[chapter.category]) acc[chapter.category] = [];
-    acc[chapter.category].push(chapter);
-    return acc;
-  }, {});
+  const groupedChapters = useMemo(() => {
+    return LORE_CHAPTERS.reduce((acc, chapter) => {
+      if (!acc[chapter.category]) acc[chapter.category] = [];
+      acc[chapter.category].push(chapter);
+      return acc;
+    }, {});
+  }, []);
 
   const [isRightPanelOpen, setIsRightPanelOpen] = useState(false);
   const [isMobileIndexOpen, setIsMobileIndexOpen] = useState(false);
 
-  // 3. YOUR ORIGINAL SWIPE LOGIC
+  // Swipe Logic
   const [touchStart, setTouchStart] = useState(null);
-  const [touchEnd, setTouchEnd] = useState(null);
   const minSwipeDistance = 50;
 
-  const onTouchStart = (e) => {
-    setTouchEnd(null);
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-  const onTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX);
-  const onTouchEnd = () => {
+  const onTouchStart = (e) => setTouchStart(e.targetTouches[0].clientX);
+  const onTouchEnd = (e) => {
+    const touchEnd = e.changedTouches[0].clientX;
     if (!touchStart || !touchEnd) return;
     const distance = touchStart - touchEnd;
     if (distance < -minSwipeDistance) {
@@ -176,10 +190,8 @@ const LoreBookView = ({ setMode }) => {
             transition={{ duration: 0.8 }}
             className="flex w-full h-full relative z-10 pt-14"
             onTouchStart={onTouchStart}
-            onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
           >
-            {/* 1. LEFT COLUMN: INDEX */}
             <nav className="hidden md:flex flex-col w-64 border-r border-white/10 bg-[#080808] z-20 shrink-0">
               <div className="p-6 border-b border-white/5">
                 <button
@@ -214,7 +226,6 @@ const LoreBookView = ({ setMode }) => {
               </div>
             </nav>
 
-            {/* MOBILE HEADER */}
             <div className="md:hidden absolute top-14 left-0 w-full px-6 py-3 bg-[#0a0a0a]/90 border-b border-white/10 flex justify-between items-center z-30 backdrop-blur-md">
               <span className="font-code text-xs text-gray-500">
                 {activeChapter.category}
@@ -227,13 +238,11 @@ const LoreBookView = ({ setMode }) => {
               </button>
             </div>
 
-            {/* 2. CENTER COLUMN: CODEX */}
             <main
               id="lore-center-panel"
               className="flex-1 overflow-y-auto scrollbar-hide bg-[#0a0a0a] relative px-6 md:px-16 lg:px-24 py-12 md:py-16 mt-8 md:mt-0 transition-all duration-500"
             >
               <div className="fixed top-1/2 left-[50%] -translate-x-1/2 -translate-y-1/2 w-[60vh] h-[60vh] border border-[#d4af37]/5 rounded-full opacity-20 animate-spin-slow pointer-events-none"></div>
-
               <motion.div
                 key={activeChapter.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -275,20 +284,13 @@ const LoreBookView = ({ setMode }) => {
               </motion.div>
             </main>
 
-            {/* 3. RIGHT COLUMN: META */}
             <motion.aside
               initial={false}
               animate={{
-                width:
-                  window.innerWidth >= 768
-                    ? isRightPanelOpen
-                      ? 400
-                      : 0
-                    : "100%",
-                x:
-                  window.innerWidth < 768 ? (isRightPanelOpen ? 0 : "100%") : 0,
+                width: isDesktop ? (isRightPanelOpen ? 400 : 0) : "100%",
+                x: !isDesktop ? (isRightPanelOpen ? 0 : "100%") : 0,
               }}
-              className={`bg-[#0c0c0c] border-l border-[#d4af37]/20 z-40 overflow-hidden flex flex-col shrink-0 ${window.innerWidth < 768 ? "fixed inset-0 top-14 pt-0" : "relative h-full"}`}
+              className={`bg-[#0c0c0c] border-l border-[#d4af37]/20 z-40 overflow-hidden flex flex-col shrink-0 ${!isDesktop ? "fixed inset-0 top-14 pt-0" : "relative h-full"}`}
             >
               <div className="w-full md:w-[400px] h-full flex flex-col overflow-y-auto min-w-[350px]">
                 <div className="p-6 bg-[#0e0e0e] border-b border-white/10 flex justify-between items-center sticky top-0 z-10">
@@ -305,8 +307,6 @@ const LoreBookView = ({ setMode }) => {
                     [ CLOSE ]
                   </button>
                 </div>
-
-                {/* Visual Data Content */}
                 {activeChapter.visuals?.main_image && (
                   <div className="w-full aspect-video md:aspect-square bg-black border-b border-white/10 relative">
                     <img
@@ -317,7 +317,6 @@ const LoreBookView = ({ setMode }) => {
                     <div className="absolute inset-0 shadow-[inset_0_0_50px_rgba(0,0,0,0.8)] pointer-events-none"></div>
                   </div>
                 )}
-
                 <div className="p-8 space-y-8">
                   <div className="grid grid-cols-2 gap-4">
                     {activeChapter.visuals?.stats.map((stat, i) => (

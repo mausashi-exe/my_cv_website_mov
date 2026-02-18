@@ -1,15 +1,14 @@
 /*
-Blueprint View v3.0 (AI Orchestration Grade)
-Upgrades:
-- "Fabrication Log" Tab: Displays AI generation parameters (The Recipe).
-- Syntax Highlighting for JSON logs.
-- Strict containment & State Machine preserved.
+Blueprint View v4.0 (Deterministic Refactor)
+Changes:
+- Removed 'setLayoutMode' (Mode is now derived from URL, satisfying Option B).
+- Removed the useEffect side-effect on mount.
+- Preserved: Fabrication Logs, Hydraulic Grid implementation, and UI Soul.
 */
-import React, { useState, useEffect, memo, useCallback } from "react";
+import React, { useState, memo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ENGINEER_DATA, SKILLS } from "../data/EngineerData";
 import HydraulicGrid from "./HydraulicGrid";
-import { useLayout } from "../context/LayoutContext";
 import CommLink from "./CommLink";
 import profilePic from "../assets/images/main_icon.webp";
 
@@ -114,7 +113,7 @@ const EngineerProfile = memo(() => (
   </div>
 ));
 
-// --- 2. CENTER PANEL: PROJECT PISTON (UPGRADED) ---
+// --- 2. CENTER PANEL: PROJECT PISTON ---
 const ProjectPiston = memo(({ item, isOpen, onToggle }) => {
   const [viewMode, setViewMode] = useState("code"); // 'code' | 'ai'
 
@@ -290,15 +289,12 @@ const RightConsole = memo(() => (
   </div>
 ));
 
-// --- MAIN COMPONENT ---
+// --- MAIN VIEW ---
 const BlueprintView = () => {
-  const { setLayoutMode } = useLayout();
   const [expandedId, setExpandedId] = useState(null);
 
-  useEffect(() => {
-    setLayoutMode("blueprint");
-    return () => setLayoutMode("terminal");
-  }, [setLayoutMode]);
+  // FIX: Removed useEffect and setLayoutMode.
+  // The system now automatically detects 'blueprint' based on the URL.
 
   const handleToggle = useCallback((id) => {
     setExpandedId((prev) => (prev === id ? null : id));
