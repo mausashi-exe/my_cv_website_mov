@@ -66,7 +66,7 @@ const WIPModule = () => (
     initial={{ opacity: 0, y: 10 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ delay: 0.5, duration: 0.8 }}
-    className="absolute bottom-12 md:bottom-24 z-50 flex flex-col items-center"
+    className="absolute bottom-20 md:bottom-24 z-50 flex flex-col items-center w-full px-4"
   >
     <div className="bg-[#0a0a0a]/90 border border-[#ffb700]/30 backdrop-blur-md px-6 py-3 rounded-sm flex items-center gap-4 shadow-[0_0_20px_rgba(255,183,0,0.1)]">
       <div className="w-2 h-2 bg-[#ffb700] animate-pulse rounded-full"></div>
@@ -191,7 +191,7 @@ const LoreBookView = () => {
             </div>
 
             {/* Core Landing Content */}
-            <div className="relative z-30 flex flex-col items-center justify-center p-8">
+            <div className="relative z-30 flex flex-col items-center justify-center p-8 pb-32 md:pb-8">
               <div className="mb-10 relative z-50">
                 <ArtifactButton
                   onClick={() => setIsArchiveOpen(true)}
@@ -261,7 +261,7 @@ const LoreBookView = () => {
             </nav>
 
             {/* MOBILE HEADER */}
-            <div className="md:hidden absolute top-14 left-0 w-full px-6 py-3 bg-[#0a0a0a]/90 border-b border-white/10 flex justify-between items-center z-30 backdrop-blur-md">
+            <div className="md:hidden fixed top-14 left-0 w-full px-6 py-3 bg-[#0a0a0a]/90 border-b border-white/10 flex justify-between items-center z-30 backdrop-blur-md">
               <span className="font-code text-xs text-gray-500">
                 {activeChapter.category}
               </span>
@@ -320,7 +320,7 @@ const LoreBookView = () => {
             {/* 2. MAIN CODEX CONTENT */}
             <main
               id="lore-center-panel"
-              className="flex-1 overflow-y-auto bg-[#0a0a0a] px-6 md:px-12 py-16 scrollbar-hide relative"
+              className="flex-1 overflow-y-auto bg-[#0a0a0a] px-6 md:px-12 pt-28 md:pt-16 pb-16 scrollbar-hide relative"
             >
               <div className="fixed top-1/2 left-[50%] -translate-x-1/2 -translate-y-1/2 w-[60vh] h-[60vh] border border-[#d4af37]/5 rounded-full opacity-20 animate-spin-slow pointer-events-none"></div>
 
