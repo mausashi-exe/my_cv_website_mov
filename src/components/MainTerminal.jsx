@@ -115,7 +115,7 @@ const MainTerminal = ({ setMode }) => {
 
   return (
     <motion.div
-      className="h-full w-full flex flex-col md:flex-row bg-[#050505] relative overflow-hidden"
+      className="h-full w-full flex flex-col md:flex-row bg-[#050505] relative overflow-y-auto md:overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, transition: { duration: 0.5 } }}
@@ -146,13 +146,14 @@ const MainTerminal = ({ setMode }) => {
             onMouseLeave={() => setHoveredSection(null)}
             onClick={() => setMode(section.id)}
             className={`
-              relative z-20 h-full border-b md:border-b-0 md:border-r border-white/5 cursor-pointer overflow-hidden group 
+              relative z-20 min-h-[38dvh] md:h-full border-b md:border-b-0 md:border-r border-white/5 cursor-pointer overflow-hidden group 
               transition-all duration-700 ease-out flex flex-col justify-end
             `}
             animate={{
               flex: isHovered && !isMobile ? 3 : 1, // En móvil no cambiamos el tamaño flex drásticamente
               filter: isDimmed ? "brightness(0.3)" : "brightness(1)",
             }}
+            style={{ flexShrink: 0 }}
           >
             <AnimatePresence>
               {(isHovered || (isMobile && section.id === "creator")) &&
