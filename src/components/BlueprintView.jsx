@@ -64,7 +64,7 @@ const EngineerProfile = memo(() => (
       <h1 className="font-bebas text-3xl lg:text-4xl text-white leading-none tracking-wide mb-1">
         MAURICIO
         <br />
-        <span className="text-[#ff4425]">OLVERA</span>
+        <span className="text-[#ff4425]">O.V.</span>
       </h1>
       <div className="flex justify-between items-center mt-2">
         <span className="font-mono text-[9px] text-[#666] uppercase tracking-widest">
@@ -80,8 +80,8 @@ const EngineerProfile = memo(() => (
         <strong className="text-[#ff4425] block mb-2 uppercase tracking-widest">
           /// SYSTEM_BIO_LOADED
         </strong>
-        Orchestrating Large Language Models to build scalable, biomechanical
-        interfaces.
+        Orchestrating Large Language Models to build scalable, modern digital
+        products and immersive user interfaces.
       </p>
     </div>
     <div className="flex-1 overflow-y-auto scrollbar-hide p-6 w-full">

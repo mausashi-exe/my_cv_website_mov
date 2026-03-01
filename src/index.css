@@ -24,7 +24,13 @@
 
 @layer base {
   body {
-    @apply bg-void text-gray-200 h-screen w-screen overflow-hidden antialiased;
+    @apply bg-void text-gray-200 antialiased;
+    /* Let #root own the viewport. Body must never constrain height on mobile. */
+  }
+  #root {
+    width: 100%;
+    height: 100dvh; /* dvh = dynamic viewport height. Accounts for mobile browser bars. */
+    overflow: hidden;
   }
 }
 
