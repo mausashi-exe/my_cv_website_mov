@@ -94,7 +94,7 @@ const CornerLayout = ({ children, currentMode, setMode }) => {
       </header>
 
       {/* 3. CONTENIDO PRINCIPAL */}
-      <main className="relative z-0 w-full h-full pt-14 overflow-y-auto overflow-x-hidden scrollbar-hide">
+      <main className="relative z-0 w-full h-full pt-14 overflow-hidden">
         {children}
       </main>
     </div>
