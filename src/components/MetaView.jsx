@@ -342,7 +342,7 @@ const MetaView = ({ setMode }) => {
       </AnimatePresence>
 
       {/* MOBILE TRIGGER */}
-      <div className="md:hidden fixed top-6 right-6 z-[60]">
+      <div className="md:hidden fixed bottom-20 right-4 z-[60]">
         <button
           onClick={() => setIsMobileMenuOpen(true)}
           className="bg-[#a855f7] text-black w-12 h-12 rounded-full flex items-center justify-center text-2xl font-bold shadow-lg"
