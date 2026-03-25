@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import mapBg from "../assets/images/map_with_factions_01.webp";
 
-// --- FONDOS DINÁMICOS (Solo aparecen en Hover o activo en móvil) ---
-
+// Background components for each mode
 const EngineerBg = () => (
   <motion.div
     initial={{ opacity: 0 }}
@@ -58,12 +57,12 @@ const MetaBg = () => (
   </motion.div>
 );
 
-// --- COMPONENTE PRINCIPAL ---
+// Main component
 const MainTerminal = ({ setMode }) => {
   const [hoveredSection, setHoveredSection] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Detectar si es móvil para ajustar comportamiento (sin hover)
+  // Detect mobile for responsive behavior
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();

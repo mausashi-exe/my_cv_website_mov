@@ -1,20 +1,16 @@
 /*
-Hydraulic Chassis v2.0 (Senior Grade)
-Fixes:
-- Enforces 100dvh at root level
-- Uses "layout paint" containment (allows sticky headers)
-- Removes hardcoded internal widths (True fluid mechanics)
-- Mobile: Single column + drawers (FAB controls)
+HydraulicGrid - Responsive Layout System with Mobile Drawers
+Manages three-column layout with drawer overrides for mobile.
 */
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLayout } from "../context/LayoutContext";
 
-// Tuning: Heavy Industrial Feel
+// Spring physics for smooth animations
 const HYDRAULIC_SPRING = {
   type: "spring",
   stiffness: 300,
-  damping: 40, // Precision damping
+  damping: 40,
   mass: 1.2,
 };
 
@@ -25,13 +21,10 @@ const HydraulicColumn = ({ width, children, className = "" }) => (
     transition={HYDRAULIC_SPRING}
     className={`h-full overflow-hidden relative flex flex-col ${className}`}
     style={{
-      contain: "layout paint", // FIX: Allows sticky headers, prevents layout thrashing
-      willChange: "width", // FIX: GPU Promotion
+      contain: "layout paint",
+      willChange: "width",
     }}
   >
-    {/* FIX: Removed w-[fixed] constraints. 
-      The content must flow to fill the hydraulic chamber. 
-    */}
     <div className="w-full h-full flex flex-col">{children}</div>
   </motion.div>
 );
@@ -45,15 +38,12 @@ const HydraulicGrid = ({ leftSlot, centerSlot, rightSlot }) => {
   // This block only renders on screens < 768px (Tailwind md breakpoint)
   return (
     <>
-      {/* ============================================
-          MOBILE LAYOUT (< 768px)
-          Render only center. Left/Right are drawers.
-          ============================================ */}
+      {/* Mobile layout: full-width center with drawer overlays */}
       <div className="flex md:hidden w-full h-full flex-col overflow-hidden bg-[#050505] relative">
-        {/* CENTER: Full width, full height */}
+        {/* Center: Full width */}
         <div className="flex-1 w-full h-full overflow-hidden">{centerSlot}</div>
 
-        {/* MOBILE FAB ROW — Fixed above SystemBar (pb accounts for SystemBar h-14) */}
+        {/* Mobile FABs - Fixed above SystemBar */}
         <div className="fixed bottom-16 right-4 z-[65] flex flex-col gap-3">
           {/* PROFILE FAB */}
           <motion.button

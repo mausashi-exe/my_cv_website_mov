@@ -1,9 +1,6 @@
 /*
-App.jsx (The Safe Bridge)
-Logic:
-- CurrentMode: Derived from URL.
-- setMode: Now triggers a 'navigate()' instead of updating state.
-- Components: Your original components stay 100% the same.
+App.jsx - Main Router and Layout Manager
+Routes URL changes to component state via setMode navigation.
 */
 import React, { useState } from "react";
 import {
@@ -29,7 +26,6 @@ function App() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // 1. DERIVE MODE FROM PATH (Deterministic Logic)
   const modeFromPath = () => {
     const path = location.pathname;
     if (path.startsWith("/blueprint")) return "engineer";
@@ -40,7 +36,6 @@ function App() {
 
   const currentMode = modeFromPath();
 
-  // 2. THE BRIDGE: Map old setMode calls to URL Navigation
   const setMode = (nextMode) => {
     const pathMap = {
       terminal: "/",
@@ -51,7 +46,6 @@ function App() {
     navigate(pathMap[nextMode]);
   };
 
-  // 3. BOOT INITIALIZATION (Preserving your original persistence)
   const [isInitialized, setIsInitialized] = useState(() => {
     return sessionStorage.getItem("sys_init") === "true";
   });

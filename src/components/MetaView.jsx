@@ -8,8 +8,7 @@ const ACCENT = "text-[#a855f7]";
 const BORDER_ACCENT = "border-[#a855f7]";
 const HOVER_TEXT_ACCENT = "hover:text-[#a855f7]";
 
-// --- COMPONENTES DE APOYO ---
-
+// Header component
 const HybridHeader = () => (
   <div className="mb-8 md:mb-12 border-b border-white/5 pb-6">
     <h1 className="text-5xl md:text-6xl leading-none select-none">
@@ -89,8 +88,7 @@ const ArtifactFrame = ({ img, index, onClick }) => (
   </div>
 );
 
-// --- SECCIONES PRINCIPALES ---
-
+// Gallery feed component
 const GalleryFeed = ({ onSelect }) => (
   <motion.div
     initial={{ opacity: 0, x: 20 }}

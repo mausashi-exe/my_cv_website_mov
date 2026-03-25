@@ -1,9 +1,6 @@
 /*
-Blueprint View v4.0 (Deterministic Refactor)
-Changes:
-- Removed 'setLayoutMode' (Mode is now derived from URL, satisfying Option B).
-- Removed the useEffect side-effect on mount.
-- Preserved: Fabrication Logs, Hydraulic Grid implementation, and UI Soul.
+BlueprintView - Engineer Profile and Skills Display
+Displays professional profile, skills, and project fabrication logs.
 */
 import React, { useState, memo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -12,7 +9,7 @@ import HydraulicGrid from "./HydraulicGrid";
 import CommLink from "./CommLink";
 import profilePic from "../assets/images/main_icon.webp";
 
-// --- SUB-COMPONENT: JSON LOG VIEWER ---
+// JSON log viewer component
 const FabricationLog = ({ data }) => (
   <div className="font-mono text-[10px] leading-relaxed text-[#888]">
     <div className="mb-4 flex gap-4 text-[#ff4425]">
@@ -49,7 +46,7 @@ const FabricationLog = ({ data }) => (
   </div>
 );
 
-// --- 1. LEFT PANEL: IDENTITY ---
+// Left panel: identity and skills
 const EngineerProfile = memo(() => (
   <div className="h-full flex flex-col bg-[#080808] w-full">
     <div className="p-6 border-b border-[#222]">

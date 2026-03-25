@@ -10,17 +10,16 @@ const LoadingScreen = ({ onComplete }) => {
     const updateCount = () => {
       setCount((prev) => {
         if (prev >= 100) {
-          setTimeout(onComplete, 600); // Pausa dramática al terminar
+          setTimeout(onComplete, 600);
           return 100;
         }
 
-        // LÓGICA DE VELOCIDAD DINÁMICA:
-        // Si el progreso es bajo, carga rápido. Si es alto, simula "esfuerzo".
+        // Dynamic loading speed: fast start, slower finish
         const remaining = 100 - prev;
         const increment = Math.floor(Math.random() * (prev < 70 ? 15 : 5)) + 1;
         const nextValue = Math.min(prev + increment, 100);
 
-        // El delay también varía: más lento al final
+        // Slower delay at higher progress
         const delay =
           prev < 80 ? Math.random() * 100 + 50 : Math.random() * 300 + 100;
 

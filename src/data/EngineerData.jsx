@@ -1,8 +1,7 @@
 /*
 ENGINEER DATA MANIFEST
 System: Biomechanical Portfolio
-Content: Skills, Tools, and Project fabrication logs.
-Upgrade: Added 'aiManifest' for Generative Workflow Documentation.
+Content: Skills, Tools, and Project documentation with AI generation metadata.
 */
 
 export const SKILLS = [

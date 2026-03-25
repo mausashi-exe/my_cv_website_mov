@@ -1,7 +1,6 @@
 /*
-LORE DATA MANIFEST (Structured)
-System: Nomos Mythos
-Schema: Block-Based Content for future Graph Linking/AI Injection.
+LORE DATA MANIFEST - Nomos Mythos
+Block-based content structure for rich rendering and AI integration.
 */
 
 import mapImage from "../assets/images/map_with_factions_01.webp";

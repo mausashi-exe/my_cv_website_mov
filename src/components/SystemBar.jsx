@@ -1,43 +1,24 @@
 /*
 SystemBar (Restored Theme Logic)
-Under the Hood:
-- Theme Sync: Uses your original THEME_CONFIG to switch colors based on the URL-derived mode.
-- Navigation: Calls setMode (which now triggers a URL change) while keeping your hover and active styles.
+Theme colors sync with URL-derived mode. Navigation triggers URL changes.
 */
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { THEME_CONFIG } from "../constants/themeConfig";
+
+const useMediaQuery = (query) => {
+  const [matches, setMatches] = useState(
+    () => window.matchMedia(query).matches,
+  );
+  useEffect(() => {
+    const media = window.matchMedia(query);
+    const listener = (e) => setMatches(e.matches);
+    media.addEventListener("change", listener);
+    return () => media.removeEventListener("change", listener);
+  }, [query]);
+  return matches;
+};
 
 const SystemBar = ({ currentMode, setMode }) => {
-  const THEME_CONFIG = {
-    terminal: {
-      border: "border-white/20",
-      accent: "text-white",
-      bgTint: "bg-white/5",
-      pulse: "bg-emerald-500",
-      status: "text-emerald-500",
-    },
-    engineer: {
-      border: "border-[#ff4425]/60",
-      accent: "text-[#ff4425]",
-      bgTint: "bg-[#ff4425]/10",
-      pulse: "bg-[#ff4425]",
-      status: "text-[#ff4425]",
-    },
-    creator: {
-      border: "border-[#d4af37]/60",
-      accent: "text-[#d4af37]",
-      bgTint: "bg-[#d4af37]/10",
-      pulse: "bg-[#d4af37]",
-      status: "text-[#d4af37]",
-    },
-    meta: {
-      border: "border-[#a855f7]/60",
-      accent: "text-[#a855f7]",
-      bgTint: "bg-[#a855f7]/10",
-      pulse: "bg-[#a855f7]",
-      status: "text-[#a855f7]",
-    },
-  };
-
   const activeTheme = THEME_CONFIG[currentMode] || THEME_CONFIG.terminal;
 
   const navItems = [
@@ -99,10 +80,11 @@ const SystemBar = ({ currentMode, setMode }) => {
       <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-3 md:gap-6">
         {navItems.map((item) => {
           const isActive = currentMode === item.id;
+          const isDesktop = window.innerWidth > 768;
           const label =
-            window.innerWidth > 768 && item.id === "engineer"
+            isDesktop && item.id === "engineer"
               ? "ENGINEER"
-              : window.innerWidth > 768 && item.id === "creator"
+              : isDesktop && item.id === "creator"
                 ? "CREATOR"
                 : item.label;
 

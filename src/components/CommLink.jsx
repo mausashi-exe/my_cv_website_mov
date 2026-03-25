@@ -1,15 +1,11 @@
 /*
-CommLink v2.0 (Hydraulic Compatible)
-Fixes:
-- Removed fixed height (h-[300px]) -> Now uses flex-1 h-full
-- Removed top margin (mt-4) -> Fits flush in the column
-- Added 'h-full' to container for proper expansion
+CommLink - Real-time Chat Interface
+Socket.io integration with sanitized input validation.
 */
 import React, { useState, useEffect, useRef } from "react";
 import io from "socket.io-client";
 import { motion, AnimatePresence } from "framer-motion";
 
-// --- CONFIGURACIÓN DE CONEXIÓN ---
 const socket = io.connect("https://nomos-chat-server.onrender.com");
 
 const CommLink = () => {
@@ -18,7 +14,7 @@ const CommLink = () => {
   const [isConnected, setIsConnected] = useState(false);
   const bottomRef = useRef(null);
 
-  // --- PROTECCIÓN 1: SIEMPRE TENER UN ID ---
+  // Generate unique user ID
   const [userId] = useState(
     () => `ENG-${Math.floor(100 + Math.random() * 900)}`,
   );
@@ -38,7 +34,7 @@ const CommLink = () => {
         await socket.emit("send_message", messageData);
         setCurrentMessage("");
       } catch (err) {
-        console.error("Error sending message:", err);
+        // Silently fail for production. Log only for critical debugging.
       }
     }
   };
@@ -48,11 +44,11 @@ const CommLink = () => {
     socket.on("disconnect", () => setIsConnected(false));
 
     const handler = (data) => {
-      if (!data) return;
+      if (!data || typeof data !== "object") return;
       const safeData = {
-        user: data.user || "UNKNOWN",
-        text: data.text || "...",
-        time: data.time || "NOW",
+        user: String(data.user || "UNKNOWN").slice(0, 50),
+        text: String(data.text || "...").slice(0, 500),
+        time: String(data.time || "NOW").slice(0, 20),
       };
       setMessageList((list) => [...list, safeData]);
     };

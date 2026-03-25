@@ -1,27 +1,24 @@
 /*
-LayoutContext.jsx (Deterministic Version)
-Under the Hood: 
-- Derived State: No more useState for 'layoutMode'. 
-- React Router Integration: Watches the URL to determine if it should be 
-  in 'blueprint', 'lore', or 'terminal' geometry.
+LayoutContext - Hydraulic Layout State Management
+Derives layout mode from URL path (source of truth).
 */
 import React, { createContext, useContext, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 
 const LayoutContext = createContext();
 
-// THE HYDRAULIC SPECS
+// Responsive width configurations for each mode
 const WIDTH_CONFIGS = {
   terminal: { left: "20%", center: "60%", right: "20%" },
-  engineer: { left: "15%", center: "65%", right: "20%" }, // 'engineer' maps to /blueprint
-  creator: { left: "15%", center: "55%", right: "30%" }, // 'creator' maps to /lore
+  engineer: { left: "15%", center: "65%", right: "20%" },
+  creator: { left: "15%", center: "55%", right: "30%" },
   meta: { left: "10%", center: "90%", right: "0%" },
 };
 
 export const LayoutProvider = ({ children }) => {
   const location = useLocation();
 
-  // DERIVED STATE: The URL is the absolute source of truth.
+  // Derive layout mode from URL (single source of truth)
   const layoutMode = useMemo(() => {
     const path = location.pathname;
     if (path.startsWith("/blueprint")) return "engineer";
